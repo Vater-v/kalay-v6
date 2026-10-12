@@ -32,7 +32,20 @@ Design in ten lines:
     all-in matrix of the board (flop: the cache of the 1755 classes, turn: the rank7 table on the host).
  9. Batching: LivePlayer asks a Solver (solve_batch of poker/solver/subgame.py) - one request per decision;
     a shared Solver collects concurrent requests of one topology into one vmapped call (many tables).
-10. Out of scope: the safety gadget of two-player re-solving (CFR-D).
+10. The re-solving gadget (CFR-D / DeepStack; pcfr.gadget_*): from the second street of a hand on, the solve
+    carries OUR exact range and, for every other seat, per-hand counterfactual-value CEILINGS at the street
+    start: the post-card critic of the new street (critics.load_post_critics) evaluated at the leaf the previous
+    street ended in (both seats' reach there under the previous solve's average strategy), for the card that was
+    dealt. The seat's DEAL range in the solve (gadget_deal): "mix" (default) = gadget_mix x his tracked range (item
+    4) + (1 - gadget_mix) x uniform over the hands the board allows; "range" = his tracked range alone (Burch,
+    Johanson, Bowling 2014's form: Terminate can only remove hands); "uniform" = no range at all. Measured on the
+    real HU river tree (tests/gadget_river_resolve.py: exact leaves, 3 spots x 3 trunk bets, T 800, the re-solved
+    subgame spliced into the full game), in mbb/hand over the full solve: range only +16..+942; with a WRONG carried
+    range (his bluffs crushed to 1e-3 of their weight, what the likelihood floor does to hands the solves called
+    unlikely) range only +1100..+7700 and the range deal +1..+4200; the uniform deal +2..+137 with exact ceilings;
+    the half-and-half mix +0..+161 with exact ceilings and +1..+147 with 0.01 pot of per-hand ceiling noise, in
+    8 of 9 cases below +40. A ceiling BIAS of 0.05 pot costs up to +324 (too high: he Terminates everything) or
+    +506 (too low): the critic's per-hand error is what the gadget needs small. gadget=False is the old path.
 
 Protocol (one hand): new_hand(state0); at our turn act(state, rng) -> (kind, total) (or choose(state,
 kind, total) for a fixed action); after EVERY action of every seat observe(state_before, kind, total,
@@ -55,6 +68,9 @@ from poker.envs import config
 from poker.envs.actions import action_table
 from poker.envs.transition import step_target
 from poker.solver import cards as C
+from poker.solver import checkdown as CD
+from poker.solver import critics as CR
+from poker.solver import situations as SI
 from poker.solver import subgame as SG
 from poker.solver.cards import NUM_HANDS as H
 
@@ -148,6 +164,10 @@ def legal(state, kind, target):
 def check_legal(state, kind, target):
     if not legal(state, kind, target):
         raise IllegalAction(f"{SG.KIND_NAMES.get(kind, kind)} to {target} is not a legal action of this state")
+    capacity = int(np.asarray(state.history_player).shape[0])
+    if capacity and int(np.asarray(state.history_len)) >= capacity:
+        raise IllegalAction(f"the hand's history is full ({capacity} decisions): the engine would drop this step silently "
+                            "(config.history_bound: exact min-raise wars beyond its bound)")
 
 
 def engine_step(state, kind, target):
@@ -321,7 +341,7 @@ class Solver:
         return int(T)
 
     def solve_batch(self, requests):
-        """requests: [(tree, ranges, fixed, equity)] of one topology -> [Solution]."""
+        """requests: [(tree, ranges, fixed, equity[, gadget])] of one topology -> [Solution]."""
         if not requests:
             return []
         trees = [r[0] for r in requests]
@@ -329,14 +349,14 @@ class Solver:
         T = self.iterations_for(street, bucket)
         sols = SG.solve_batch(trees, [r[1] for r in requests], T, self.chunk, aux=self.critics.get(street),
                               rake_level=self.rake_level, equity=[r[3] for r in requests], fixed=[r[2] for r in requests],
-                              certificate=self.certificate)
+                              certificate=self.certificate, gadget=[r[4] if len(r) > 4 else None for r in requests])
         self.calls += 1
         self.spots += len(requests)
         self.seconds += sols[0].seconds
         return sols
 
-    def solve(self, tree, ranges, fixed=None, equity=None):
-        return self.solve_batch([(tree, ranges, fixed, equity)])[0]
+    def solve(self, tree, ranges, fixed=None, equity=None, gadget=None):
+        return self.solve_batch([(tree, ranges, fixed, equity, gadget)])[0]
 
 
 class SolveServer:
@@ -409,7 +429,8 @@ class SolveServer:
         cache = None
         if cache_dir is not False:                                # the persistent cache on disk, checked (CacheUnusable: not ready)
             cache = SG.compilation_cache_dir(cache_dir)
-        rows = SG.warm_up(self.solver.iterations, self.solver.chunk, self.solver.critics, flop, turn, preflop, field, log=self.log)
+        rows = SG.warm_up(self.solver.iterations, self.solver.chunk, self.solver.critics, flop, turn, preflop, field, log=self.log,
+                          certificate=self.solver.certificate)
         if turn_builder is not None and 2 in streets:             # the device's turn matrix builder compiles now, not in a hand
             np.asarray(turn_builder(np.asarray([0, 14, 28, 3])))
         self.field = field
@@ -424,7 +445,7 @@ class SolveServer:
             self.log(self.ready_line)
         return rows
 
-    def submit(self, tree, ranges, fixed=None, equity=None):
+    def submit(self, tree, ranges, fixed=None, equity=None, gadget=None):
         """Drop a request into the active trap; returns a concurrent.futures.Future of its Solution. Before
         warm_up() the request is refused (ServerUnavailable, counted): the scheme is ready after the warm-up,
         it never compiles at play."""
@@ -445,13 +466,13 @@ class SolveServer:
             trap = self.traps[0]
             if not trap["requests"]:
                 trap["started"] = time.perf_counter()           # the timer starts with the first request
-            trap["requests"].append((tree.key, (tree, ranges, fixed, equity), future, time.perf_counter()))
+            trap["requests"].append((tree.key, (tree, ranges, fixed, equity, gadget), future, time.perf_counter()))
             self.cond.notify()
         return future
 
-    def request(self, tree, ranges, fixed=None, equity=None, timeout=None):
+    def request(self, tree, ranges, fixed=None, equity=None, timeout=None, gadget=None):
         from concurrent.futures import TimeoutError as FutureTimeout
-        future = self.submit(tree, ranges, fixed, equity)
+        future = self.submit(tree, ranges, fixed, equity, gadget)
         try:
             return future.result(timeout=timeout)
         except FutureTimeout:
@@ -547,13 +568,14 @@ class ServerClient:
         self.critics = server.solver.critics
         self.iterations = server.solver.iterations
 
-    def solve(self, tree, ranges, fixed=None, equity=None):
-        return self.server.request(tree, ranges, fixed, equity, timeout=self.budget_seconds)
+    def solve(self, tree, ranges, fixed=None, equity=None, gadget=None):
+        return self.server.request(tree, ranges, fixed, equity, timeout=self.budget_seconds, gadget=gadget)
 
 
 class LivePlayer:
     def __init__(self, hero, *, solver=None, preflop=None, sizes=None, bucket=None, eps=DEFAULT_EPS, cap=None, equity=None,
-                 turn_equity=None, preflop_equity=None, budget_seconds=None, log=None, prefetch_equity=True):
+                 turn_equity=None, preflop_equity=None, budget_seconds=None, log=None, prefetch_equity=True, gadget=True,
+                 post_critics=None, gadget_deal="mix", gadget_mix=0.5):
         """hero: our seat. solver: the Solver (default: a private one with default iterations). preflop:
         the PreflopTable (warm cache) or None. sizes: (street, bucket) -> fractions per raise level for
         every seat (default config.street_sizes). bucket: street-start State -> bucket (default
@@ -562,8 +584,22 @@ class LivePlayer:
         (default subgame.turn_equity with the rank7 table when results/cache has it); preflop_equity:
         the exact preflop matrix [1326, 1326] (needed, with poker.solver.critics[0], for preflop solves).
         budget_seconds: a decision (range update + tree + solve + policy, re-solves included) that
-        takes longer raises BudgetExceeded and is counted; None = no budget."""
+        takes longer raises BudgetExceeded and is counted; None = no budget. gadget: re-solve every street after
+        the hand's first with the opponents' per-hand ceilings (module doc, item 10) from post_critics = {street:
+        critic} (critics.load_post_critics: 1 flop, 2 turn, 3 river); gadget_deal: "mix" (gadget_mix x their tracked
+        ranges + (1 - gadget_mix) x uniform as the deal, the ceilings on top; module doc item 10), "range" or "uniform"."""
         self.hero = int(hero)
+        self.gadget = bool(gadget)
+        if gadget_deal not in ("mix", "range", "uniform"):
+            raise ValueError(f"gadget_deal must be 'mix', 'range' or 'uniform', got {gadget_deal!r}")
+        if not 0.0 <= float(gadget_mix) <= 1.0:
+            raise ValueError(f"gadget_mix must be in [0, 1], got {gadget_mix!r}")
+        self.gadget_deal = gadget_deal
+        self.gadget_mix = float(gadget_mix)
+        self.post_critics = dict(post_critics or {})
+        if self.gadget and set(self.post_critics) != {1, 2, 3}:
+            raise ValueError("gadget=True needs the post-card critics of the flop, turn and river "
+                             "(critics.load_post_critics, keys 1, 2, 3); gadget=False carries Bayesian ranges instead")
         self.solver = solver or Solver()
         self.preflop = preflop
         self.sizes = sizes
@@ -589,7 +625,8 @@ class LivePlayer:
                 "slot_overflow": 0, "opponent_updates": 0, "floor_hits": 0, "min_ratio": np.inf, "solve_seconds": [],
                 "solve_cpu_seconds": [], "build_seconds": [], "decision_seconds": [], "compile_seconds": 0.0,
                 "certificates": [], "structures": set(), "solve_errors": 0, "budget_exceeded": 0, "illegal_actions": 0,
-                "table_unreachable": 0, "invalid_hand": 0, "equity_seconds": []}
+                "table_unreachable": 0, "invalid_hand": 0, "equity_seconds": [], "gadget_streets": 0, "ceiling_seconds": [],
+                "follow_mean": []}
 
     # ------------------------------------------------------------------ hand bookkeeping
 
@@ -625,6 +662,7 @@ class LivePlayer:
             self.ranges = r / r.sum(1, keepdims=True)
             self.records = [("start", self.ranges[self.hero].copy())]
         self.pending = None
+        self.leaf_reach = None                   # [n, H] reach at the leaf the previous street ended in (gadget source)
         # The cache was solved for uniform starting ranges. Explicit scenario ranges
         # change the game and must be solved, even when stacks and blinds match.
         self.table_fits = bool(self.preflop is not None and self.preflop.fits(state)
@@ -649,6 +687,7 @@ class LivePlayer:
         self.frozen = {}                        # position in path -> probs [H, K] over the columns we had (ours)
         self.unapplied = []                     # positions of opponent actions whose likelihood is not applied yet
         self.solution = None                    # the last solve of this street (Solution) or None
+        self.ceilings = None                    # the gadget of this street's solves ({"ev", "mask"}) once computed
         self.equity_cache = None
         self.equity_future = None
         if self.prefetch is not None and self.street in (1, 2):   # the board is known now: the all-in matrix is built
@@ -746,12 +785,24 @@ class LivePlayer:
                 for k, (a, _, _) in enumerate(cols):
                     row[:, a] = probs[:, k]
                 fixed[v] = row
-            sol = self.solver.solve(tree, self.street_ranges, fixed, self._street_equity())
+            equity = self._street_equity()
+            ranges = self.street_ranges
+            gadget = None
+            if self.gadget and self.street > 0 and self.leaf_reach is not None:
+                gadget = self._gadget(equity)
+                ranges = self.street_ranges.copy()
+                for seat in range(self.n):
+                    if gadget["mask"][seat]:
+                        ranges[seat] = self._deal(seat)
+            sol = self.solver.solve(tree, ranges, fixed, equity, gadget)
         except Exception as e:
             self.stats["solve_errors"] += 1
             self.fail(e)
         st = self.stats
         self._count("solves", self.street)
+        if gadget is not None and sol.follow is not None:
+            st["follow_mean"].append([float(np.mean(sol.follow[seat][ranges[seat] > 0])) for seat in range(self.n)
+                                      if gadget["mask"][seat]])
         st["solve_seconds"].append(sol.seconds)
         st["solve_cpu_seconds"].append(sol.cpu_seconds)
         st["build_seconds"].append(tree.seconds)
@@ -765,6 +816,141 @@ class LivePlayer:
                      + (f" E {sol.e:.4f}" if sol.e is not None else ""))
         self.solution = sol
         return sol
+
+    # ------------------------------------------------------------------ the re-solving gadget (module doc, item 10)
+
+    def _gadget(self, equity):
+        """The ceilings of this street's solves: the post-card critic of this street at the leaf the previous street
+        ended in (self.leaf_reach: both seats' reach there, the hands holding the new card removed), for the board
+        as it is now; whole-hand EV per hand of every other seat in units of this street's start pot (pcfr's
+        gadget_ev; the solver multiplies by our range's compatible mass). Computed once per street."""
+        if self.ceilings is not None:
+            return self.ceilings
+        t0 = time.perf_counter()
+        critic = self.post_critics[self.street]
+        s = self.street_start
+        n = self.n
+        board = SG.visible_board(s)
+        valid = self._valid(s)
+        reach = np.asarray(self.leaf_reach, np.float64) * valid[None, :]
+        total = reach.sum(1, keepdims=True)
+        if not np.all(total > 0):
+            raise ValueError("gadget: a seat's reach at the previous leaf has no mass on the hands this board allows")
+        ranges = (reach / total).astype(np.float32)                                # [n, H], seat order
+        slot = (np.arange(n) - 1) % n                                               # seat -> critic slot (pcfr.Static.slot)
+        live = ~np.asarray(s.folded, bool)
+        contrib = np.asarray(s.bet_total, np.float64)
+        pot = float(contrib.sum())
+        behind = np.asarray(s.stack, np.float64)
+        slots = np.zeros((CR.P_MAX, H), np.float32)
+        present, behind_pot, contrib_pot = (np.zeros(CR.P_MAX, np.float32) for _ in range(3))
+        for seat in range(n):
+            slots[slot[seat]] = ranges[seat] * live[seat]
+            present[slot[seat]] = float(live[seat])
+            behind_pot[slot[seat]] = behind[seat] / pot
+            contrib_pot[slot[seat]] = contrib[seat] / pot
+        bps, cap = int(np.asarray(s.rake_bps)), int(np.asarray(s.rake_cap))
+        pub = CR.public_row(jnp.float32(pot / config.BB), jnp.float32(self.solver_rake_level()), jnp.float32(bps / 500.0),
+                            jnp.float32(cap / pot), jnp.asarray(present), jnp.asarray(behind_pot), jnp.asarray(contrib_pot))
+        pair = jnp.asarray(slots[:n])                                               # the live slots
+        if self.street == 3:
+            tables = jax.tree.map(lambda x: x[0], SI._tables(jnp.asarray(board[None], jnp.int32)))
+            share = CD.two(lambda w: CD.share_river(w, tables), pair)
+        else:
+            w = jnp.asarray(np.asarray(equity, np.float32))
+            share = CD.two(lambda x: CD.share_matrix(x, w), pair)
+        net = CD.net_fraction(jnp.int32(round(pot)), jnp.int32(bps), jnp.int32(cap))
+        f = share * net * jnp.asarray(valid, jnp.float32)[None, :]
+        board1h = jnp.asarray(np.sum(np.eye(52, dtype=np.float32)[board[board >= 0]], axis=0))
+        ev_rel = np.asarray(critic(board1h[None], pub[None], pair[None], f[None], None))[0]       # [n slots, H]
+        if not np.isfinite(ev_rel).all():
+            raise SG.NonFinite("gadget: the post-card critic returned non-finite values")
+        ev = np.zeros((n, H), np.float64)
+        mask = np.zeros(n, bool)
+        for seat in range(n):
+            if seat != self.hero and live[seat]:
+                ev[seat] = (ev_rel[slot[seat]] - contrib[seat] / pot) * valid       # relative -> whole-hand accounting
+                mask[seat] = True
+        self.ceilings = {"ev": ev, "mask": mask}
+        self.stats["ceiling_seconds"].append(time.perf_counter() - t0)
+        self.stats["gadget_streets"] += 1
+        return self.ceilings
+
+    def solver_rake_level(self):
+        return float(getattr(self.solver, "rake_level", 0.0) or 0.0)
+
+    def _deal(self, seat):
+        """A gadget seat's deal range in this street's solves (gadget_deal, module doc item 10)."""
+        valid = self._valid(self.street_start)
+        uniform = valid / valid.sum()
+        tracked = np.asarray(self.street_ranges[seat], np.float64)
+        if self.gadget_deal == "uniform":
+            return uniform
+        if self.gadget_deal == "range":
+            return tracked
+        return self.gadget_mix * tracked + (1.0 - self.gadget_mix) * uniform
+
+    def warm_gadget(self, flop, turn, n=2):
+        """Compile the gadget's ceiling computation of every postflop street now (a dummy board of an `n`-seat table,
+        uniform reach; the all-in matrices `flop` / `turn` [H, H] of the warm-up), so that no hand compiles it
+        (checks/s8_1 contract: compile at the warm-up only). Leaves the player as new."""
+        if not self.gadget:
+            return
+        self.n = int(n)
+        board = np.asarray([0, 14, 28, 3, 17], np.int32)
+        for street, equity in ((1, flop), (2, turn), (3, None)):
+            root = jax.tree.map(np.asarray, SG.TR.street_root(self.n, street, 6 * config.BB, 100 * config.BB))
+            shown = {1: 3, 2: 4, 3: 5}[street]
+            self.street_start = root.replace(board=np.concatenate([board[:shown], np.full(5 - shown, -1, np.int32)]))
+            self.street = street
+            self.leaf_reach = np.tile(self._valid(self.street_start)[None], (self.n, 1))
+            self.ceilings = None
+            self._gadget(equity)
+        self.leaf_reach, self.ceilings, self.street_start, self.n = None, None, None, None
+        self.stats["gadget_streets"], self.stats["ceiling_seconds"] = 0, []
+
+    def _leaf_reach_from_solution(self, sol):
+        """[n, H] both seats' reach at the node the street's history ends in, under the solve's average strategies:
+        ours exact (the tracked range), every other seat's = his deal range in that solve (uniform x his average
+        Follow when the gadget was on, his street-start range otherwise) times his average action probabilities
+        along the path."""
+        tree = sol.tree
+        valid = self._valid(self.street_start)
+        reach = np.zeros((self.n, H), np.float64)
+        reach[self.hero] = self.ranges[self.hero]
+        for seat in range(self.n):
+            if seat == self.hero:
+                continue
+            r = np.asarray(self.street_ranges[seat], np.float64)
+            if self.ceilings is not None and self.ceilings["mask"][seat]:
+                r = self._deal(seat)
+                if sol.follow is not None:
+                    r = r * np.asarray(sol.follow[seat], np.float64)
+            for v, a in zip(tree.path[:-1], tree.path_cols):
+                if int(tree.topo.actor[v]) == seat:
+                    sigma = sol.strategy(int(v)).astype(np.float64)
+                    cols = [col for col, _, _ in tree.columns(int(v))]
+                    probs = sigma[:, cols] / np.maximum(sigma[:, cols].sum(1, keepdims=True), 1e-300)
+                    r = r * probs[:, cols.index(int(a))]
+            reach[seat] = r
+        return reach
+
+    def _leaf_reach_from_table(self):
+        """As _leaf_reach_from_solution for a preflop played on the table (uniform deal, the table's strategies)."""
+        reach = np.zeros((self.n, H), np.float64)
+        reach[self.hero] = self.ranges[self.hero]
+        valid = self._valid(self.street_start)
+        for seat in range(self.n):
+            if seat == self.hero:
+                continue
+            r = valid / valid.sum()
+            for pos in range(len(self.path)):
+                u = self.preflop.node(self.path[:pos])
+                if int(self.preflop.actor[u]) == seat:
+                    c = self.preflop.candidates(u)
+                    r = r * c.probs[:, c.column(*self.path[pos])]
+            reach[seat] = r
+        return reach
 
     def _apply_unapplied(self, sol):
         """The likelihoods of the opponent actions not yet applied, from a solve whose tree holds them."""
@@ -926,7 +1112,7 @@ class LivePlayer:
             self.stats["translated"] += 1
         moved = int(np.asarray(state_after.street)) != street
         if moved or bool(np.asarray(state_after.terminal)):
-            self._close_street()
+            self._close_street(continuing=moved and not bool(np.asarray(state_after.terminal)))
         if moved and not bool(np.asarray(state_after.terminal)):
             valid = self._valid(state_after)
             for s in range(self.n):
@@ -934,22 +1120,33 @@ class LivePlayer:
             self.records.append(("board", valid))
             self._start_street(state_after)
 
-    def _close_street(self):
+    def _close_street(self, continuing=False):
         """The street (or the hand) ended: the opponent actions not applied yet get their likelihoods
         from the table, from the last solve of the street when its tree holds them, else from one more
-        solve (a closing solve: his off-tree raise ended the street with nobody acting after it)."""
-        if not self.unapplied:
+        solve (a closing solve: his off-tree raise ended the street with nobody acting after it). When the
+        hand continues on the next street (`continuing`) and the gadget is on, the reach of every seat at
+        the leaf is recorded from the same source (self.leaf_reach: the next street's ceilings come from it)."""
+        need_reach = continuing and self.gadget
+        if not self.unapplied and not need_reach:
             return
         if self._table_node() is not None:
             self._apply_from_table()
+            if need_reach:
+                self.leaf_reach = self._leaf_reach_from_table()
             return
         sol = self.solution
         if sol is None or sol.tree.find(self.path) is None:
+            if not continuing:                 # the hand is over: his last likelihoods are a diagnostic, not worth a solve
+                self.unapplied.clear()
+                return
             sol = self._solve_street("closing")
         else:
             tree = SG.replay(sol.tree.shape, self.street_start, self.path)
-            sol = SG.Solution(tree, sol.sigma, sol.iterations, sol.e, sol.seconds, sol.cpu_seconds, 0.0, sol.batch_size)
+            sol = SG.Solution(tree, sol.sigma, sol.iterations, sol.e, sol.seconds, sol.cpu_seconds, 0.0, sol.batch_size,
+                              None, sol.follow)
         self._apply_unapplied(sol)
+        if need_reach:
+            self.leaf_reach = self._leaf_reach_from_solution(sol)
 
     @staticmethod
     def step(state, kind, target):

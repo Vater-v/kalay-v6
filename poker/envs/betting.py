@@ -58,7 +58,7 @@ def init_betting(n: int = config.N, stacks=None, active=None, history: bool = Tr
         if stacks.shape != (n,) or not jnp.issubdtype(stacks.dtype, jnp.integer):
             raise ValueError(f"stacks must be an integer array of shape ({n},)")
         stacks = stacks.astype(jnp.int32)
-    guards.table(n, raw_stacks, raw_active, max_stack if history else None)     # concrete input: ValueError
+    guards.table(n, raw_stacks, raw_active, max_stack if history else None, rake_level=rake_level)   # concrete input: ValueError
     checkify.debug_check(active[0], "Seat 0 (button) must be active")
     checkify.debug_check(jnp.sum(active, dtype=jnp.int32) >= 2, "At least two active seats")
     checkify.debug_check(jnp.all(~active | (stacks > config.BB)), "Active stacks must exceed BB")

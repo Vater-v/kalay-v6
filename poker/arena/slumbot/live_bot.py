@@ -34,7 +34,7 @@ import numpy as np
 
 from poker.arena.slumbot.protocol import SEAT, SLUMBOT_REGIME, STACK_SIZE, Decision, ProtocolError, our_card, serialize_action
 from poker.arena.slumbot.util import file_sha256
-from poker.envs import config
+from poker.envs import config, guards
 from poker.envs.betting import init_betting
 from poker.envs.fingerprint import code_fingerprint
 from poker.envs.transition import step_target
@@ -81,19 +81,28 @@ class LiveSlumbotBot:
     decisions / batches as the runner reads them."""
 
     def __init__(self, *, critics_dir, preflop_table, flop_cache, rank7, preflop_equity, iterations=None, chunk=50,
-                 window_seconds=0.3, dev_size=0, budget_seconds=4.0, eps=LV.DEFAULT_EPS, log=None, jax_cache=None):
+                 window_seconds=0.3, dev_size=0, budget_seconds=4.0, eps=LV.DEFAULT_EPS, log=None, jax_cache=None, gadget=True, gadget_deal="mix",
+                 certificate=True):
         self.regime = check_live_regime()
         self.log = log
         self.n = len(SEAT)
+        self.gadget = bool(gadget)
+        self.gadget_deal = gadget_deal
         critics_dir, preflop_table, flop_cache, rank7, preflop_equity = (Path(x) for x in (critics_dir, preflop_table, flop_cache, rank7,
                                                                                       preflop_equity))
-        for p in (critics_dir / "pre_end.npz", critics_dir / "flop_end.npz", critics_dir / "turn_end.npz", preflop_table, rank7, preflop_equity):
+        post_names = tuple(f"{name}.npz" for name in CR.POST_CRITICS.values()) if self.gadget else ()
+        for p in (critics_dir / "pre_end.npz", critics_dir / "flop_end.npz", critics_dir / "turn_end.npz", preflop_table, rank7, preflop_equity,
+                  *(critics_dir / name for name in post_names)):
             if not p.exists():
-                raise FileNotFoundError(f"live bot: {p} is missing")
+                raise FileNotFoundError(f"live bot: {p} is missing" + (" (the re-solving gadget needs the post-card street critics "
+                                                                        "flop_critic / turn_critic / river_critic of the same run; "
+                                                                        "--no-gadget plays with Bayesian ranges instead)"
+                                                                        if p.name in post_names else ""))
         if not flop_cache.is_dir():
             raise FileNotFoundError(f"live bot: the flop class cache {flop_cache} is missing")
         self.jax_cache = None if jax_cache is None else Path(jax_cache)     # the base; checked and installed at warm_up()
         self.critics = CR.load_live_critics(critics_dir)
+        self.post_critics = CR.load_post_critics(critics_dir) if self.gadget else {}
         self.preflop_equity = np.load(preflop_equity)
         self.table = LV.PreflopTable(preflop_table, critic_path=critics_dir / "pre_end.npz")
         self.flop_cache = flop_cache
@@ -104,7 +113,7 @@ class LiveSlumbotBot:
         self.chunk = int(chunk)
         self.budget_seconds = budget_seconds
         self.eps = eps
-        self.solver = LV.Solver(iterations=self.iterations, chunk=self.chunk, critics=self.critics)
+        self.solver = LV.Solver(iterations=self.iterations, chunk=self.chunk, critics=self.critics, certificate=certificate)
         self.server = LV.SolveServer(self.solver, window_seconds=window_seconds, dev_size=dev_size, log=None)   # quiet: one line per trap otherwise
         base = init_betting(self.n, jnp.full(self.n, STACK_SIZE, jnp.int32), history=True, max_stack=STACK_SIZE,
                             rake_level=0.0)
@@ -125,10 +134,12 @@ class LiveSlumbotBot:
         fingerprint = code_fingerprint()
         artifacts = {"preflop_table": file_sha256(preflop_table), "pre_end": file_sha256(critics_dir / "pre_end.npz"),
                      "flop_end": file_sha256(critics_dir / "flop_end.npz"), "turn_end": file_sha256(critics_dir / "turn_end.npz"),
-                     "preflop_equity": file_sha256(preflop_equity)}
+                     "preflop_equity": file_sha256(preflop_equity),
+                     **{name: file_sha256(critics_dir / f"{name}.npz") for name in (CR.POST_CRITICS.values() if self.gadget else ())}}
         self.metadata = {"path": "live (poker/player/live.py, poker/solver/subgame.py)", "artifacts": artifacts, **config.game_meta(),
                          "regime": self.regime, "iterations": {str(k): v for k, v in self.iterations.items()}, "chunk": self.chunk,
-                         "eps": self.eps, "window_seconds": window_seconds, "dev_size": dev_size,
+                         "eps": self.eps, "window_seconds": window_seconds, "dev_size": dev_size, "gadget": self.gadget, "gadget_deal": self.gadget_deal,
+                         "certificate": bool(certificate),
                          "budget_seconds": budget_seconds, "ladder": list(SG.LADDER), "device": jax.default_backend(),
                          "field": {k: (v if not isinstance(v, dict) else {str(a): b for a, b in v.items()}) for k, v in SG.FIELD.items()},
                          "fingerprint": fingerprint, "fingerprint_note": "poker.envs.fingerprint.code_fingerprint()",
@@ -147,6 +158,8 @@ class LiveSlumbotBot:
         turn = np.asarray(self.turn_equity(np.asarray([0, 14, 28, 3])))
         self.server.warm_up(flop, turn, self.preflop_equity, from_cache=from_cache, flop_cache=self.flop_cache,
                             turn_builder=self.turn_equity, cache_dir=self.jax_cache)
+        if self.gadget:                                                       # the ceiling computation of every street compiles now
+            self._player().player.warm_gadget(flop, turn)
         # The engine jits of the replay and of the player compile now, not in a hand: a step, the legality check, a reward
         dummy = jax.tree.map(np.asarray, self.base)
         np.asarray(self._step(dummy, config.CHECK_CALL, config.BB).stack)
@@ -170,7 +183,8 @@ class LiveSlumbotBot:
         if getattr(th, "player", None) is None:
             th.player = LV.LivePlayer(0, solver=LV.ServerClient(self.server, self.budget_seconds), preflop=self.table,
                                       eps=self.eps, equity=self.flop_equity, turn_equity=self.turn_equity,
-                                      preflop_equity=self.preflop_equity, budget_seconds=self.budget_seconds, log=self.log)
+                                      preflop_equity=self.preflop_equity, budget_seconds=self.budget_seconds, log=self.log,
+                                      gadget=self.gadget, post_critics=self.post_critics, gadget_deal=self.gadget_deal)
             th.observed = 0
             th.events = ()
             th.signature = None
@@ -217,6 +231,10 @@ class LiveSlumbotBot:
             kind, total = self._event_action(state, e)
             index = {LV.FOLD: config.FOLD, LV.CALL: config.CHECK_CALL}.get(kind, config.ALLIN if kind == LV.ALLIN else 2)
             before = int(state.bet_total[seat])
+            try:                                     # the engine's own legality, on the host, before the jitted step: an action
+                guards.target(state, index, total, "slumbot replay")   # the jitted engine would apply silently (audit envs F3)
+            except ValueError as err:
+                raise ProtocolError(f"replay: {err}") from None
             nxt = jax.tree.map(lambda x: np.array(x, copy=True), self._step(state, index, total))
             if not np.array_equal(nxt.hole, expected_holes) or not np.array_equal(nxt.board, expected_board):
                 raise ProtocolError(f"replay changed cards after event {len(steps)}: "
@@ -256,7 +274,8 @@ class LiveSlumbotBot:
             if player.hero != hero:                                             # the seat changes hand by hand
                 th.player = player = LV.LivePlayer(hero, solver=LV.ServerClient(self.server, self.budget_seconds), preflop=self.table,
                                                    eps=self.eps, equity=self.flop_equity, turn_equity=self.turn_equity,
-                                                   preflop_equity=self.preflop_equity, budget_seconds=self.budget_seconds, log=self.log)
+                                                   preflop_equity=self.preflop_equity, budget_seconds=self.budget_seconds, log=self.log,
+                                                   gadget=self.gadget, post_critics=self.post_critics, gadget_deal=self.gadget_deal)
             th.observed = 0
         try:
             steps, state, _ = self._replay(response)
@@ -308,7 +327,8 @@ class LiveSlumbotBot:
                   "player_failure": player.failures[-1] if player.failures else None,
                   "counters": {k: (dict(v) if isinstance(v, dict) else v) for k, v in player.stats.items()
                                if k in ("decisions", "solves", "off_tree", "translated", "slot_overflow", "solve_errors",
-                                        "budget_exceeded", "illegal_actions", "table_unreachable", "invalid_hand", "floor_hits")}}
+                                        "budget_exceeded", "illegal_actions", "table_unreachable", "invalid_hand", "floor_hits",
+                                        "gadget_streets")}}
         with self.lock:
             self.stats["failures"] += 1
             self.failures.append(record)

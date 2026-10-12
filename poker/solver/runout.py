@@ -73,12 +73,12 @@ def _flop(board3, table):
 FLOP_CACHE = Path(__file__).resolve().parents[2] / "results" / "cache" / "flop_equity_v1"     # absolute: any cwd
 
 
-def flop_equity_cached(flop, cache=FLOP_CACHE):
+def flop_equity_cached(flop, cache=None):
     """The exact all-in matrix of one flop (equity_matrix_flop), cached on disk per flop: the
     flop pool repeats boards across batches, stages and iterations. Atomic writes,
-    so workers sharing the cache may race harmlessly."""
+    so workers sharing the cache may race harmlessly. cache defaults to FLOP_CACHE at call time."""
     flop = sorted(int(c) for c in np.asarray(flop))
-    path = Path(cache) / f"{flop[0]}_{flop[1]}_{flop[2]}.npy"
+    path = Path(FLOP_CACHE if cache is None else cache) / f"{flop[0]}_{flop[1]}_{flop[2]}.npy"
     if path.exists():
         return jnp.asarray(np.load(path))
     w = np.asarray(equity_matrix_flop(jnp.asarray(flop, jnp.int32)), np.float32)

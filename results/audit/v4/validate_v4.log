@@ -1,0 +1,12 @@
+13:38:15 situation 0: board [18, 41, 46, 2], pot 8.9 BB, SPR 21.92
+13:42:11   situation 0: normal river tree, T 400: E median 0.00863 max 0.01632, 231 s
+13:42:13   check-down vs exact V4: range-weighted MAE [0.08928532618457828, 0.10971709643527953], worst substantial [0.8753006458282471, 1.9593324065208435] pot
+13:48:23   situation 0: normal river tree, T 800: E median 0.00347 max 0.00865, 370 s
+13:48:23   labels at T vs 2T: {'mae': [0.00418928948153267, 0.00408212468264213], 'worst_substantial': [0.09831440448760986, 0.12085819244384766]}
+13:48:23 situation 1: board [11, 2, 36, 35], pot 22.7 BB, SPR 8.30
+13:51:39   situation 1: normal river tree, T 400: E median 0.00457 max 0.00614, 196 s
+13:51:40   check-down vs exact V4: range-weighted MAE [0.06586003507842189, 0.10163321135813876], worst substantial [0.5535486340522766, 0.7330126762390137] pot
+13:51:40 situation 2: board [42, 50, 51, 35], pot 76.0 BB, SPR 2.13
+13:56:21   situation 2: normal river tree, T 400: E median 0.00239 max 0.00330, 281 s
+13:56:22   check-down vs exact V4: range-weighted MAE [0.10498924433378488, 0.09395189611690238], worst substantial [0.8021230697631836, 0.5558986067771912] pot
+13:56:22 done

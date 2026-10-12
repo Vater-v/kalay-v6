@@ -85,6 +85,8 @@ def _load_records(directory, policy_id, hands):
             result = record.get('result', {})
             if result.get('status') != 'completed' or len(result.get('completed', [])) != 1:
                 raise ValueError('Invalid completed-hand evidence')
+        if record.get('status') == 'failed' and record.get('mutation_outcome_unknown', True):
+            raise ValueError('A failed hand must have a known mutation outcome')
         records.append(_compact_record(record))
     return records
 
@@ -135,7 +137,7 @@ def run_parallel(policy, *, output, hands, workers=16, seed=42, hand_cap=10000,
             raise FileNotFoundError('Resume requires a valid existing manifest')
         _exclusive_json(path,dict(created_at=utc_now(),contract=contract,contract_hash=json_hash(contract)))
     records = _load_records(directory, policy.policy_id, hands)
-    if any(r['status'] != 'completed' for r in records):
+    if any(r['status'] not in ('completed', 'failed') for r in records):
         raise IncompleteMatchError('An unresolved/in-flight hand prevents safe resume; retain this partial match, never replace its missing outcome')
     existing = {r['number'] for r in records}
     numbers = [n for n in range(1,hands+1) if n not in existing]
@@ -189,9 +191,15 @@ def run_parallel(policy, *, output, hands, workers=16, seed=42, hand_cap=10000,
                 record['result']['completed'][0]['number'] = number
                 record['player_stats'] = hand_statistics(record['result']['completed'][0])
             except MatchInterrupted as error:
-                record.update(status='unresolved',result=error.result.to_dict(),
-                    mutation_outcome_unknown=error.result.unresolved.mutation_outcome_unknown)
-                stop.set()
+                ambiguous = error.result.unresolved.mutation_outcome_unknown
+                # A decision failure (BudgetExceeded, NonFinite, ...) is a FAILED hand: recorded with its reason, scored at the
+                # worst case in the summary, never replayed by a default action; the match goes on and resume passes it
+                # (live audit 2026-10-12, F1: one failure used to stop the whole evaluation and block its resume). An ambiguous
+                # transport outcome (the server may have applied an action) still stops everything.
+                record.update(status='unresolved' if ambiguous else 'failed', result=error.result.to_dict(),
+                    mutation_outcome_unknown=ambiguous, failure_reason=error.result.unresolved.reason)
+                if ambiguous:
+                    stop.set()
             except BaseException:
                 # The persisted in-flight record is deliberately retained on a
                 # disk/process failure instead of asserting no request occurred.

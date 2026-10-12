@@ -101,8 +101,10 @@ def rake_split(bets: jnp.ndarray, pot: jnp.ndarray, rake_bps, rake_cap, street_r
     pot[k] are the level amounts of compute_payouts (ascending live caps; the last level holds
     the top contributor's uncalled excess). Base = all chips minus the uncalled excess (top bet
     minus the second largest bet of anyone); each level pays floor(R * base_k / base), the main
-    (lowest non-empty) level also pays the remainder. int32-safe: R <= cap (<= 10 BB) and
-    base_k <= sum of bets.
+    (lowest non-empty) level also pays the remainder. The product R * base_k is int32 only while
+    cap * (chips on the table) < 2^31: poker.envs.guards.table refuses deeper tables (RAKE_CAP_MAX_CHIPS;
+    with the 10 BB cap that is 2.1M chips in play, 2,147 BB at 9 seats; envs audit 2026-10-12, F2 measured
+    a 717-chip misattribution between the main and a side pot at 6M chips).
     """
     top = jnp.sort(bets)[-2:]
     uncalled = top[1] - top[0]

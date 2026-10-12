@@ -134,7 +134,10 @@ def _two(reach_t, contrib, pot, tables, live):
             beats, ties, comp = sd.apply_all(reach_t[1 - i], tables)
             share = beats + 0.5 * ties
         else:
-            comp = j_mass(reach_t[1 - i], tables)
+            # A fold needs the compatible mass only: the board-free j_mass (one 52 x 1326 matmul and gathers) equals
+            # apply_all's J to 1e-14 on board-restricted reach (solver audit 2026-10-12, terminals.py B) and skips the
+            # prefix-sum showdown kernel that 38 of the 77 river boundaries were running for nothing.
+            comp = j_mass(reach_t[1 - i])
             share = comp if live[i] else jnp.zeros_like(comp)
         out.append(contested * share - (matched if both_live else contrib[i]) * comp)
     return jnp.stack(out)
@@ -463,11 +466,47 @@ def average_policy(s, legal):
     return jnp.where(total > 0, s / jnp.maximum(total, 1e-30), jnp.where(mask, 1.0 / jnp.maximum(count, 1), 0.0))
 
 
+# ------------------------------------------------------------------ the re-solving gadget (CFR-D / DeepStack)
+#
+# A live solve of a street that is not the hand's first carries OUR range and, for every other seat, a per-hand
+# CEILING: the counterfactual value that seat was given for the hand at the start of this street by the previous
+# street's solve (the post-card street critic evaluated at the leaf we came through, poker/player/live.py). At the
+# root the seat chooses per hand between Terminate (the ceiling, in the same CFV units as the root values) and
+# Follow (playing the subgame); Follow scales his deal range. The hero's values see the scaled range, the seat's own
+# counterfactual values do not depend on his own reach, so nothing else changes. The hero's strategy of the gadget
+# game is safe against ANY opponent whose values at the street start are at most the ceilings (Burch, Johanson,
+# Bowling 2014); carrying his Bayesian range instead was measured 22x more exploitable in toy/hu (E2, T1).
+# Spot keys: gadget_ev [n, H] whole-hand EV per hand in street-start pot units (0 on the hero's row), gadget_mask
+# [n] bool (the seats with a gadget). Their presence selects the compiled variant; the teacher never has them.
+
+def gadget_follow(g):
+    """RM+ over the gadget's two actions [..., 2] = (Follow, Terminate): the probability of Follow (1/2 without
+    positive regret)."""
+    pos = jnp.maximum(g, 0.0)
+    total = pos[..., 0] + pos[..., 1]
+    return jnp.where(total > 0, pos[..., 0] / jnp.maximum(total, 1e-30), 0.5)
+
+
+def gadget_ceiling(spot, st: Static):
+    """[n, H] Terminate values in CFV units: gadget_ev times the compatible mass of the other seats' deal ranges
+    (the hero's range at the root, unscaled), like every root counterfactual value of pcfr."""
+    ranges = spot["ranges"]
+    mass = jnp.stack([mass_of(ranges[None], i, st.n, spot.get("tables"))[0] for i in range(st.n)])
+    return spot["gadget_ev"] * mass
+
+
+def gadget_scale(spot, follow):
+    """The deal ranges of the gadget game: ranges x follow on the masked seats."""
+    return jnp.where(spot["gadget_mask"][:, None], follow, 1.0)
+
+
 def init_cfr_state(st: Static, dtype=jnp.float32):
     vi, a = len(st.internal), st.topo.children.shape[1]
     zeros = jnp.zeros((vi, H, a), dtype)
+    g = jnp.zeros((st.n, H, 2), dtype)
     return {"regret": zeros, "avg": zeros, "last": zeros, "u": jnp.int32(0),
-            "done": jnp.bool_(False), "e": jnp.asarray(jnp.inf, dtype), "root": jnp.zeros((st.n, H), dtype)}
+            "done": jnp.bool_(False), "e": jnp.asarray(jnp.inf, dtype), "root": jnp.zeros((st.n, H), dtype),
+            "g_regret": g, "g_last": g, "g_avg": jnp.zeros((st.n, H), dtype), "g_norm": jnp.zeros((), dtype)}
 
 
 def make_cfr_chunk(st: Static, cfg: SolverConfig):
@@ -485,15 +524,34 @@ def _make_cfr_chunk(st: Static, cfg: SolverConfig):
             # we played (fixed_pi [Vi, H, A], fixed_mask [Vi]), so the solve's reach at the current node is our
             # exact range; the regrets there are still accumulated but never used. Absent keys: the teacher's path.
             pi = jnp.where(spot["fixed_mask"][:, None, None], spot["fixed_pi"], pi)
-        r, own, root = instant_regrets(pi, spot, st, cfg, aux)
+        gadget = "gadget_ev" in spot
+        if gadget:
+            # The gadget seats' deal ranges are scaled by their current Follow probability (RM+ of the gadget's
+            # regrets, predictive like the nodes'); their own counterfactual values below are reach-free.
+            follow = gadget_follow(state["g_regret"] + state["g_last"])                 # [n, H]
+            spot_eff = {**spot, "ranges": spot["ranges"] * gadget_scale(spot, follow)}
+        else:
+            spot_eff = spot
+        r, own, root = instant_regrets(pi, spot_eff, st, cfg, aux)
         regret = jnp.maximum(state["regret"] + r, 0.0)
         weight = t * t
         avg = state["avg"] + weight * own[:, :, None] * pi
         hold = state["done"]
         keep = lambda new, prev: jnp.where(hold, prev, new)
-        return {"regret": keep(regret, state["regret"]), "avg": keep(avg, state["avg"]),
-                "last": keep(r, state["last"]), "u": keep(state["u"] + 1, state["u"]),
-                "done": hold, "e": state["e"], "root": keep(root, state["root"])}
+        out = {"regret": keep(regret, state["regret"]), "avg": keep(avg, state["avg"]),
+               "last": keep(r, state["last"]), "u": keep(state["u"] + 1, state["u"]),
+               "done": hold, "e": state["e"], "root": keep(root, state["root"]),
+               "g_regret": state["g_regret"], "g_last": state["g_last"], "g_avg": state["g_avg"], "g_norm": state["g_norm"]}
+        if gadget:
+            ceiling = gadget_ceiling(spot, st)                                          # [n, H] CFV units
+            value = follow * root + (1.0 - follow) * ceiling
+            g_r = jnp.stack([root - value, ceiling - value], axis=-1)                   # (Follow, Terminate)
+            g_r = jnp.where(spot["gadget_mask"][:, None, None], g_r, 0.0)
+            out["g_regret"] = keep(jnp.maximum(state["g_regret"] + g_r, 0.0), state["g_regret"])
+            out["g_last"] = keep(g_r, state["g_last"])
+            out["g_avg"] = keep(state["g_avg"] + weight * follow, state["g_avg"])
+            out["g_norm"] = keep(state["g_norm"] + weight, state["g_norm"])
+        return out
 
     def chunk(states, spots, aux=None):
         batched = jax.vmap(step, in_axes=(0, 0, None))
@@ -516,11 +574,12 @@ def solve_cfr(batch, st: Static, cfg: SolverConfig, log=None, aux=None):
     state = jax.vmap(lambda _: init_cfr_state(st, dtype))(jnp.arange(count))
     chunk = make_cfr_chunk(st, cfg)
     ex = cached("ex_avg", st, cfg, lambda: jax.jit(jax.vmap(
-        lambda s, spot, aux: exploitability(average_logits(s, spot, st), spot, st, cfg, aux)["nash_conv"] / st.n,
+        lambda s, spot, aux: exploitability(average_logits(s["avg"], spot, st), spot, st, cfg, aux,
+                                            follow=average_follow(s))["nash_conv"] / st.n,
         in_axes=(0, 0, None))))
     while True:
         state = chunk(state, batch, aux)
-        e = ex(state["avg"], batch, aux)
+        e = ex(state, batch, aux)
         e_host = np.asarray(e)
         bad = np.flatnonzero(~np.isfinite(e_host) | (e_host < -E_TOL))
         if len(bad):
@@ -536,6 +595,12 @@ def solve_cfr(batch, st: Static, cfg: SolverConfig, log=None, aux=None):
     return {"z": z, "u": state["u"], "e": state["e"], "residual": state["e"],
             "reached": jnp.where(state["e"] <= cfg.e_target, state["u"], -1),
             "alpha": jnp.zeros(count, dtype), "done": state["done"]}
+
+
+def average_follow(state):
+    """[B?, n, H] the average Follow probability of the gadget seats (1 where there is no gadget / no weight)."""
+    norm = state["g_norm"]
+    return jnp.where(norm[..., None, None] > 0, state["g_avg"] / jnp.maximum(norm[..., None, None], 1e-30), 1.0)
 
 
 def average_logits(s, spot, st: Static):
@@ -567,22 +632,33 @@ def solve_fixed(batch, st: Static, cfg: SolverConfig, iterations: int, aux=None)
     return {"z": z, "u": state["u"]}
 
 
-def exploitability(z, spot, st: Static, cfg: SolverConfig, aux=None, nodes=False):
+def exploitability(z, spot, st: Static, cfg: SolverConfig, aux=None, nodes=False, follow=None):
     """Per-player on-policy value, best-response value and NashConv (pot units), one spot; nodes=True
     adds the values at every node, "on" and "br" [V, n, H] (checks: one trace of the terminals).
-    Traceable (jit, vmap); check the results with check_exploitability once they are on the host."""
+    Traceable (jit, vmap); check the results with check_exploitability once they are on the host.
+    A gadget spot (gadget_ev / gadget_mask, follow = the average Follow probabilities [n, H]) is the gadget
+    game: the gadget seats enter with ranges x follow, their on-policy root value is follow x Follow value +
+    (1 - follow) x ceiling and their best response takes the better of the two per hand; Z is the deal's."""
     legal = spot["legal"][st.internal]
     pi = policy(z, legal)
-    reach = forward(pi, spot["ranges"], st)
+    ranges = spot["ranges"]
+    gadget = "gadget_ev" in spot and follow is not None
+    deal = ranges * gadget_scale(spot, follow) if gadget else ranges
+    reach = forward(pi, deal, st)
     term = terminal_values(reach, spot["contrib"], payout_pot(spot), spot.get("tables"), st, cfg, spot, aux)
     on = backward(term, pi, legal, st)
     br = backward(term, pi, legal, st, best_response=True)
-    ranges = spot["ranges"]
+    root_on, root_br = on[0], br[0]
+    if gadget:
+        ceiling = gadget_ceiling(spot, st)
+        mask = spot["gadget_mask"][:, None]
+        root_on = jnp.where(mask, follow * root_on + (1.0 - follow) * ceiling, root_on)
+        root_br = jnp.where(mask, jnp.maximum(root_br, ceiling), root_br)
     # Z: total probability of a compatible deal (same for every player).
-    mass0 = opponent_mass_root(reach, spot.get("tables"), st)
+    mass0 = opponent_mass_root(jnp.zeros((1, st.n, H), ranges.dtype).at[0].set(ranges), spot.get("tables"), st)
     z_norm = jnp.sum(ranges[0] * mass0)
-    value = jnp.sum(ranges * on[0], axis=-1) / z_norm
-    best = jnp.sum(ranges * br[0], axis=-1) / z_norm
+    value = jnp.sum(ranges * root_on, axis=-1) / z_norm
+    best = jnp.sum(ranges * root_br, axis=-1) / z_norm
     out = {"value": value, "best": best, "nash_conv": jnp.sum(best - value)}
     return {**out, "on": on, "br": br} if nodes else out
 

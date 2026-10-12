@@ -53,7 +53,7 @@ def cards(values, field, *, count=None, unknown=False) -> np.ndarray:
     return ids
 
 
-def table(n, stacks, active, max_stack=None, where="init_betting"):
+def table(n, stacks, active, max_stack=None, where="init_betting", rake_level=0.0):
     """Host guard of a table's start (poker.envs.betting.init_betting): seat 0 (the button) occupied - a vacant button
     posts no small blind (edge_cases B3) -, at least two occupied seats, every occupied seat with more than BB chips
     - a stack <= BB posts a partial blind or reaches its first decision with 0 behind, which the engine does not
@@ -83,6 +83,12 @@ def table(n, stacks, active, max_stack=None, where="init_betting"):
         config.history_bound(n, start=deepest)
     except ValueError as err:
         raise ValueError(f"{where}: stacks up to {deepest} chips at {n} seats: {err}") from None
+    on_table = int(chips[occupied].sum())
+    raked = concrete(rake_level) and float(np.asarray(rake_level)) > 0          # no rake (the solver's deep roots): no product
+    if raked and on_table * config.RAKE_CAP_MAX_CHIPS >= 2 ** 31:   # evaluator.rake_split forms cap * base_k in int32
+        raise ValueError(f"{where}: {on_table} chips on the table x the largest rake cap {config.RAKE_CAP_MAX_CHIPS} overflows "
+                         f"int32 in the rake split of side pots (envs audit F2); at most "
+                         f"{(2 ** 31 - 1) // config.RAKE_CAP_MAX_CHIPS} chips in play")
 
 
 def deal_stacks(stacks, max_stack, where):

@@ -877,3 +877,19 @@ def load_live_critics(directory):
         params, meta = load_critic(Path(directory) / f"{name}.npz", name=name)
         result[street] = net_critic(params, meta["kappa"])
     return result
+
+
+POST_CRITICS = {1: "flop_critic", 2: "turn_critic", 3: "river_critic"}
+
+
+def load_post_critics(directory):
+    """The street critics evaluated AFTER the street's card (the loop's flop_critic / turn_critic / river_critic):
+    {street: net_critic}. The live player's re-solving gadget (poker/player/live.py) evaluates the critic of the new
+    street at the leaf the previous street ended in, for the card that was dealt, to get every opponent's per-hand
+    counterfactual-value ceilings (the end-of-street critics are the card AVERAGES of these: one call per leaf
+    inside a solve; the per-card value is needed once per street start)."""
+    result = {}
+    for street, name in POST_CRITICS.items():
+        params, meta = load_critic(Path(directory) / f"{name}.npz", name=name)
+        result[street] = net_critic(params, meta["kappa"])
+    return result

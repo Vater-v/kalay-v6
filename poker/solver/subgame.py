@@ -667,12 +667,15 @@ def compilation_cache_dir(explicit=None, backend=None, min_free_mb=512):
     return path, free_mb
 
 
-def spot_batch(tree: LiveTree, ranges, rake_level=0.0, equity=None, fixed=None, dtype=jnp.float32):
+def spot_batch(tree: LiveTree, ranges, rake_level=0.0, equity=None, fixed=None, dtype=jnp.float32, gadget=None):
     """The device batch (one spot, leading axis 1) poker/solver/pcfr.py expects (poker/solver/situations.prepare
     for a live tree): tree data in units of the STREET-START pot, ranges [n, H] normalised over the
     hands the visible board allows, rank tables (river) or the all-in equity matrix (turn, flop:
-    `equity`, else computed here; preflop: given), the critics' public inputs, and the frozen played
-    strategies: fixed = {node: pi [H, A]} (pcfr: fixed_mask / fixed_pi)."""
+    `equity`, else computed here; preflop: given), the critics' public inputs, the frozen played
+    strategies: fixed = {node: pi [H, A]} (pcfr: fixed_mask / fixed_pi), and the re-solving gadget
+    (pcfr: gadget_ev / gadget_mask): gadget = {"ev": [n, H] whole-hand EV ceilings per hand of every seat in
+    street-start pot units, "mask": [n] bool, the seats that get one} or None (no gadget: the keys are present
+    with the mask off, so every live spot compiles to the same program)."""
     states = tree.states
     board = visible_board(tree.node_state(0))
     valid = C.board_valid(board[board >= 0]) if (board >= 0).any() else np.ones(H, bool)
@@ -711,6 +714,19 @@ def spot_batch(tree: LiveTree, ranges, rake_level=0.0, equity=None, fixed=None, 
         mask[i] = True
         pi[i] = np.asarray(row, np.float32)
     out["fixed_mask"], out["fixed_pi"] = one(mask), one(pi)
+    n = tree.n
+    if gadget is None:                 # the same host->device transfers as a gadget spot: the warm-up compiles their staging
+        out["gadget_ev"], out["gadget_mask"] = jnp.asarray(np.zeros((1, n, H), dtype)), jnp.asarray(np.zeros((1, n), bool))
+    else:
+        ev, gm = np.asarray(gadget["ev"], np.float64), np.asarray(gadget["mask"], bool)
+        if ev.shape != (n, H) or gm.shape != (n,) or not np.isfinite(ev).all():
+            raise ValueError(f"gadget: ev [{n}, {H}] finite and mask [{n}] expected, got {ev.shape}, {gm.shape}")
+        if gm[tree.hero]:
+            raise ValueError("gadget: the hero carries his range, never a ceiling")
+        # host conversions, then plain device transfers: a dtype conversion on the device would be the one compile of
+        # the first gadget solve after the warm-up (measured: 3 compile events, 8 ms), and the play path compiles nothing
+        out["gadget_ev"] = jnp.asarray(np.asarray((ev * valid[None, :])[None], dtype))
+        out["gadget_mask"] = jnp.asarray(np.asarray(gm[None], bool))
     if tree.street == 3:
         out["tables"] = SI._tables(jnp.asarray(board[None], jnp.int32))
     elif tree.street == 2:
@@ -763,6 +779,7 @@ class Solution:
     compile_seconds: float = 0.0  # compile time inside that call (0 once the topology is compiled)
     batch_size: int = 1
     batch: dict = field(default=None, repr=False)
+    follow: np.ndarray = field(default=None, repr=False)   # [n, H] the gadget seats' average Follow probability (1 without a gadget)
 
     def strategy(self, v):
         """[H, A] the average strategy at node v (internal; zero on dead columns)."""
@@ -770,7 +787,7 @@ class Solution:
 
 
 def solve_batch(trees, ranges, iterations: int, chunk: int = 50, aux=None, rake_level=0.0, equity=None, fixed=None,
-                certificate: bool = False, keep_batch: bool = False, check_finite: bool = True, ladder=LADDER):
+                certificate: bool = False, keep_batch: bool = False, check_finite: bool = True, ladder=LADDER, gadget=None):
     """PCFR+ on several live trees of ONE topology in one vmapped call (concurrent decisions of many
     tables), exactly `iterations` iterations each (chunk per device call); returns a Solution per tree.
     ranges / equity / fixed: one entry per tree (equity: the all-in matrix of the board; fixed: {node:
@@ -800,7 +817,8 @@ def solve_batch(trees, ranges, iterations: int, chunk: int = 50, aux=None, rake_
     B_pad = min(step for step in ladder if step >= B)      # the shape compiled at warm-up: topology x ladder
     equity = [None] * B if equity is None else list(equity)
     fixed = [None] * B if fixed is None else list(fixed)
-    spots = [spot_batch(t, r, rake_level, e, f) for t, r, e, f in zip(trees, ranges, equity, fixed)]
+    gadget = [None] * B if gadget is None else list(gadget)
+    spots = [spot_batch(t, r, rake_level, e, f, gadget=g) for t, r, e, f, g in zip(trees, ranges, equity, fixed, gadget)]
     padded = spots + [spots[0]] * (B_pad - B)                 # copies of the first spot, discarded after the solve
     batch = padded[0] if B_pad == 1 else jax.tree.map(lambda *x: jnp.concatenate(x), *padded)
     # the compiled step depends on the chunk only (cap is the stopping rule of pcfr.solve_cfr, unused here):
@@ -813,44 +831,51 @@ def solve_batch(trees, ranges, iterations: int, chunk: int = 50, aux=None, rake_
     for _ in range(iterations // chunk):
         state = step(state, batch, aux)
     sigma = np.asarray(_AVERAGE(state["avg"], batch["legal"][:, st.internal]))
+    follow = np.asarray(SV.average_follow(state))                                   # [B_pad, n, H]
     if check_finite:
         values = np.asarray(state["root"])                     # the root's counterfactual values of the last iterate
         ranges_in = np.asarray(batch["ranges"])
-        bad = [b for b in range(B) if not (np.isfinite(sigma[b]).all() and np.isfinite(values[b]).all() and np.isfinite(ranges_in[b]).all())]
+        bad = [b for b in range(B) if not (np.isfinite(sigma[b]).all() and np.isfinite(values[b]).all()
+                                            and np.isfinite(ranges_in[b]).all() and np.isfinite(follow[b]).all())]
         del values
         if bad:
             raise NonFinite(f"non-finite policy, root values or ranges in {len(bad)} of {B} spots (first {bad[:4]})")
     es = [None] * B
     if certificate:
         ex = SV.cached("ex_live", st, cfg, lambda: jax.jit(jax.vmap(
-            lambda s, spot, a: SV.exploitability(SV.average_logits(s, spot, st), spot, st, cfg, a)["nash_conv"] / st.n,
+            lambda s, spot, a: SV.exploitability(SV.average_logits(s["avg"], spot, st), spot, st, cfg, a,
+                                                 follow=SV.average_follow(s))["nash_conv"] / st.n,
             in_axes=(0, 0, None))))
-        es = [float(x) for x in np.asarray(ex(state["avg"], batch, aux))]
+        es = [float(x) for x in np.asarray(ex(state, batch, aux))]
         for e in es:
             if not np.isfinite(e) or e < -SV.E_TOL:
                 raise RuntimeError(f"live solve: E {e} is not finite or negative - a solver bug, not convergence")
     wall, cpu, comp = time.perf_counter() - t0, time.process_time() - p0, compile_seconds() - c0
     return [Solution(t, np.ascontiguousarray(sigma[b]), int(iterations), es[b], wall, cpu, comp, B_pad,
-                     spots[b] if keep_batch else None) for b, t in enumerate(trees)]
+                     spots[b] if keep_batch else None, np.ascontiguousarray(follow[b])) for b, t in enumerate(trees)]
 
 
 def solve(tree: LiveTree, ranges, iterations: int, chunk: int = 50, aux=None, rake_level=0.0, equity=None, fixed=None,
-          certificate: bool = False, keep_batch: bool = False, check_finite: bool = True) -> Solution:
+          certificate: bool = False, keep_batch: bool = False, check_finite: bool = True, gadget=None) -> Solution:
     """solve_batch for one tree."""
     return solve_batch([tree], [ranges], iterations, chunk, aux, rake_level, [equity], [fixed], certificate, keep_batch,
-                       check_finite)[0]
+                       check_finite, gadget=[gadget])[0]
 
 
-def exploitability_of(tree: LiveTree, sigma, ranges, aux=None, rake_level=0.0, equity=None, batch=None):
+def exploitability_of(tree: LiveTree, sigma, ranges, aux=None, rake_level=0.0, equity=None, batch=None, gadget=None,
+                      follow=None):
     """Exact exploitability (NashConv / n, street-start-pot units) of an arbitrary strategy profile
-    sigma [Vi, H, A] (probabilities over columns) on a live tree; checks."""
+    sigma [Vi, H, A] (probabilities over columns) on a live tree; checks. With `gadget` (spot_batch's) and the gadget
+    seats' Follow probabilities `follow` [n, H] it is the exploitability of the gadget game."""
     st = tree.st
-    batch = spot_batch(tree, ranges, rake_level, equity) if batch is None else batch
+    batch = spot_batch(tree, ranges, rake_level, equity, gadget=gadget) if batch is None else batch
     cfg = SV.SolverConfig()
     fn = SV.cached("ex_sigma", st, cfg, lambda: jax.jit(jax.vmap(
-        lambda z, spot, a: SV.exploitability(z, spot, st, cfg, a)["nash_conv"] / st.n, in_axes=(0, 0, None))))
+        lambda z, spot, a, f: SV.exploitability(z, spot, st, cfg, a, follow=f)["nash_conv"] / st.n,
+        in_axes=(0, 0, None, 0))))
     z = jnp.log(jnp.maximum(jnp.asarray(sigma, jnp.float32), 1e-30))[None]
-    return float(np.asarray(fn(z, batch, aux))[0])
+    f = jnp.ones((1, st.n, H), jnp.float32) if follow is None else jnp.asarray(follow, jnp.float32)[None]
+    return float(np.asarray(fn(z, batch, aux, f))[0])
 
 
 def _dummy_root(n, street, menu):
@@ -866,7 +891,8 @@ def _dummy_root(n, street, menu):
     raise ValueError(f"no depth of the warm-up ladder falls into the menu {menu!r} on street {street}")
 
 
-def warm_up(iterations, chunk=50, critics=None, flop=None, turn=None, preflop=None, field=None, ladder=None, log=None):
+def warm_up(iterations, chunk=50, critics=None, flop=None, turn=None, preflop=None, field=None, ladder=None, log=None,
+            certificate=False):
     """Compile the solver of every topology of the field (config.regime_field: every table size, every seat
     of it, every street, every menu) at every batch size of the ladder before the first hand: one
     solve_batch per (n, street, menu, seat, ladder step) on copies of a dummy spot (uniform ranges; the
@@ -894,7 +920,7 @@ def warm_up(iterations, chunk=50, critics=None, flop=None, turn=None, preflop=No
                     for B in ladder:
                         t0 = time.perf_counter()
                         sols = solve_batch([tree] * B, [np.full((n, H), 1.0 / H)] * B, min(T, chunk), chunk,
-                                           aux=critics.get(street), equity=[eq] * B, ladder=ladder)
+                                           aux=critics.get(street), equity=[eq] * B, ladder=ladder, certificate=certificate)
                         row = (tree.key, n, street, menu, seat, B, int(tree.size), int(len(tree.internal)),
                                time.perf_counter() - t0, sols[0].compile_seconds)
                         out.append(row)

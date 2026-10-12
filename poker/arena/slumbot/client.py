@@ -298,7 +298,7 @@ def run_match(policy: Callable[[HandResponse], str], transport: Transport, *, ha
             try:
                 increment = policy(current)
             except Exception as error:
-                interrupted(number, current, f'Policy adapter failed ({type(error).__name__})', False)
+                interrupted(number, current, f'Policy adapter failed ({type(error).__name__}): {str(error)[:300]}', False)
             try:
                 if not isinstance(increment, str) or not _ACTION.fullmatch(increment):
                     raise ProtocolError('Policy must return exactly one protocol action')

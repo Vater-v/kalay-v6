@@ -79,6 +79,8 @@ def main(argv=None):
     p.add_argument("--deals", type=int, default=10000)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--stack-bb", type=int, help="every deal at this depth (default: the regime's depth mix; extrapolation is reported)")
+    p.add_argument("--no-gadget", action="store_true", help="Bayesian opponent ranges instead of the re-solving gadget (comparisons only)")
+    p.add_argument("--gadget-deal", default="mix", choices=("mix", "range", "uniform"), help="the opponent's deal under the gadget")
     p.add_argument("--out", type=Path)
     args = p.parse_args(argv)
     try:
@@ -91,7 +93,7 @@ def main(argv=None):
     arena = LiveArena(critics_dir=args.critics, preflop_table=args.preflop_table, flop_cache=args.flop_cache, rank7=args.rank7,
                       preflop_equity=args.preflop_equity, iterations=iterations, chunk=min(50, args.live_t or 50),
                       window_seconds=args.window, dev_size=args.dev_size, budget_seconds=args.budget, log=log,
-                      jax_cache=args.jax_cache, engine_max_stack=table_depths(args.stack_bb)[1])
+                      jax_cache=args.jax_cache, engine_max_stack=table_depths(args.stack_bb)[1], gadget=not args.no_gadget, gadget_deal=args.gadget_deal)
     log(f"live duplicate: {args.deals} deals x 2, {args.threads} threads, T {arena.metadata['iterations']}, window {args.window} s, "
         f"budget {args.budget} s, device {arena.metadata['device']}, turn matrix {arena.metadata['turn_matrix']}")
     log(arena.warm_up())                                                   # the ready gate

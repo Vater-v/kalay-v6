@@ -66,7 +66,11 @@ def apply_action(s: State, a: jnp.ndarray) -> State:
     # fraction raise that a tree offers keeps its target where the whole grid masks it as a duplicate of a
     # lower size with the same chips; an action legal on the whole grid gets the same target.
     alone = jnp.arange(config.NUM_ACTIONS, dtype=jnp.int32) == safe_action
-    target = jnp.where(can_apply, action_table(safe_s, alone)[1][safe_action], current)
+    offered_mask, offered_target = action_table(safe_s, alone)
+    # Legality is the caller's precondition (host guards: poker.envs.guards.target, poker/player/live.py check_legal); under
+    # checkify a masked action is reported instead of applied silently (envs audit 2026-10-12, F3: a masked raise created chips).
+    checkify.debug_check(s.terminal | ~can_apply | offered_mask[safe_action], "Illegal action index for this state")
+    target = jnp.where(can_apply, offered_target[safe_action], current)
     is_fold = a == config.FOLD
     add = jnp.where(is_fold, jnp.int32(0), target - current)
 
@@ -200,16 +204,25 @@ def apply_target(s: State, a: jnp.ndarray, target: jnp.ndarray) -> State:
     the chips actually added. Legality of (a, target) is the caller's precondition, as everywhere
     in the engine: target must be the actor's street bet (fold), the call total, or a legal raise
     total (the all-in or a full raise below it). Host checks before the jitted call: poker/player/live.py
-    check_legal (the live path), poker.envs.guards.target (other callers, including poker/arena/slumbot/bot.py). All use this shared engine."""
+    check_legal (the live path), poker.envs.guards.target (other callers, the Slumbot replay in poker/arena/slumbot/live_bot.py
+    included). All use this shared engine. Under checkify an illegal total is reported (the same predicate as guards.target)."""
     a = action_input(a)
     can_apply = _can_apply(s) & fits_int32(a)
     a = jnp.where(fits_int32(a), a, 0).astype(jnp.int32)
     n = s.stack.shape[0]
     capacity = s.history_player.shape[0]
     me = jnp.clip(s.to_act, 0, n - 1)
-    level = derived.bet_level(s.replace(to_act=me))
+    safe_s = s.replace(to_act=me)
+    level = derived.bet_level(safe_s)
     current = s.bet_street[me]
     target = jnp.where(can_apply, jnp.asarray(target, jnp.int32), current)
+    mask, grid_targets = action_table(safe_s)
+    chips = current + s.stack[me]
+    legal_total = jnp.where(a == config.FOLD, mask[config.FOLD] & (target == current),
+                            jnp.where(a == config.CHECK_CALL, target == grid_targets[config.CHECK_CALL],
+                                      mask[config.ALLIN] & (target <= chips) & (target > level)
+                                      & ((target >= derived.min_raise_to(safe_s)) | (target == chips))))
+    checkify.debug_check(s.terminal | ~can_apply | legal_total, "Illegal exact-amount action for this state")
     is_fold = a == config.FOLD
     add = jnp.where(is_fold, jnp.int32(0), target - current)
     is_raise = ~is_fold & (target > level)

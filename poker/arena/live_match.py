@@ -33,16 +33,23 @@ class LiveArena:
 
     def __init__(self, *, critics_dir, preflop_table, flop_cache, rank7, preflop_equity, iterations=None, chunk=50,
                  window_seconds=0.3, dev_size=0, budget_seconds=4.0, eps=LV.DEFAULT_EPS, log=None, jax_cache=None,
-                 engine_max_stack=None):
+                 engine_max_stack=None, gadget=True, gadget_deal="mix", certificate=True):
         self.log = log
+        self.gadget = bool(gadget)
+        self.gadget_deal = gadget_deal
         critics_dir, preflop_table, flop_cache, rank7, preflop_equity = (Path(x) for x in (critics_dir, preflop_table, flop_cache, rank7,
                                                                                       preflop_equity))
-        for p in (critics_dir / "pre_end.npz", critics_dir / "flop_end.npz", critics_dir / "turn_end.npz", preflop_table, rank7, preflop_equity):
+        post_names = tuple(f"{name}.npz" for name in CR.POST_CRITICS.values()) if self.gadget else ()
+        for p in (critics_dir / "pre_end.npz", critics_dir / "flop_end.npz", critics_dir / "turn_end.npz", preflop_table, rank7, preflop_equity,
+                  *(critics_dir / name for name in post_names)):
             if not p.exists():
-                raise FileNotFoundError(f"live arena: {p} is missing")
+                raise FileNotFoundError(f"live arena: {p} is missing" + (" (the re-solving gadget needs the post-card street "
+                                                                          "critics of the same run; gadget=False for the old path)"
+                                                                          if p.name in post_names else ""))
         if not flop_cache.is_dir():
             raise FileNotFoundError(f"live arena: the flop class cache {flop_cache} is missing")
         self.critics = CR.load_live_critics(critics_dir)
+        self.post_critics = CR.load_post_critics(critics_dir) if self.gadget else {}
         self.preflop_equity = np.load(preflop_equity)
         self.table = LV.PreflopTable(preflop_table, critic_path=critics_dir / "pre_end.npz")
         self.flop_cache = flop_cache
@@ -55,7 +62,7 @@ class LiveArena:
         self.jax_cache = jax_cache
         self.engine_max_stack = int(table_depths(None)[1] if engine_max_stack is None else engine_max_stack)
         config.history_bound(2, start=self.engine_max_stack)
-        self.solver = LV.Solver(iterations=self.iterations, chunk=self.chunk, critics=self.critics)
+        self.solver = LV.Solver(iterations=self.iterations, chunk=self.chunk, critics=self.critics, certificate=certificate)
         self.server = LV.SolveServer(self.solver, window_seconds=window_seconds, dev_size=dev_size, log=None)   # quiet: one line per trap otherwise
         self.ready = False
         fingerprint = code_fingerprint()
@@ -64,7 +71,7 @@ class LiveArena:
                                        "flop_end": file_sha256(critics_dir / "flop_end.npz"), "turn_end": file_sha256(critics_dir / "turn_end.npz"),
                                        "preflop_equity": file_sha256(preflop_equity)},
                          "iterations": {str(k): v for k, v in self.iterations.items()}, "chunk": self.chunk,
-                         "eps": eps, "window_seconds": window_seconds, "dev_size": dev_size,
+                         "eps": eps, "window_seconds": window_seconds, "dev_size": dev_size, "gadget": self.gadget, "gadget_deal": self.gadget_deal,
                          "budget_seconds": budget_seconds, "engine_warmup_max_stack_chips": self.engine_max_stack, "ladder": list(SG.LADDER), "device": jax.default_backend(),
                          "turn_matrix": getattr(self.turn_equity, "where", "?"), "fingerprint": fingerprint,
                          "fingerprint_note": "poker.envs.fingerprint.code_fingerprint()"}
@@ -78,6 +85,8 @@ class LiveArena:
         turn = np.asarray(self.turn_equity(np.asarray([0, 14, 28, 3])))
         self.server.warm_up(flop, turn, self.preflop_equity, from_cache=from_cache, flop_cache=self.flop_cache,
                             turn_builder=self.turn_equity, cache_dir=self.jax_cache)
+        if self.gadget:                                                       # the ceiling computation of every street compiles now
+            self.player(0).warm_gadget(flop, turn)
         # The engine jits of a hand compile now, not in a hand: a dealt state's step, the legality check, the rewards
         from poker.envs.betting import init
         dummy = jax.tree.map(np.asarray, init(jax.random.key(0), 2, np.full(2, self.engine_max_stack, np.int32), history=True,
@@ -93,7 +102,7 @@ class LiveArena:
     def player(self, seat):
         return LV.LivePlayer(seat, solver=LV.ServerClient(self.server, self.budget_seconds), preflop=self.table, eps=self.eps,
                              equity=self.flop_equity, turn_equity=self.turn_equity, preflop_equity=self.preflop_equity,
-                             budget_seconds=self.budget_seconds, log=self.log)
+                             budget_seconds=self.budget_seconds, log=self.log, gadget=self.gadget, post_critics=self.post_critics, gadget_deal=self.gadget_deal)
 
     def close(self):
         self.server.close()
@@ -128,7 +137,7 @@ def play_hand(arena, state0, rng, hand_id):
         state = nxt
     rewards = np.asarray(get_rewards(state), np.float64)
     stats = {k: sum(int(p.stats[k]) for p in players) for k in ("decisions", "table_decisions", "translated", "slot_overflow",
-                                                               "floor_hits", "opponent_updates", "solve_errors")}
+                                                               "floor_hits", "opponent_updates", "solve_errors", "gadget_streets")}
     stats["outside_training_depth_hands"] = int(players[0].coverage["status"] == "extrapolation")
     return {"failed": False, "hand": hand_id, "rewards": rewards.tolist(), "decisions": decisions, "seconds": time.perf_counter() - t0,
             "stats": stats, "depth_coverage": players[0].coverage, "min_ratio": float(min(p.stats["min_ratio"] for p in players)),

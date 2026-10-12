@@ -53,6 +53,7 @@ RAKE_ANCHORS = (            # (level, basis points, caps in BB for 2 / 3-4 / 5+ 
     (1.0, 500, (2.6, 6.0, 10.0)),
 )
 RAKE_LEVELS = {"none": 0.0, "NL50": 1 / 3, "NL25": 1 / 3, "NL10": 2 / 3, "NL5": 1.0}
+RAKE_CAP_MAX_CHIPS = int(max(c for a in RAKE_ANCHORS for c in a[2]) * BB)     # the largest cap: evaluator.rake_split's int32 product
 
 # One explicit table regime sets the loop's spot generators and live matches; every
 # artifact records it in scheme(). check_scheme refuses a different regime unless POKER_REGIME_FORCE=1.
@@ -645,7 +646,7 @@ def _positive_int(name, value, *, allow_zero=False):
 
 def history_bound(n: int, *, start=None, bb=None, sb=None, raise_fracs=None,
                   num_actions=None, allin=None) -> int:
-    """Sufficient decision bound for four streets and positive pot-fraction raises.
+    """Sufficient decision bound for four streets and GRID (pot-fraction) raises; NOT for exact amounts.
 
     Pure host calculation; overrides validate hypothetical configurations without
     mutating module constants. Initial stacks must be <= start. No chip refills.
@@ -654,6 +655,11 @@ def history_bound(n: int, *, start=None, bb=None, sb=None, raise_fracs=None,
     full raise is never below the minimum raise >= bb); all-in raises
     occur at most n times. Between raises/street starts each seat acts once.
     All computed action targets, including masked ones, must fit signed int32.
+    Exact-amount actions (step_target: the live path, the Slumbot replay) can min-raise by ~1 BB per decision, so a
+    min-raise war needs up to n * start / BB decisions, more than this bound above ~850 BB heads-up (envs audit
+    2026-10-12, F1: 1000 BB HU stalled at 832 of 832 slots; 500 BB holds at 2, 6 and 9 seats with a 7-10 % margin).
+    Overflow is a silent no-op inside the jitted engine; the live path checks the capacity on the host before every
+    step (poker/player/live.py check_legal) and raises instead.
     """
     validate_player_count(n)
     start = _positive_int("START", START if start is None else start)

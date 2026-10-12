@@ -72,9 +72,11 @@ def build_table(chunk=1 << 20, log=print):
     return table, len(values)
 
 
-def load_table(path=TABLE_PATH, log=print):
-    """The cached table (built and saved on first use)."""
-    path = Path(path)
+def load_table(path=None, log=print):
+    """The cached table (built and saved on first use). path defaults to TABLE_PATH at call time, so a test that
+    repoints the module constant redirects the build (training audit 2026-10-12: a definition-time default wrote a
+    268 MB table into results/cache despite the patch)."""
+    path = Path(TABLE_PATH if path is None else path)
     if not path.exists():
         table, classes = build_table(log=log)
         path.parent.mkdir(parents=True, exist_ok=True)

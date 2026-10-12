@@ -10,7 +10,9 @@ runner and solver diagnostics. Slumbot is heads-up, 200 BB, no rake (POKER_REGIM
 
 import os
 
-os.environ.setdefault("JAX_PLATFORMS", "cpu")
+# No device default: JAX takes the GPU when there is one (JAX_PLATFORMS=cuda,cpu is the recorded production setting; the
+# replay of trees needs the cpu entry). The CPU alone measured 5-13 s per postflop decision at the configured iterations
+# (live audit 2026-10-12), so a finite budget on the CPU is refused below unless --allow-cpu says so.
 
 import argparse  # noqa: E402
 import json  # noqa: E402
@@ -33,6 +35,15 @@ def main(argv=None):
     p.add_argument("--dev-size", type=int, default=0, help="developer toggle: the trap waits for N requests, no timer")
     p.add_argument("--budget", type=float, default=4.0, help="wall-clock budget per decision in seconds")
     p.add_argument("--jax-cache", type=Path, help="the persistent compilation cache base (default config.JAX_CACHE_DIR)")
+    p.add_argument("--no-gadget", action="store_true", help="re-solve with Bayesian opponent ranges instead of the gadget "
+                   "(the path before the gadget: unsafe, for comparisons only)")
+    p.add_argument("--gadget-deal", default="mix", choices=("mix", "range", "uniform"),
+                   help="the opponent's deal range under the gadget: his tracked range (default) or uniform")
+    p.add_argument("--allow-cpu", action="store_true", help="run on the CPU backend with a finite budget anyway (measured 5-13 s "
+                   "per postflop decision: every decision over the budget fails its hand)")
+    p.add_argument("--certificate", dest="certificate", action="store_true", default=True,
+                   help="(default) compute the certified best-response gap of every live solve and log it")
+    p.add_argument("--no-certificate", dest="certificate", action="store_false")
     p.add_argument("--hands", type=int, required=True)
     p.add_argument("--out", type=Path, required=True)
     p.add_argument("--workers", type=int, default=16)
@@ -42,12 +53,17 @@ def main(argv=None):
     p.add_argument("--log-every", type=int, default=500)
     args = p.parse_args(argv)
     log = lambda m: print(time.strftime("%H:%M:%S"), m, flush=True)
+    import jax
+    if jax.default_backend() == "cpu" and args.budget is not None and not args.allow_cpu:
+        raise SystemExit("slumbot live: the JAX backend is the CPU; the measured CPU decision time is 5-13 s per postflop solve "
+                         f"against the budget of {args.budget} s. Start with JAX_PLATFORMS=cuda,cpu on the GPU, or --allow-cpu.")
     bot = LiveSlumbotBot(critics_dir=args.critics, preflop_table=args.preflop_table, flop_cache=args.flop_cache, rank7=args.rank7,
                          preflop_equity=args.preflop_equity, window_seconds=args.window, dev_size=args.dev_size,
-                         budget_seconds=args.budget, log=log, jax_cache=args.jax_cache)
+                         budget_seconds=args.budget, log=log, jax_cache=args.jax_cache, gadget=not args.no_gadget, gadget_deal=args.gadget_deal,
+                         certificate=args.certificate)
     log(f"slumbot live: {args.hands} hands, {args.workers} workers, game {bot.metadata['game_hash'][:12]}, "
         f"T {bot.metadata['iterations']}, window {args.window} s, dev_size {args.dev_size}, budget {args.budget} s, "
-        f"device {bot.metadata['device']}, id {bot.policy_id[:12]}")
+        f"device {bot.metadata['device']}, gadget {bot.gadget}, id {bot.policy_id[:12]}")
     bot.warm_up()                                                          # the ready gate: workers only after it
     if not bot.ready:
         raise SystemExit("live bot: not ready after the warm-up")
