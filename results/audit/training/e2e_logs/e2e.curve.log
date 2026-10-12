@@ -1,0 +1,12 @@
+13:28:57 [w0] learning curve river: 48 spots, 48 accepted (E <= inf); test 5 rows, val 5 (solved), pool 38 spots on 38 boards; hidden (64, 64), 20 x 25 steps, patience None, clip norm 0.05
+13:29:05 [w0]   seed 0 0.125: 5 solved rows, test MAE 0.0820 (median 0.0767), best epoch 0/20, 8 s
+13:29:10 [w0]   seed 0 0.250: 10 solved rows, test MAE 0.0826 (median 0.0776), best epoch 0/20, 5 s
+13:29:16 [w0]   seed 0 0.500: 19 solved rows, test MAE 0.0822 (median 0.0801), best epoch 0/20, 6 s
+13:29:25 [w0]   seed 0 1.000: 38 solved rows, test MAE 0.0815 (median 0.0794), best epoch 0/20, 9 s
+13:29:25 [w0] MAE vs solved rows (mean over 1 seeds), log-log slope -0.003:
+13:29:25 [w0]   0.125:       5 rows  MAE 0.0820 (spread 0.0000)  by SPR {'0-1': 0.022814594209194183, '1-2': None, '2-4': None, '4-8': 0.13164836168289185, '8-16': 0.11626847833395004, '16-32': None, '32-inf': None}
+13:29:25 [w0]   0.250:      10 rows  MAE 0.0826 (spread 0.0000)  by SPR {'0-1': 0.02318587712943554, '1-2': None, '2-4': None, '4-8': 0.13178518414497375, '8-16': 0.11733321845531464, '16-32': None, '32-inf': None}
+13:29:25 [w0]   0.500:      19 rows  MAE 0.0822 (spread 0.0000)  by SPR {'0-1': 0.02326299622654915, '1-2': None, '2-4': None, '4-8': 0.13009943068027496, '8-16': 0.11727623641490936, '16-32': None, '32-inf': None}
+13:29:25 [w0]   1.000:      38 rows  MAE 0.0815 (spread 0.0000)  by SPR {'0-1': 0.021145300939679146, '1-2': None, '2-4': None, '4-8': 0.13088887929916382, '8-16': 0.1172511875629425, '16-32': None, '32-inf': None}
+13:29:25 [w0] wrote /tmp/claude-0/-home-user-kalay-v6/721b9d69-ee04-59bb-a6cc-2f7cda70f7ae/scratchpad/e2e/learning_curve_river.json
+AUDIT wall 29.0 s for ['curve']

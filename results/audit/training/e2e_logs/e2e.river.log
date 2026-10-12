@@ -1,0 +1,23 @@
+13:19:22 [w0] WARNING: dirty tree (audit-no-git): numbers of this run do not go into a review
+13:19:22 [w0] loop critics grid 13 rake scheme 1, regime 1 (slumbot: players [2], depth mix [[200, 200, 1.0]] BB, rake mix [[0.0, 0.0, 1.0]]): device cpu:0, stages ['river_solve', 'river_critic'], teacher fixed T {'river': 200, 'turn': 100, 'flop': 100} (E once at the end, flag above 2 x the stage median, every spot into the data), game b499cfcbc689 (grid 13, regime 1, caps {'2 players': {'preflop': {'normal': 3, 'short': 2}, 'flop': {'normal': 3, 'short': 2}, 'turn': {'normal': 3, 'short': 2}, 'river': {'normal': 3, 'short': 2}}}, street sizes by menu), critic projection kappa {'river': 0.0176, 'turn': 0.0, 'flop': 0.0, 'preflop': 0.0}; code 5087e3f98531 (commit None, DIRTY 1: no git checkout and no results/pack/PACKED.json with a fingerprint: provenance unknown, 108 files, files)
+13:19:24 [w0] rank7: 1048576/133784560 (2 s)
+13:19:38 [w0] rank7: 17825792/133784560 (16 s)
+13:19:52 [w0] rank7: 34603008/133784560 (30 s)
+13:20:04 [w0] rank7: 51380224/133784560 (42 s)
+13:20:17 [w0] rank7: 68157440/133784560 (55 s)
+13:20:30 [w0] rank7: 84934656/133784560 (69 s)
+13:20:44 [w0] rank7: 101711872/133784560 (82 s)
+13:20:57 [w0] rank7: 118489088/133784560 (95 s)
+13:21:23 [w0] rank7: 4824 classes, saved /home/user/kalay-v6/results/cache/rank7_v1.npy
+13:21:25 [w0] river: speed fuse off (EXPECT_RIVER_SPM not set)
+13:22:15 [w0] river 0-16/48 (short, 200 iterations): 1.691 s/spot, prepare 0.389 s/spot, E median 0.00006 max 0.00040, iters median 200, wall 50 s
+13:22:48 [w0] river 16-23/48 (short, 200 iterations): 2.304 s/spot, prepare 0.821 s/spot, E median 0.00252 max 0.00494, iters median 200, wall 33 s
+13:23:48 [w0] river 23-39/48 (normal, 200 iterations): 2.990 s/spot, prepare 0.313 s/spot, E median 0.01028 max 0.01892, iters median 200, wall 59 s
+13:24:25 [w0] river 39-48/48 (normal, 200 iterations): 2.753 s/spot, prepare 0.528 s/spot, E median 0.04048 max 0.07951, iters median 200, wall 37 s
+13:24:25 [w0] river: fixed T 200, E median 0.00602 p90 0.03689 max 0.07951; 14 of 48 spots flagged (E > 2 x median = 0.01204)
+13:24:25 [w0] river solves: 0.0% of 48 spots pay out more than the pot holds (root value sum > -R(pot0)/pot0 + 0.0001; excess p90 +0.0000, max +0.0000 pot)
+13:24:26 [w0] river spots, regime 1 (slumbot): 0 of 48 (0.0%) start deeper than the table's 200 BB (pot / 2 + behind; kept as coverage)
+13:24:44 [w0] river_critic: test MAE 0.0818 pot (median 0.0789; offset 0.0115, centred 0.0817, worst substantial hand median 0.794; check-down alone 0.08252809941768646), 76 train rows; seed 0 val 0.1108 (best epoch 0/20, lr 5.0e-04), seed 1 val 0.1099 (best epoch 0/20, lr 5.0e-04); kept seed 1; 19 s; projected with kappa 0.0176: raw network MAE 0.0816, its total S - T -0.0022 (|.| 0.0035); targets' S - T -0.0000 (|.| 0.0000)
+13:24:44 [w0] cache hashes {}
+13:24:44 [w0] done
+AUDIT wall 322.3 s for ['river_solve', 'river_critic']
