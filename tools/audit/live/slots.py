@@ -91,21 +91,34 @@ def beyond_cap():
 run("raises beyond the cap: alternating our menu raises and his off-menu re-raises", beyond_cap)
 
 
-def three_players():
-    s = jax.tree.map(np.asarray, init_betting(3, jnp.full(3, 20000, jnp.int32), history=True, max_stack=20000, rake_level=0.0))
-    s = s.replace(board=np.asarray([12, 24, 5, 30, 44], np.int32))
-    tree = SG.build_tree(s, 0, [])
-    out = {"nodes": int(tree.size)}
-    try:
-        SG.solve_batch([tree], [np.full((3, H), 1 / H)], 50, 50, equity=[np.zeros((H, H), np.float32)], ladder=(1,),
-                       aux=lambda *a: None)
-        out["preflop_solve"] = "ran"
-    except Exception as e:                                                      # noqa: BLE001
-        out["preflop_solve"] = f"{type(e).__name__}: {str(e)[:200]}"
-    return out
+def three_players(street):
+    """3 players at a postflop street start (preflop's 3-way deep-root topology was killed at 4.5 GB RSS here)."""
+    def f():
+        s = jax.tree.map(np.asarray, init_betting(3, jnp.full(3, 20000, jnp.int32), history=True, max_stack=20000, rake_level=0.0))
+        from poker.envs.transition import step_target as _st
+        step_target = jax.jit(_st)
+        s = step_target(s, jnp.int32(config.CHECK_CALL), jnp.int32(100))       # button calls
+        s = step_target(s, jnp.int32(config.CHECK_CALL), jnp.int32(100))       # SB completes
+        s = step_target(s, jnp.int32(config.CHECK_CALL), jnp.int32(100))       # BB checks: flop, pot 300
+        for _ in range(street - 1):
+            for _ in range(3):
+                s = step_target(s, jnp.int32(config.CHECK_CALL), jnp.int32(0))
+        s = jax.tree.map(np.asarray, s.replace(board=jnp.asarray([12, 24, 5, 30, 44], jnp.int32)))
+        out = {"street": int(s.street)}
+        tree = SG.build_tree(s, 0, [])
+        out["nodes"] = int(tree.size)
+        try:
+            SG.solve_batch([tree], [np.full((3, H), 1 / H)], 50, 50, equity=[np.zeros((H, H), np.float32)], ladder=(1,),
+                           aux=(lambda *a: None) if street < 3 else None)
+            out["solve"] = "ran"
+        except Exception as e:                                                      # noqa: BLE001
+            out["solve"] = f"{type(e).__name__}: {str(e)[:200]}"
+        return out
+    return f
 
 
-run("three players: preflop live tree and a solve", three_players)
+run("three players: flop live tree and a solve", three_players(1))
+run("three players: river live tree and a solve", three_players(3))
 
 open("results/audit/live/slots.json", "w").write(json.dumps(rows, indent=1, default=str))
 for r in rows:

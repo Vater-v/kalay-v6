@@ -1,0 +1,188 @@
+[
+ {
+  "case": "opponent off-menu flop bet 137 chips (menu: 33%=132, 75%=300) -> slot at exactly 137",
+  "ok": true,
+  "path": [
+   {
+    "actor": 1,
+    "kind": "raise",
+    "total": 137,
+    "column_target": 137,
+    "in_slot": true
+   }
+  ],
+  "node_columns": [
+   [
+    "fold",
+    0
+   ],
+   [
+    "check/call",
+    137
+   ],
+   [
+    "raise",
+    586
+   ],
+   [
+    "all-in",
+    19800
+   ]
+  ]
+ },
+ {
+  "case": "opponent off-menu bet 137, our menu raise, his off-menu re-raise 1999 -> second slot",
+  "ok": true,
+  "path": [
+   {
+    "actor": 1,
+    "kind": "raise",
+    "total": 137,
+    "column_target": 137,
+    "in_slot": true
+   },
+   {
+    "actor": 0,
+    "kind": "raise",
+    "total": 586,
+    "column_target": 586,
+    "in_slot": false
+   },
+   {
+    "actor": 1,
+    "kind": "raise",
+    "total": 1999,
+    "column_target": 1999,
+    "in_slot": true
+   }
+  ],
+  "node_columns": [
+   [
+    "fold",
+    586
+   ],
+   [
+    "check/call",
+    1999
+   ],
+   [
+    "all-in",
+    19800
+   ]
+  ]
+ },
+ {
+  "case": "our own off-menu size (hero=1 bets 137) -> OffTree",
+  "ok": false,
+  "error": "OffTree: action raise 137 of seat 1 has no column at node 0 (legal: [('check/call', 0), ('raise', 133), ('raise', 300), ('all-in', 19800)])"
+ },
+ {
+  "case": "preflop limp by the opponent (SB calls 100), hero BB -> CALL column; our options after it",
+  "ok": true,
+  "path": [
+   {
+    "actor": 0,
+    "kind": "check/call",
+    "total": 100,
+    "column_target": 100,
+    "in_slot": false
+   }
+  ],
+  "node_columns": [
+   [
+    "check/call",
+    100
+   ],
+   [
+    "raise",
+    200
+   ],
+   [
+    "raise",
+    300
+   ],
+   [
+    "all-in",
+    20000
+   ]
+  ]
+ },
+ {
+  "case": "preflop opponent open to 250 (off-menu: min-raise 200 / pot 300), hero BB",
+  "ok": true,
+  "path": [
+   {
+    "actor": 0,
+    "kind": "raise",
+    "total": 250,
+    "column_target": 250,
+    "in_slot": true
+   }
+  ],
+  "node_columns": [
+   [
+    "fold",
+    100
+   ],
+   [
+    "check/call",
+    250
+   ],
+   [
+    "raise",
+    750
+   ],
+   [
+    "all-in",
+    20000
+   ]
+  ]
+ },
+ {
+  "case": "raises beyond the cap: alternating our menu raises and his off-menu re-raises",
+  "ok": true,
+  "path": [
+   {
+    "actor": 1,
+    "kind": "raise",
+    "total": 150,
+    "column_target": 150,
+    "in_slot": true
+   },
+   {
+    "actor": 0,
+    "kind": "raise",
+    "total": 616,
+    "column_target": 616,
+    "in_slot": false
+   },
+   {
+    "actor": 1,
+    "kind": "raise",
+    "total": 1239,
+    "column_target": 1239,
+    "in_slot": true
+   },
+   {
+    "actor": 0,
+    "kind": "check/call",
+    "total": 1239,
+    "column_target": 1239,
+    "in_slot": false
+   }
+  ],
+  "node_columns": "terminal",
+  "slot_count": 2,
+  "shape_cap": 3
+ },
+ {
+  "case": "three players: flop live tree and a solve",
+  "ok": false,
+  "error": "TypeError: debug_check takes a scalar pred as argument, got True"
+ },
+ {
+  "case": "three players: river live tree and a solve",
+  "ok": false,
+  "error": "TypeError: debug_check takes a scalar pred as argument, got True"
+ }
+]
