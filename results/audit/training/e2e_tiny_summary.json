@@ -1,0 +1,155 @@
+{
+ "river_critic": {
+  "rows": 48,
+  "train": 76,
+  "val": 5,
+  "test": 5,
+  "test_mae": 0.08175480365753174,
+  "test_raw_mae": 0.08157633244991302,
+  "test_checkdown_mae": 0.08252809941768646,
+  "test_offset": 0.011505027301609516,
+  "test_centred": 0.0816691443324089,
+  "test_worst_substantial_median": 0.7938798069953918,
+  "seconds": 18.626863025999228,
+  "test_raw_total_abs": 0.0035040497314184904,
+  "kappa": 0.0176,
+  "best_epochs": [
+   0,
+   0
+  ]
+ },
+ "turn_end": {
+  "rows": 64,
+  "test": 6,
+  "test_raw_mae": 0.0055836960673332214,
+  "test_checkdown_mae": 0.010382757522165775,
+  "test_offset": 0.0006114275311119854,
+  "test_centred": 0.005467679817229509,
+  "test_worst_substantial_median": 0.022453725337982178,
+  "test_mae_vs_exact_average": 0.005491653922945261,
+  "identity_gap_max": 4.76837158203125e-07,
+  "target_seconds": 17.09292630300024,
+  "train_seconds": 16.634718477000206,
+  "test_raw_total_abs": 0.002191017149016261,
+  "kappa": 0.0176,
+  "best_epochs": [
+   18,
+   9
+  ]
+ },
+ "turn_critic": {
+  "rows": 24,
+  "train": 20,
+  "val": 2,
+  "test": 2,
+  "test_mae": 0.11129056662321091,
+  "test_raw_mae": 0.11182426661252975,
+  "test_checkdown_mae": 0.07490093261003494,
+  "test_offset": 0.03876635059714317,
+  "test_centred": 0.10617794841527939,
+  "test_worst_substantial_median": 0.5195948481559753,
+  "seconds": 11.593198080000548,
+  "test_raw_total_abs": 0.040293604135513306,
+  "kappa": 0.0,
+  "best_epochs": [
+   9,
+   0
+  ]
+ },
+ "flop_end": {
+  "rows": 16,
+  "test": 2,
+  "test_raw_mae": 0.06242906674742699,
+  "test_checkdown_mae": 0.08235706388950348,
+  "test_offset": 0.00834589172154665,
+  "test_centred": 0.051283854991197586,
+  "test_worst_substantial_median": 0.3035212457180023,
+  "test_mae_vs_exact_average": 0.05177341401576996,
+  "identity_gap_max": 4.172325134277344e-07,
+  "target_seconds": 89.02421394199973,
+  "train_seconds": 11.812259819000246,
+  "test_raw_total_abs": 0.05035501718521118,
+  "kappa": 0.0,
+  "best_epochs": [
+   19,
+   18
+  ]
+ },
+ "learning_curve_river": {
+  "curve": [
+   {
+    "fraction": 0.125,
+    "solved_rows": 5.0,
+    "test_mae": 0.08196289837360382
+   },
+   {
+    "fraction": 0.25,
+    "solved_rows": 10.0,
+    "test_mae": 0.08256467431783676
+   },
+   {
+    "fraction": 0.5,
+    "solved_rows": 19.0,
+    "test_mae": 0.08223558962345123
+   },
+   {
+    "fraction": 1.0,
+    "solved_rows": 38.0,
+    "test_mae": 0.08153636753559113
+   }
+  ],
+  "loglog_slope": -0.002904815562162233,
+  "test_rows": 5
+ },
+ "river_solve_E": {
+  "iterations": 200,
+  "spots": 48,
+  "e_median": 0.006021442357450724,
+  "e_p90": 0.036889816448092486,
+  "e_max": 0.07951437681913376,
+  "threshold": 0.012042884714901447,
+  "flagged": 14
+ },
+ "turn_solve_E": {
+  "iterations": 100,
+  "spots": 24,
+  "e_median": 0.002408594940789044,
+  "e_p90": 0.014982330612838267,
+  "e_max": 0.153716579079628,
+  "threshold": 0.004817189881578088,
+  "flagged": 8
+ },
+ "layout": {
+  "river": 48,
+  "turn": 24,
+  "turn_end": 64,
+  "flop": 16,
+  "flop_end": 16,
+  "pre_end": 32,
+  "solve_batch": 16,
+  "critic_hidden": [
+   64,
+   64
+  ],
+  "critic_epochs": 20,
+  "critic_epoch_steps": 25,
+  "teacher": {
+   "stop": "fixed_t",
+   "iterations": {
+    "river": 200,
+    "turn": 100,
+    "flop": 100
+   },
+   "chunk": 50,
+   "e_flag_factor": 2.0,
+   "rule": "every solve runs exactly T PCFR+ iterations of its street (no E-stop, no second pass); E is computed once at the end of every solve as a diagnostic, and a spot whose E exceeds e_flag_factor x the median E of its stage is flagged (e_flag in its metrics, <stage>_eflags.json); every spot enters the critic data"
+  }
+ },
+ "deviations": "T lowered to river 200 / turn 100 / flop 100 (production 800/1500/1500); --quick sizes; 64x64 critics, 20x25 steps; shared CPU",
+ "logs_wall_s": {
+  "river_solve+river_critic incl. 2 min rank7 build": 322.3,
+  "turn_end+turn_solve+turn_critic": 101.1,
+  "flop_end": 101.9,
+  "learning_curve": 29.0
+ }
+}
