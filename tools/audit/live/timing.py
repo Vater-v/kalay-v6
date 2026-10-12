@@ -26,6 +26,10 @@ from poker.solver import subgame as SG
 from poker.solver.cards import NUM_HANDS as H
 
 
+def _trivial(board1h, pub, ranges, f, spot=None):
+    return f
+
+
 def rss_mb():
     return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0
 
@@ -63,6 +67,9 @@ def run(street, T=None):
     if street in (1, 2):
         params = CR.init_critic(jax.random.key(0), (512, 512, 512))
         aux = CR.net_critic(params, 0.0)
+        if "--trivial-critic" in sys.argv:                                     # V = F (check-down): isolates the critic's cost
+            aux = jax.tree_util.Partial(_trivial)
+            out["critic"] = "trivial (returns F)"
         rng = np.random.default_rng(0)
         equity = rng.random((H, H), np.float32)                                      # timing only
         out["critic_params"] = int(sum(np.prod(l[k].shape) for l in params for k in l))
@@ -78,7 +85,9 @@ def run(street, T=None):
         out[f"solve_{label}_compile_s"] = sol.compile_seconds
         out[f"rss_mb_after_{label}"] = rss_mb()
     out["per_iteration_ms_warm"] = 1000 * out["solve_warm2_inner_s"] / T
-    p = Path(f"results/audit/live/timing_{['pre', 'flop', 'turn', 'river'][street]}.json")
+    tag = ("_trivialcritic" if "--trivial-critic" in sys.argv else "") + ("_mt" if "--mt" in sys.argv else "")
+    out["xla_flags"] = __import__("os").environ.get("XLA_FLAGS", "")
+    p = Path(f"results/audit/live/timing_{['pre', 'flop', 'turn', 'river'][street]}{tag}.json")
     p.write_text(json.dumps(out, indent=1))
     print(json.dumps(out, indent=1))
     return out
@@ -86,7 +95,7 @@ def run(street, T=None):
 
 if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "both"
-    T = int(sys.argv[2]) if len(sys.argv) > 2 else None
+    T = int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2].isdigit() else None
     streets = {"flop": [1], "river": [3], "turn": [2], "both": [3, 1]}[which]
     for st in streets:
         run(st, T)

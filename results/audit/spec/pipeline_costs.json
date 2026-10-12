@@ -1,0 +1,151 @@
+{
+ "pipeline_inputs_present": {
+  "requirements.lock (bootstrap.sh installs it exactly)": false,
+  "checks/run.py (pack.sh --checks, gate.py start: CHECKS_SUMMARY verdict pass)": false,
+  "~/clore_tools/box.sh (fetch.sh, watch.sh, release.sh)": false,
+  "~/clore_tools/clore.py (create / cancel orders)": false,
+  "results/pack/JOBS.json (manifest; launch.py manifest)": false,
+  "tools/cloud/cache_sha256.json": true,
+  "tools/cloud/flop_equity_v1.sha256": true,
+  "results/cache/rank7_v1.npy": false,
+  "results/cache/preflop_equity_v1.npy": false
+ },
+ "binaries": {
+  "git": true,
+  "uv": true,
+  "nvidia-smi": false,
+  "tmux": true,
+  "cargo": true
+ },
+ "bootstrap_pins": {
+  "UV_VERSION": "0.12.24",
+  "PYTHON_VERSION": "3.14.4"
+ },
+ "budgets": {
+  "BUDGET_S": {
+   "bootstrap": 3600,
+   "caches": 1800,
+   "selftest": 30,
+   "preflight": 3600,
+   "k0_smoke": 7200,
+   "k0": 21600,
+   "river_shard": 43200,
+   "river_finish": 21600
+  },
+  "PRODUCTION_spots": {
+   "river": 3000,
+   "turn": 2000,
+   "turn_end": 3000,
+   "flop": 2000,
+   "flop_end": 3000,
+   "pre_end": 3000
+  },
+  "QUICK_spots": {
+   "river": 48,
+   "turn": 24,
+   "turn_end": 64,
+   "flop": 16,
+   "flop_end": 16,
+   "pre_end": 32
+  },
+  "worst_case_hours_bootstrap_to_k0": 10.5,
+  "worst_case_usd_at_0.5_1.5_per_gpu_hour_one_gpu": [
+   5.25,
+   15.75
+  ],
+  "river_shard_hours": 12.0,
+  "money_in_gate_py": false
+ },
+ "host_ram_rule": {
+  "k0_production_1_worker_gb": 7.5032,
+  "river_45k_1_worker_gb": 42.547999999999995,
+  "river_100k_1_worker_gb": 88.44,
+  "home_ram_gb": 16,
+  "gpu_mib_min": 13000,
+  "gtx1070_mib": 8192
+ },
+ "rows": {
+  "bytes_per_row_P_MAX_fp32": 148880,
+  "zero_fraction_of_slot_arrays_in_HU": 0.778,
+  "bytes_per_row_HU_2slots_fp16": 15950,
+  "ratio": 9.3,
+  "GB_per_1e6_rows_as_stored": 148.9,
+  "GB_per_1e6_rows_2slot_fp16": 15.9,
+  "np_savez_compressed": "np.savez (uncompressed) in poker/solver/io.py:36-40"
+ },
+ "labels_from_recorded_gpu_speed": {
+  "GTX1070_river_s_per_spot": 0.86,
+  "GTX1070_turn_flop_s_per_spot": 1.7,
+  "RTX4090_grid7_river_spm": 197.1,
+  "1070_river_labels_per_day": 100465,
+  "1070_turn_or_flop_labels_per_day": 50824,
+  "k0_production_total_solved_spots": 7000,
+  "spec_gate_labels": "1e3-1e4 exact (48 river solves each) + 1e4-1e5 single-card; budget buys 1e4-1e5 exact or ~1e6 single-card per rung (spec 6.3)"
+ },
+ "live_vs_teacher_nodes": {
+  "live": {
+   "street3_hero0": {
+    "nodes": 231,
+    "decisions": 78,
+    "leaves": 0,
+    "columns": 7,
+    "build_s": 3.74
+   },
+   "street3_hero1": {
+    "nodes": 231,
+    "decisions": 78,
+    "leaves": 0,
+    "columns": 7,
+    "build_s": 0.2
+   },
+   "street2_hero0": {
+    "nodes": 231,
+    "decisions": 78,
+    "leaves": 38,
+    "columns": 7,
+    "build_s": 0.18
+   },
+   "street2_hero1": {
+    "nodes": 231,
+    "decisions": 78,
+    "leaves": 38,
+    "columns": 7,
+    "build_s": 0.16
+   },
+   "street1_hero0": {
+    "nodes": 165,
+    "decisions": 56,
+    "leaves": 27,
+    "columns": 6,
+    "build_s": 0.15
+   },
+   "street1_hero1": {
+    "nodes": 165,
+    "decisions": 56,
+    "leaves": 27,
+    "columns": 6,
+    "build_s": 0.14
+   },
+   "street0_hero0": {
+    "nodes": 166,
+    "decisions": 56,
+    "leaves": 27,
+    "columns": 6,
+    "build_s": 0.03
+   },
+   "street0_hero1": {
+    "nodes": 166,
+    "decisions": 56,
+    "leaves": 27,
+    "columns": 6,
+    "build_s": 0.04
+   }
+  },
+  "teacher": {
+   "3": 117,
+   "2": 117,
+   "1": 81,
+   "0": 82
+  }
+ }
+}

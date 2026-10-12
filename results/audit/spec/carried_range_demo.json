@@ -1,0 +1,183 @@
+{
+ "board": [
+  12,
+  24,
+  31,
+  41,
+  0
+ ],
+ "pot": 2000,
+ "behind": 10000,
+ "T": 300,
+ "hands": {
+  "value": 109,
+  "air": 270,
+  "bluff_catchers": 378
+ },
+ "cases": {
+  "A_floor_survivor_air": {
+   "hero_check_freq_first": 0.999998790491562,
+   "opp_belief_mass_on_air_at_river_start": 0.002470943534364419,
+   "opp_belief_mass_on_air_after_bet_update": 0.013390880234549849,
+   "hero_response_columns": [
+    [
+     "fold",
+     0
+    ],
+    [
+     "check/call",
+     2000
+    ],
+    [
+     "raise",
+     6500
+    ],
+    [
+     "all-in",
+     10000
+    ]
+   ],
+   "hero_call_freq_vs_pot_bet": 1.4084167529466315e-07,
+   "hero_fold_or_raise_freq": 0.9999998591583248,
+   "mdf_pot_bet": 0.5,
+   "air_gain_per_air_hand_pot_units": 0.9999997183166496,
+   "opp_true_range_gain_from_air_bets_pot_units": 0.4999998591583248,
+   "stats": {
+    "translated": 0,
+    "solves": {
+     "3": 2
+    },
+    "off_tree": {
+     "3": 1
+    },
+    "slot_overflow": 0,
+    "opponent_updates": 1,
+    "floor_hits": 0
+   },
+   "solve_seconds": [
+    7.53,
+    4.56
+   ],
+   "wall_s": 18.7,
+   "player_has_ceiling_state": false,
+   "player_state_attributes": [
+    "bucket",
+    "bucket_of",
+    "budget_seconds",
+    "cap",
+    "coverage",
+    "eps",
+    "equity",
+    "equity_cache",
+    "equity_future",
+    "failures",
+    "frozen",
+    "hand_id",
+    "hero",
+    "last_update",
+    "log",
+    "n",
+    "path",
+    "pending",
+    "prefetch",
+    "preflop",
+    "preflop_equity",
+    "ranges",
+    "reach_min",
+    "records",
+    "sizes",
+    "solution",
+    "solver",
+    "stats",
+    "street",
+    "street_ranges",
+    "street_start",
+    "table_fits",
+    "turn_equity",
+    "unapplied"
+   ]
+  },
+  "B_true_range": {
+   "hero_check_freq_first": 0.9996463193913032,
+   "opp_belief_mass_on_air_at_river_start": 0.4999999999999999,
+   "opp_belief_mass_on_air_after_bet_update": 0.32923399841254297,
+   "hero_response_columns": [
+    [
+     "fold",
+     0
+    ],
+    [
+     "check/call",
+     2000
+    ],
+    [
+     "raise",
+     6500
+    ],
+    [
+     "all-in",
+     10000
+    ]
+   ],
+   "hero_call_freq_vs_pot_bet": 0.5796513734786761,
+   "hero_fold_or_raise_freq": 0.420348626521324,
+   "mdf_pot_bet": 0.5,
+   "air_gain_per_air_hand_pot_units": -0.15930274695735203,
+   "opp_true_range_gain_from_air_bets_pot_units": -0.07965137347867601,
+   "stats": {
+    "translated": 0,
+    "solves": {
+     "3": 2
+    },
+    "off_tree": {
+     "3": 1
+    },
+    "slot_overflow": 0,
+    "opponent_updates": 1,
+    "floor_hits": 0
+   },
+   "solve_seconds": [
+    4.81,
+    4.95
+   ],
+   "wall_s": 10.8,
+   "player_has_ceiling_state": false,
+   "player_state_attributes": [
+    "bucket",
+    "bucket_of",
+    "budget_seconds",
+    "cap",
+    "coverage",
+    "eps",
+    "equity",
+    "equity_cache",
+    "equity_future",
+    "failures",
+    "frozen",
+    "hand_id",
+    "hero",
+    "last_update",
+    "log",
+    "n",
+    "path",
+    "pending",
+    "prefetch",
+    "preflop",
+    "preflop_equity",
+    "ranges",
+    "reach_min",
+    "records",
+    "sizes",
+    "solution",
+    "solver",
+    "stats",
+    "street",
+    "street_ranges",
+    "street_start",
+    "table_fits",
+    "turn_equity",
+    "unapplied"
+   ]
+  }
+ }
+}

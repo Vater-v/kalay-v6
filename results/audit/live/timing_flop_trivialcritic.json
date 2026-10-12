@@ -1,0 +1,41 @@
+{
+ "street": 1,
+ "T": 400,
+ "chunk": 50,
+ "device": "cpu",
+ "rss_mb_start": 183.1328125,
+ "root": {
+  "street": 1,
+  "pot": 400,
+  "stack": [
+   19800,
+   19800
+  ],
+  "to_act": 1,
+  "bucket": "normal"
+ },
+ "tree_build_cold_s": 2.5601943049996407,
+ "tree_build_warm_s": 0.018791210999552277,
+ "nodes": 165,
+ "decisions": 56,
+ "leaves": 27,
+ "columns": 6,
+ "state_bytes_per_array": 1782144,
+ "critic": "trivial (returns F)",
+ "critic_params": 18910878,
+ "spot_batch_s": 0.37925502300004155,
+ "solve_cold_s": 12.412459098,
+ "solve_cold_inner_s": 12.399773825000011,
+ "solve_cold_compile_s": 3.1808507442474365,
+ "rss_mb_after_cold": 605.09765625,
+ "solve_warm1_s": 8.00799838399962,
+ "solve_warm1_inner_s": 7.999044216000584,
+ "solve_warm1_compile_s": 0.0,
+ "rss_mb_after_warm1": 613.72265625,
+ "solve_warm2_s": 8.293633135999698,
+ "solve_warm2_inner_s": 8.288062301000537,
+ "solve_warm2_compile_s": 0.0,
+ "rss_mb_after_warm2": 647.34765625,
+ "per_iteration_ms_warm": 20.72015575250134,
+ "xla_flags": "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"
+}

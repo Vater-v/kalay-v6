@@ -1,0 +1,233 @@
+{
+ "config": {
+  "regime": 1,
+  "players": [
+   2
+  ],
+  "depth_mix": [
+   [
+    200,
+    200,
+    1.0
+   ]
+  ],
+  "rake_mix": [
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "grid": 13,
+  "LOOP_PLAYERS": 2,
+  "TREE_MAX_PLAYERS": 6,
+  "menus": {
+   "normal": null,
+   "short": {
+    "depth_bb": 40.0,
+    "spr": 2.0
+   }
+  },
+  "PLAY_ITERATIONS": {
+   "0": 300,
+   "1": 400,
+   "2": 400,
+   "3": 300
+  },
+  "TEACHER_T": {
+   "river": 800,
+   "turn": 1500,
+   "flop": 1500
+  },
+  "TEACHER_E_FLAG": 2.0,
+  "COMMIT_MERGE_POT": 0.25,
+  "matmul_precision": "highest",
+  "menu_for": {
+   "street1_spr0.5": "short",
+   "street1_spr1.99": "short",
+   "street1_spr2.0": "normal",
+   "street1_spr50.0": "normal",
+   "street2_spr0.5": "short",
+   "street2_spr1.99": "short",
+   "street2_spr2.0": "normal",
+   "street2_spr50.0": "normal",
+   "street3_spr0.5": "short",
+   "street3_spr1.99": "short",
+   "street3_spr2.0": "normal",
+   "street3_spr50.0": "normal",
+   "preflop_depth20": "short",
+   "preflop_depth39.9": "short",
+   "preflop_depth40": "normal",
+   "preflop_depth200": "normal",
+   "preflop_depth500": "normal"
+  }
+ },
+ "teacher_trees": {
+  "n2_street3_normal": {
+   "nodes": 117,
+   "decisions": 40,
+   "build_s": 4.92,
+   "leaves": 0,
+   "pcfr_Static": "Static ok"
+  },
+  "n2_street2_normal": {
+   "nodes": 117,
+   "decisions": 40,
+   "build_s": 0.36,
+   "leaves": 19,
+   "pcfr_Static": "Static ok"
+  },
+  "n2_street1_normal": {
+   "nodes": 81,
+   "decisions": 28,
+   "build_s": 0.35,
+   "leaves": 13,
+   "pcfr_Static": "Static ok"
+  },
+  "n3_street3_normal": {
+   "nodes": 241,
+   "decisions": 102,
+   "build_s": 4.55,
+   "leaves": 0,
+   "pcfr_Static": "Static ok"
+  },
+  "n3_street2_normal": {
+   "nodes": 241,
+   "decisions": 102,
+   "build_s": 0.55,
+   "leaves": 28,
+   "pcfr_Static": "Static ok"
+  },
+  "n3_street1_normal": {
+   "nodes": 169,
+   "decisions": 72,
+   "build_s": 0.58,
+   "leaves": 19,
+   "pcfr_Static": "Static ok"
+  },
+  "n4_street3_normal": {
+   "nodes": 1073,
+   "decisions": 488,
+   "build_s": 4.73,
+   "leaves": 0,
+   "pcfr_Static": "NotImplementedError: the solver values terminals exactly for 2 and 3 players (_two, _three, mass_three: one or two opponents); a 4-player tree would be valued with two of its 3 opponents (task #35, edge_cases B7; brief M2 item 3)"
+  },
+  "n4_street2_normal": {
+   "nodes": 1073,
+   "decisions": 488,
+   "build_s": 0.83,
+   "leaves": 85,
+   "pcfr_Static": "NotImplementedError: the solver values terminals exactly for 2 and 3 players (_two, _three, mass_three: one or two opponents); a 4-player tree would be valued with two of its 3 opponents (task #35, edge_cases B7; brief M2 item 3)"
+  },
+  "n4_street1_normal": {
+   "nodes": 737,
+   "decisions": 336,
+   "build_s": 0.92,
+   "leaves": 57,
+   "pcfr_Static": "NotImplementedError: the solver values terminals exactly for 2 and 3 players (_two, _three, mass_three: one or two opponents); a 4-player tree would be valued with two of its 3 opponents (task #35, edge_cases B7; brief M2 item 3)"
+  },
+  "n6_street3_normal": {
+   "nodes": 16153,
+   "decisions": 7788,
+   "build_s": 7.09,
+   "leaves": 0,
+   "pcfr_Static": "NotImplementedError: the solver values terminals exactly for 2 and 3 players (_two, _three, mass_three: one or two opponents); a 6-player tree would be valued with two of its 5 opponents (task #35, edge_cases B7; brief M2 item 3)"
+  },
+  "n6_street2_normal": {
+   "nodes": 16153,
+   "decisions": 7788,
+   "build_s": 2.54,
+   "leaves": 559,
+   "pcfr_Static": "NotImplementedError: the solver values terminals exactly for 2 and 3 players (_two, _three, mass_three: one or two opponents); a 6-player tree would be valued with two of its 5 opponents (task #35, edge_cases B7; brief M2 item 3)"
+  },
+  "n6_street1_normal": {
+   "nodes": 10897,
+   "decisions": 5256,
+   "build_s": 1.96,
+   "leaves": 373,
+   "pcfr_Static": "NotImplementedError: the solver values terminals exactly for 2 and 3 players (_two, _three, mass_three: one or two opponents); a 6-player tree would be valued with two of its 5 opponents (task #35, edge_cases B7; brief M2 item 3)"
+  }
+ },
+ "gates": {
+  "mass_of_n4": {
+   "ok": false,
+   "error": "NotImplementedError: compatible mass of 3 opponents: exact for one or two (task #35, edge_cases B7)",
+   "s": 0.01
+  },
+  "mass_of_n3": {
+   "ok": true,
+   "value": "returned",
+   "s": 1.35
+  },
+  "critics_opponent_mass_4_present_is_nan": {
+   "ok": true,
+   "value": true,
+   "s": 1.66
+  },
+  "project_values_4_live_unchanged": true,
+  "project_values_2_live_total_after": 1.0
+ },
+ "kappa_regime1": {
+  "net0": 1.0,
+  "lo": 1.0,
+  "target_total_kappa_0.0176": 1.0,
+  "KAPPA": {
+   "river": 0.0176,
+   "turn": 0.0,
+   "flop": 0.0,
+   "preflop": 0.0
+  }
+ },
+ "likelihood_floor": {
+  "action_taken_by_2pct_hands_at_L0.05": 0.5,
+  "action_taken_by_2pct_hands_at_L0.3": 0.14285714285714285,
+  "action_taken_by_2pct_hands_at_L1.0": 0.04761904761904761,
+  "action_taken_by_10pct_hands_at_L0.05": 0.1531947652040031,
+  "action_taken_by_10pct_hands_at_L0.3": 0.029269010148551246,
+  "action_taken_by_10pct_hands_at_L1.0": 0.008964367764313707,
+  "action_taken_by_30pct_hands_at_L0.05": 0.044708600028875334,
+  "action_taken_by_30pct_hands_at_L0.3": 0.007739796215914486,
+  "action_taken_by_30pct_hands_at_L1.0": 0.0023345873258797424,
+  "chain_10pct_L0.3": {
+   "1": 0.029269010148551246,
+   "2": 0.00010049495025499961,
+   "3": 3.350167227805929e-07
+  }
+ },
+ "critic": {
+  "stored_params_P_MAX9": 18910878,
+  "used_params_k2": 4644444,
+  "mflop_per_row_k2": 9.29,
+  "cpu_ms_per_call_by_rows": {
+   "1": 6.751,
+   "13": 10.02,
+   "19": 11.418,
+   "64": 16.5
+  },
+  "note": "rows = street-end leaves evaluated per PCFR iteration (13 flop / 19 turn in the HU normal trees)"
+ },
+ "vocabulary_files": {
+  "ceiling": [],
+  "gadget": [
+   "poker/player/live.py"
+  ],
+  "terminate": [],
+  "restricted nash": [],
+  "rnr": [],
+  "coalition": [],
+  "exploitab": [
+   "poker/solver/cap_price_n3.py",
+   "poker/solver/critics.py",
+   "poker/solver/loop.py",
+   "poker/solver/pcfr.py",
+   "poker/solver/preflop.py",
+   "poker/solver/sizing_lab.py",
+   "poker/solver/subgame.py"
+  ],
+  "best.response": [
+   "poker/solver/loop.py",
+   "poker/solver/pcfr.py",
+   "poker/solver/sizing_lab.py"
+  ]
+ }
+}

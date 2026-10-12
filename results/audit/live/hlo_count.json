@@ -1,0 +1,30 @@
+{
+ "flop": {
+  "nodes": 165,
+  "decisions": 56,
+  "leaves": 27,
+  "while_bodies": {
+   "wide.wide.region_0.102.clone.sunk.clone.clone.clone.clone": {
+    "fusion_calls": 194,
+    "dots": 0,
+    "custom_calls": 0,
+    "instructions": 320
+   }
+  },
+  "total_fusion_kernels_in_module": 244
+ },
+ "river": {
+  "nodes": 231,
+  "decisions": 78,
+  "leaves": 0,
+  "while_bodies": {
+   "wide.wide.region_0.61.clone.sunk.clone.clone.clone.clone": {
+    "fusion_calls": 142,
+    "dots": 0,
+    "custom_calls": 0,
+    "instructions": 256
+   }
+  },
+  "total_fusion_kernels_in_module": 171
+ }
+}

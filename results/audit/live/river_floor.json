@@ -1,0 +1,112 @@
+{
+ "T": 300,
+ "board": [
+  12,
+  24,
+  5,
+  30,
+  44
+ ],
+ "pot_chips": 400,
+ "behind": [
+  19800,
+  19800
+ ],
+ "nodes": 231,
+ "equilibrium_E_pot": 0.019725829362869263,
+ "opp_value_equilibrium": 0.03815033659338951,
+ "opp_best_vs_equilibrium": 0.05145319551229477,
+ "rows": [
+  {
+   "air_fraction": 0.3,
+   "floored_updates_k": 1,
+   "eps": 0.001,
+   "air_mass_in_carried_range": 0.0004278221738648188,
+   "opp_best_response_value": 0.09465530514717102,
+   "local_loss_pot": 0.05650496855378151,
+   "local_loss_mbb_per_hand": 226.01987421512604
+  },
+  {
+   "air_fraction": 0.3,
+   "floored_updates_k": 2,
+   "eps": 0.001,
+   "air_mass_in_carried_range": 4.2800510082740734e-07,
+   "opp_best_response_value": 0.0948166623711586,
+   "local_loss_pot": 0.05666632577776909,
+   "local_loss_mbb_per_hand": 226.66530311107635
+  },
+  {
+   "air_fraction": 0.3,
+   "floored_updates_k": 3,
+   "eps": 0.001,
+   "air_mass_in_carried_range": 4.280052838326636e-10,
+   "opp_best_response_value": 0.09448783844709396,
+   "local_loss_pot": 0.05633750185370445,
+   "local_loss_mbb_per_hand": 225.3500074148178
+  },
+  {
+   "air_fraction": 0.3,
+   "floored_updates_k": 1,
+   "eps": 1e-09,
+   "air_mass_in_carried_range": 4.280052838326636e-10,
+   "opp_best_response_value": 0.09448783844709396,
+   "local_loss_pot": 0.05633750185370445,
+   "local_loss_mbb_per_hand": 225.3500074148178
+  },
+  {
+   "air_fraction": 0.3,
+   "floored_updates_k": 0,
+   "eps": null,
+   "air_mass_in_carried_range": 0.299722479185939,
+   "opp_best_response_value": 0.05145319551229477,
+   "local_loss_pot": 0.013302858918905258,
+   "local_loss_mbb_per_hand": 53.21143567562103
+  },
+  {
+   "air_fraction": 0.5,
+   "floored_updates_k": 1,
+   "eps": 0.001,
+   "air_mass_in_carried_range": 0.0009971562580788121,
+   "opp_best_response_value": 0.18344593048095703,
+   "local_loss_pot": 0.14529559388756752,
+   "local_loss_mbb_per_hand": 581.1823755502701
+  },
+  {
+   "air_fraction": 0.5,
+   "floored_updates_k": 2,
+   "eps": 0.001,
+   "air_mass_in_carried_range": 9.981505748589457e-07,
+   "opp_best_response_value": 0.18419772386550903,
+   "local_loss_pot": 0.14604738727211952,
+   "local_loss_mbb_per_hand": 584.1895490884781
+  },
+  {
+   "air_fraction": 0.5,
+   "floored_updates_k": 3,
+   "eps": 0.001,
+   "air_mass_in_carried_range": 9.98151570168204e-10,
+   "opp_best_response_value": 0.18419545888900757,
+   "local_loss_pot": 0.14604512229561806,
+   "local_loss_mbb_per_hand": 584.1804891824722
+  },
+  {
+   "air_fraction": 0.5,
+   "floored_updates_k": 1,
+   "eps": 1e-09,
+   "air_mass_in_carried_range": 9.98151570168204e-10,
+   "opp_best_response_value": 0.18419545888900757,
+   "local_loss_pot": 0.14604512229561806,
+   "local_loss_mbb_per_hand": 584.1804891824722
+  },
+  {
+   "air_fraction": 0.5,
+   "floored_updates_k": 0,
+   "eps": null,
+   "air_mass_in_carried_range": 0.4995374653098983,
+   "opp_best_response_value": 0.05145319551229477,
+   "local_loss_pot": 0.013302858918905258,
+   "local_loss_mbb_per_hand": 53.21143567562103
+  }
+ ],
+ "seconds": 54.56621745300072
+}
