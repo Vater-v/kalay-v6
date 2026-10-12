@@ -178,11 +178,11 @@
  {
   "case": "three players: flop live tree and a solve",
   "ok": false,
-  "error": "TypeError: debug_check takes a scalar pred as argument, got True"
+  "error": "MemoryError: "
  },
  {
   "case": "three players: river live tree and a solve",
   "ok": false,
-  "error": "TypeError: debug_check takes a scalar pred as argument, got True"
+  "error": "MemoryError: "
  }
 ]
