@@ -1,0 +1,39 @@
+{
+ "street": 1,
+ "T": 400,
+ "chunk": 50,
+ "device": "cpu",
+ "rss_mb_start": 183.2890625,
+ "root": {
+  "street": 1,
+  "pot": 400,
+  "stack": [
+   19800,
+   19800
+  ],
+  "to_act": 1,
+  "bucket": "normal"
+ },
+ "tree_build_cold_s": 2.4249455259996466,
+ "tree_build_warm_s": 0.019217439999920316,
+ "nodes": 165,
+ "decisions": 56,
+ "leaves": 27,
+ "columns": 6,
+ "state_bytes_per_array": 1782144,
+ "critic_params": 18910878,
+ "spot_batch_s": 0.3533565349998753,
+ "solve_cold_s": 15.30829042700043,
+ "solve_cold_inner_s": 15.295041262999803,
+ "solve_cold_compile_s": 4.398715257644653,
+ "rss_mb_after_cold": 635.6640625,
+ "solve_warm1_s": 10.502156245000151,
+ "solve_warm1_inner_s": 10.48990112699994,
+ "solve_warm1_compile_s": 0.0,
+ "rss_mb_after_warm1": 635.6640625,
+ "solve_warm2_s": 10.755061599999863,
+ "solve_warm2_inner_s": 10.745876689999932,
+ "solve_warm2_compile_s": 0.0,
+ "rss_mb_after_warm2": 635.6640625,
+ "per_iteration_ms_warm": 26.86469172499983
+}

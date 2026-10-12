@@ -1,0 +1,165 @@
+[
+ {
+  "test": "sample response of sample_api.py: b200, client BB, Ac 9d, empty board",
+  "ok": true,
+  "detail": {
+   "street": 0,
+   "next": 0,
+   "hole_ids": [
+    51,
+    30
+   ]
+  }
+ },
+ {
+  "test": "tens: Td Ts hole, board Th 2c 3d",
+  "ok": true,
+  "detail": {
+   "hole_ids": [
+    34,
+    32
+   ],
+   "board_ids": [
+    33,
+    3,
+    6
+   ]
+  }
+ },
+ {
+  "test": "flop without trailing slash: b200c",
+  "ok": true,
+  "detail": {
+   "street": 1,
+   "pending_sep": true
+  }
+ },
+ {
+  "test": "turn, client SB facing a bet: b200c/kk/b300",
+  "ok": true,
+  "detail": {
+   "street": 2,
+   "next": 1,
+   "to_call": 300
+  }
+ },
+ {
+  "test": "river, client BB first: b200c/kk/kk/",
+  "ok": true,
+  "detail": {
+   "street": 3,
+   "next": 0
+  }
+ },
+ {
+  "test": "limp then check: ck/ (client BB on flop)",
+  "ok": true,
+  "detail": {
+   "street": 1,
+   "next": 0,
+   "pot": 200
+  }
+ },
+ {
+  "test": "preflop all-in called, terminal, '///' suffix, 5 board cards",
+  "ok": true,
+  "detail": {
+   "terminal": "showdown",
+   "street": 3
+  }
+ },
+ {
+  "test": "preflop all-in called, terminal, no suffix",
+  "ok": true,
+  "detail": {
+   "terminal": "showdown"
+  }
+ },
+ {
+  "test": "flop all-in called '//' suffix",
+  "ok": true,
+  "detail": {
+   "terminal": "showdown"
+  }
+ },
+ {
+  "test": "fold preflop by client BB facing an open (terminal, empty board)",
+  "ok": true,
+  "detail": {
+   "terminal": "fold"
+  }
+ },
+ {
+  "test": "client SB folds its first action: f (winnings -50)",
+  "ok": true,
+  "detail": {
+   "terminal": "fold"
+  }
+ },
+ {
+  "test": "fold on turn by bot (terminal, 4 board cards)",
+  "ok": true,
+  "detail": {
+   "terminal": "fold",
+   "winnings": 200
+  }
+ },
+ {
+  "test": "new_hand where the bot (SB) folds at once: f",
+  "ok": true,
+  "detail": {
+   "terminal": "fold"
+  }
+ },
+ {
+  "test": "river showdown terminal with bot_hole_cards",
+  "ok": true,
+  "detail": {
+   "terminal": "showdown",
+   "winnings": 200,
+   "baseline": -150
+  }
+ },
+ {
+  "test": "act response without a token (token carried over)",
+  "ok": true,
+  "detail": {
+   "token_kept": true
+  }
+ },
+ {
+  "test": "lower-case / malformed card strings are rejected (the ONLY card-parse failure mode)",
+  "ok": true,
+  "detail": {
+   "['ac', '9d']": "ProtocolError: Invalid card 'ac'",
+   "['10c', '9d']": "ProtocolError: Card must have one rank and one suit",
+   "['Ac', '9D']": "ProtocolError: Invalid card '9D'",
+   "['A', '9d']": "ProtocolError: Card must have one rank and one suit"
+  }
+ },
+ {
+  "test": "our_card(card_id(s)) == engine suit*13+rank for all 52 strings; engine evaluator agrees on hand classes",
+  "ok": true,
+  "detail": {
+   "mapping": "ok (52/52)",
+   "evaluator": "evaluate_hand",
+   "showdown_agreement": "300/300"
+  }
+ },
+ {
+  "test": "SEAT mapping: engine seat 0 = SB acts first preflop, seat 1 = BB acts first postflop (API: pos 1 SB, pos 0 BB)",
+  "ok": true,
+  "detail": {
+   "engine_first_preflop": 0,
+   "engine_first_postflop": 1,
+   "street": 1
+  }
+ },
+ {
+  "test": "fuzz: 20000 random legal Slumbot action strings, parse_history agrees with the reference parser",
+  "ok": true,
+  "detail": {
+   "prefixes_checked": 105684
+  }
+ }
+]

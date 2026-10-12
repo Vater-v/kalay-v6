@@ -56,6 +56,9 @@ class FakeSlumbot:
             raise RuntimeError(f"server state broken: {a!r} {p}")
         new = a + incr
         q = parse_action(new)
+        if "error" in q and q["error"] == "Missing slash":           # the previous street closed without its '/'
+            new = a + "/" + incr
+            q = parse_action(new)
         if "error" in q:
             return q["error"]
         # close a street with '/' (Slumbot style), unless the hand is over

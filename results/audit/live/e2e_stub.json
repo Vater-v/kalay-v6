@@ -1,0 +1,148 @@
+{
+ "hands_requested": 1500,
+ "completed": 1500,
+ "failures": [],
+ "failure_types": {},
+ "seconds": 212.31382826200024,
+ "bot_stats": {
+  "hands": 1403,
+  "decisions": 2854,
+  "events": 3642,
+  "failures": 0,
+  "replays": 2854,
+  "new_hand_by_signature": 1403,
+  "new_hand_by_history": 0,
+  "forced_own": 0
+ },
+ "stub_calls": 2854,
+ "topologies": {
+  "s0|normal|n2|h1|cap3|9d2c47e93dfb": 762,
+  "s1|normal|n2|h1|cap3|9ef2d151f359": 361,
+  "s0|normal|n2|h0|cap3|9d2c47e93dfb": 936,
+  "s1|normal|n2|h0|cap3|9ef2d151f359": 300,
+  "s2|normal|n2|h0|cap3|3eac63adc455": 110,
+  "s3|normal|n2|h0|cap3|312d55901002": 34,
+  "s2|normal|n2|h1|cap3|3eac63adc455": 148,
+  "s3|short|n2|h1|cap2|80306b07ffc5": 22,
+  "s3|normal|n2|h1|cap3|312d55901002": 62,
+  "s1|short|n2|h1|cap2|f6cb09bc79eb": 40,
+  "s2|short|n2|h0|cap2|f6cb09bc79eb": 26,
+  "s1|short|n2|h0|cap2|f6cb09bc79eb": 19,
+  "s2|short|n2|h1|cap2|f6cb09bc79eb": 21,
+  "s3|short|n2|h0|cap2|80306b07ffc5": 13
+ },
+ "last_player_stats": {
+  "hands": 1,
+  "outside_training_depth_hands": 0,
+  "decisions": 1,
+  "table_decisions": 0,
+  "translated": 0,
+  "solves": {
+   "0": 1
+  },
+  "off_tree": {},
+  "slot_overflow": 0,
+  "opponent_updates": 0,
+  "floor_hits": 0,
+  "min_ratio": Infinity,
+  "compile_seconds": 0.0,
+  "certificates": 0,
+  "structures": 1,
+  "solve_errors": 0,
+  "budget_exceeded": 0,
+  "illegal_actions": 0,
+  "table_unreachable": 0,
+  "invalid_hand": 0
+ },
+ "decision_seconds": {
+  "mean": 0.0738387831002157,
+  "p90": 0.10388677180026208,
+  "max": 3.1705983060001017
+ },
+ "shapes": {
+  "s0|normal|n2|h1|cap3|9d2c47e93dfb": [
+   0,
+   166,
+   56,
+   1.5036109060001763
+  ],
+  "s1|normal|n2|h1|cap3|9ef2d151f359": [
+   1,
+   165,
+   56,
+   0.2795322829997531
+  ],
+  "s0|normal|n2|h0|cap3|9d2c47e93dfb": [
+   0,
+   166,
+   56,
+   0.03019035899978917
+  ],
+  "s1|normal|n2|h0|cap3|9ef2d151f359": [
+   1,
+   165,
+   56,
+   0.13948290400003316
+  ],
+  "s2|normal|n2|h0|cap3|3eac63adc455": [
+   2,
+   231,
+   78,
+   0.12396664400057489
+  ],
+  "s3|normal|n2|h0|cap3|312d55901002": [
+   3,
+   231,
+   78,
+   0.1430119390006439
+  ],
+  "s2|normal|n2|h1|cap3|3eac63adc455": [
+   2,
+   231,
+   78,
+   0.12408064999999624
+  ],
+  "s3|short|n2|h1|cap2|80306b07ffc5": [
+   3,
+   99,
+   34,
+   0.12211966599988955
+  ],
+  "s3|normal|n2|h1|cap3|312d55901002": [
+   3,
+   231,
+   78,
+   0.11909149399980379
+  ],
+  "s1|short|n2|h1|cap2|f6cb09bc79eb": [
+   1,
+   99,
+   34,
+   0.13454411900056584
+  ],
+  "s2|short|n2|h0|cap2|f6cb09bc79eb": [
+   2,
+   99,
+   34,
+   0.1319927810000081
+  ],
+  "s1|short|n2|h0|cap2|f6cb09bc79eb": [
+   1,
+   99,
+   34,
+   0.11131557499993505
+  ],
+  "s2|short|n2|h1|cap2|f6cb09bc79eb": [
+   2,
+   99,
+   34,
+   0.12903155000003608
+  ],
+  "s3|short|n2|h0|cap2|80306b07ffc5": [
+   3,
+   99,
+   34,
+   0.1363124819999939
+  ]
+ }
+}
