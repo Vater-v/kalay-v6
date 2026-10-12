@@ -27,9 +27,9 @@ PARTITION family (cheap): every opponent sum factorises over opponents if we IGN
     with L_B(c) = mass of d weaker than c, E_B(c) = mass of d != c tying c, T_B(c) = mass d != c.
     Hero share = sum_k coef_k / (k + 1)   (k = number of opponents tying the hero).
       INDEPENDENT = finest partition only (opponents treated as independent; only the hero's
-                    own card and the board are removed).            error ~ C(m,2)/D_eff
+                    own card and the board are removed).            error ~ C(m,2)/D
       PAIRWISE    = finest partition + every single-pair partition (mu = -1): subtracts the
-                    mass where two opponents hold the same card.    error ~ (C(m,3)+3C(m,4))/D_eff^2
+                    mass where two opponents hold the same card.    error ~ (2C(m,3)+3C(m,4))/D^2
       MOBIUS      = all partitions -> exact. Bell(m) partitions, m = N - 1 opponents.
     For N = 3 (m = 2) PAIRWISE == MOBIUS == EXACT: the only collision is c_j == c_k.
 """
@@ -179,52 +179,69 @@ class TerminalEvaluator:
         return out
 
     # ------------------------------------------------------------------ PARTITION family
+    def _sd_setup(self, i):
+        """Showdown terminals where hero i is alive, with their LESS/EQ matrices. Cached."""
+        if not hasattr(self, "_sd"):
+            self._sd = {}
+        if i not in self._sd:
+            sd = np.flatnonzero(self.showdown & self.alive[:, i])
+            b = self.board[sd]
+            self._sd[i] = (sd, self.LESS[b], self.EQ[b])           # [Ts], [Ts, D, D] x 2
+        return self._sd[i]
+
     def _cfv_partition(self, i, R):
-        T, D = R.shape[1], self.D
         A = self.base_utility(i)
-        # masses of every block B (subset of opponents) that some partition uses
-        blocks = sorted({B for _, part in self._parts[i] for B in part})
-        rho = {}
-        for B in blocks:
-            r = R[B[0]].copy()
-            for j in B[1:]:
-                r *= R[j]                                        # all members hold the same card
-            rho[B] = r
-        Tm = {B: rho[B].sum(1, keepdims=True) - rho[B] for B in blocks}   # mass on d != c
-        sd = self.showdown & self.alive[:, i]
-        Lm, Em = {}, {}
-        for B in blocks:
-            Lm[B] = np.zeros((T, D)); Em[B] = np.zeros((T, D))
-            for b, ix in self.by_board.items():
-                ix = ix[sd[ix]]
-                if b < 0 or not len(ix):
-                    continue
-                Lm[B][ix] = rho[B][ix] @ self.LESS[b]
-                Em[B][ix] = rho[B][ix] @ self.EQ[b]
-        mass = np.zeros((T, D))
-        win = np.zeros((T, D))
-        alive = self.alive
-        for mu, part in self._parts[i]:
-            m = np.ones((T, D))
-            for B in part:
-                m = m * Tm[B]
-            mass += mu * m
-            # generating polynomial in z (z counts opponents tying the hero)
-            coef = np.ones((T, D, 1))
-            for B in part:
-                a_B = alive[:, list(B)].sum(1)                   # [T] alive members of B
-                deg = coef.shape[2]
-                new = np.zeros((T, D, deg + len(B)))
-                folded_blk = (a_B == 0)[:, None, None]
-                new[:, :, :deg] += coef * np.where(folded_blk, Tm[B][:, :, None], Lm[B][:, :, None])
-                for a in range(1, len(B) + 1):
-                    sel = (a_B == a)[:, None, None]
-                    new[:, :, a:a + deg] += np.where(sel, coef * Em[B][:, :, None], 0.0)
-                coef = new
-            share = (coef / np.arange(1, coef.shape[2] + 1)).sum(2)
-            win += mu * share
-        out = A[:, None] * mass + np.where(sd[:, None], self.pot[:, None] * win, 0.0)
-        # the hero cannot hold the board card
-        has_b = self.board >= 0
+        sd, LESS, EQ = self._sd_setup(i)
+        mass, win = partition_mass_win(R, i, self._parts[i], sd, self.alive[sd], LESS, EQ)
+        out = A[:, None] * mass
+        out[sd] += self.pot[sd, None] * win
+        has_b = self.board >= 0                                      # hero cannot hold the board
         out[np.flatnonzero(has_b), self.board[has_b]] = 0.0
         return out
+
+
+def partition_mass_win(R, i, parts, sd, alive_sd, LESS, EQ):
+    """Core of the PARTITION family (see module docstring).
+
+    R        [N, T, D] reach of every player at T terminals (board card already zeroed)
+    parts    [(mu, partition of the opponents)]
+    sd       [Ts] indices (into T) of showdown terminals where the hero is alive
+    alive_sd [Ts, N]; LESS, EQ [Ts, D, D] strength comparison matrices of each showdown's board
+    Returns  mass [T, D] = sum_pi mu prod_B T_B   (= sum over valid opponent cards of prod r_j)
+             win  [Ts, D] = expected pot share of the hero, same weighting.
+    """
+    T, D = R.shape[1], R.shape[2]
+    Ts = len(sd)
+    blocks = sorted({B for _, part in parts for B in part})
+    Tm, G = {}, {}
+    for B in blocks:
+        r = R[B[0]].copy()
+        for j in B[1:]:
+            r *= R[j]                         # all members of B hold the same card d
+        Tm[B] = r.sum(1, keepdims=True) - r   # mass on d != hero card        [T, D]
+        # showdown polynomial factor G_B(z) for each showdown terminal: [Ts, D, |B|+1]
+        rs = r[sd][:, None, :]
+        L = (rs @ LESS)[:, 0]                 # mass on weaker d
+        E = (rs @ EQ)[:, 0]                   # mass on tying d != hero card
+        a_B = alive_sd[:, list(B)].sum(1)     # alive members of B
+        g = np.zeros((Ts, D, len(B) + 1))
+        g[:, :, 0] = np.where((a_B == 0)[:, None], Tm[B][sd], L)
+        rows = np.flatnonzero(a_B > 0)
+        g[rows, :, a_B[rows]] = E[rows]       # E z^{a_B}: all alive members of B tie the hero
+        G[B] = g
+    mass = np.zeros((T, D))
+    win = np.zeros((Ts, D))
+    for mu, part in parts:
+        m = np.ones((T, D))
+        coef = np.ones((Ts, D, 1))
+        for B in part:
+            m = m * Tm[B]
+            g = G[B]
+            new = np.zeros((Ts, D, coef.shape[2] + g.shape[2] - 1))
+            for k in range(g.shape[2]):       # polynomial product coef(z) * G_B(z)
+                new[:, :, k:k + coef.shape[2]] += coef * g[:, :, k:k + 1]
+            coef = new
+        mass += mu * m
+        # k opponents tie the hero -> hero's share is 1/(k+1)
+        win += mu * (coef / np.arange(1, coef.shape[2] + 1)).sum(2)
+    return mass, win

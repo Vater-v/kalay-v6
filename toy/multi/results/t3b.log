@@ -1,0 +1,5 @@
+| seat | self-play EV | self-play security | maxmin EV vs self-play others | maxmin security | EV change mA | seat's BR gain in mixed profile mA |
+|---|---|---|---|---|---|---|
+| 0 | -0.1018 | -1.0255 | -0.1186 | -0.2116 | -16.74 | 16.96 |
+| 1 | -0.0232 | -1.0282 | -0.0511 | -0.1646 | -27.93 | 28.0 |
+| 2 | 0.125 | -0.614 | 0.1028 | 0.0057 | -22.22 | 22.89 |

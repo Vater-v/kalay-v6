@@ -1,0 +1,65 @@
+{
+ "K": 300,
+ "agents": {
+  "percard": {
+   "expl_mA": 23.683843834880676,
+   "pct_pot": 1.1841921917440337,
+   "seat0_exploitable_by_mA": 24.693939163846128,
+   "seat1_exploitable_by_mA": 22.67374850591522,
+   "ceiling_slack_up": 0.0,
+   "ceiling_slack_down": 0.0,
+   "wall_s": [
+    73.81130051612854,
+    54.98883056640625
+   ]
+  },
+  "avg": {
+   "expl_mA": 608.2480488304928,
+   "pct_pot": 30.412402441524645,
+   "seat0_exploitable_by_mA": 558.9728992444999,
+   "seat1_exploitable_by_mA": 657.5231984164859,
+   "ceiling_slack_up": 8.893620182875384,
+   "ceiling_slack_down": 8.893620182875368,
+   "wall_s": [
+    71.84903979301453,
+    54.170374155044556
+   ]
+  },
+  "start_cfv": {
+   "expl_mA": 67.96586799180129,
+   "pct_pot": 3.398293399590065,
+   "seat0_exploitable_by_mA": 67.84547979062702,
+   "seat1_exploitable_by_mA": 68.08625619297557,
+   "ceiling_slack_up": 0.0,
+   "ceiling_slack_down": 0.0,
+   "wall_s": [
+    118.79788494110107,
+    101.31936860084534
+   ]
+  },
+  "start_br": {
+   "expl_mA": 90.61775423146123,
+   "pct_pot": 4.530887711573062,
+   "seat0_exploitable_by_mA": 72.49583443492216,
+   "seat1_exploitable_by_mA": 108.73967402800031,
+   "ceiling_slack_up": 0.0,
+   "ceiling_slack_down": 0.0,
+   "wall_s": [
+    118.9657998085022,
+    102.23565745353699
+   ]
+  },
+  "start_br_mix": {
+   "expl_mA": 71.99364037978378,
+   "pct_pot": 3.5996820189891894,
+   "seat0_exploitable_by_mA": 58.315831137012914,
+   "seat1_exploitable_by_mA": 85.67144962255466,
+   "ceiling_slack_up": 0.0,
+   "ceiling_slack_down": 0.0,
+   "wall_s": [
+    112.2673397064209,
+    106.59762525558472
+   ]
+  }
+ }
+}

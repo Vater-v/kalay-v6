@@ -1,0 +1,19 @@
+[  538.5s] station  p=0        EV     811.9 mA/h  expl    0.41 mA/h
+[  538.5s] station  p=1e-12    EV     809.2 mA/h  expl    4.15 mA/h
+[  538.5s] station  p=0.001    EV     829.6 mA/h  expl    4.34 mA/h
+[  538.5s] station  p=0.003    EV     850.5 mA/h  expl    4.41 mA/h
+[  538.5s] station  p=0.01     EV     988.0 mA/h  expl    4.38 mA/h
+[  538.5s] station  p=0.03     EV    1417.6 mA/h  expl   12.86 mA/h
+[  538.5s] maniac   p=0        EV     540.9 mA/h  expl    0.41 mA/h
+[  538.5s] maniac   p=1e-12    EV     549.2 mA/h  expl    3.58 mA/h
+[  538.5s] maniac   p=0.001    EV     728.5 mA/h  expl    3.41 mA/h
+[  538.5s] maniac   p=0.003    EV     739.6 mA/h  expl    3.56 mA/h
+[  538.5s] maniac   p=0.01     EV     759.9 mA/h  expl    3.55 mA/h
+[  538.5s] maniac   p=0.03     EV     817.3 mA/h  expl    4.68 mA/h
+[  538.5s] nit      p=0        EV     421.6 mA/h  expl    0.41 mA/h
+[  538.5s] nit      p=1e-12    EV     428.1 mA/h  expl    3.90 mA/h
+[  538.5s] nit      p=0.001    EV     492.9 mA/h  expl    3.85 mA/h
+[  538.5s] nit      p=0.003    EV     513.2 mA/h  expl    4.06 mA/h
+[  538.5s] nit      p=0.01     EV     565.6 mA/h  expl    4.27 mA/h
+[  538.5s] nit      p=0.03     EV     707.8 mA/h  expl    7.19 mA/h
+[  538.5s] done

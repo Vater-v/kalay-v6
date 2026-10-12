@@ -1,0 +1,6 @@
+[  247.0s] percard       expl     23.7 mA/h ( 1.18% pot) seat0 24.7 seat1 22.7 slack+ 0.0000 slack- 0.0000 wall 74/55s
+[  247.0s] avg           expl    608.2 mA/h (30.41% pot) seat0 559.0 seat1 657.5 slack+ 8.8936 slack- 8.8936 wall 72/54s
+[  247.1s] start_cfv     expl     68.0 mA/h ( 3.40% pot) seat0 67.8 seat1 68.1 slack+ 0.0000 slack- 0.0000 wall 119/101s
+[  247.2s] start_br      expl     90.6 mA/h ( 4.53% pot) seat0 72.5 seat1 108.7 slack+ 0.0000 slack- 0.0000 wall 119/102s
+[  247.2s] start_br_mix  expl     72.0 mA/h ( 3.60% pot) seat0 58.3 seat1 85.7 slack+ 0.0000 slack- 0.0000 wall 112/107s
+[  247.2s] done

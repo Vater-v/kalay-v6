@@ -1,0 +1,19 @@
+[  268.2s] station 0.0 EV     811.9 mA/h  expl       0.4 mA/h
+[  268.2s] station 0.25 EV    2861.8 mA/h  expl     154.4 mA/h
+[  268.2s] station 0.5 EV    3085.9 mA/h  expl     278.3 mA/h
+[  268.2s] station 0.75 EV    3122.8 mA/h  expl     341.9 mA/h
+[  268.2s] station 1.0 EV    3142.8 mA/h  expl    2526.3 mA/h
+[  268.2s] station BR EV    3142.9 mA/h  expl    1570.2 mA/h
+[  268.2s] maniac 0.0 EV     540.9 mA/h  expl       0.4 mA/h
+[  268.2s] maniac 0.25 EV    1178.0 mA/h  expl      47.1 mA/h
+[  268.2s] maniac 0.5 EV    1298.0 mA/h  expl     137.9 mA/h
+[  268.2s] maniac 0.75 EV    1428.6 mA/h  expl     334.4 mA/h
+[  268.2s] maniac 1.0 EV    1428.6 mA/h  expl    2302.2 mA/h
+[  268.2s] maniac BR EV    1428.6 mA/h  expl    1498.4 mA/h
+[  268.2s] nit 0.0 EV     421.6 mA/h  expl       0.4 mA/h
+[  268.2s] nit 0.25 EV    1393.2 mA/h  expl     108.1 mA/h
+[  268.2s] nit 0.5 EV    2900.5 mA/h  expl    1114.5 mA/h
+[  268.2s] nit 0.75 EV    3296.2 mA/h  expl    1591.4 mA/h
+[  268.2s] nit 1.0 EV    3344.4 mA/h  expl    4920.2 mA/h
+[  268.2s] nit BR EV    3344.4 mA/h  expl    9039.3 mA/h
+[  268.2s] done

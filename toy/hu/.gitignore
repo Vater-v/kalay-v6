@@ -1,0 +1,5 @@
+results/*.npy
+results/*.npz
+results/*.pkl
+results/*.stdout
+__pycache__/

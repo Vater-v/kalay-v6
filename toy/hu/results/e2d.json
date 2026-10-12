@@ -1,0 +1,25 @@
+{
+ "K": 300,
+ "agents": {
+  "checkdown@preflop + oracle@flop": {
+   "expl_mA": 416.4503237033433,
+   "expl_pct_pot": 20.822516185167167,
+   "wall_s": 101.16136384010315
+  },
+  "oracle@preflop + checkdown@flop": {
+   "expl_mA": 379.8687680788403,
+   "expl_pct_pot": 18.993438403942015,
+   "wall_s": 106.26093292236328
+  },
+  "learned20000_rw@preflop + oracle@flop": {
+   "expl_mA": 215.61810180395912,
+   "expl_pct_pot": 10.780905090197956,
+   "wall_s": 106.13441586494446
+  },
+  "oracle@preflop + learned20000_rw@flop": {
+   "expl_mA": 258.7239153340235,
+   "expl_pct_pot": 12.936195766701175,
+   "wall_s": 102.45545601844788
+  }
+ }
+}

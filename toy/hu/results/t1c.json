@@ -1,0 +1,29 @@
+{
+ "K": 1000,
+ "agents": {
+  "percard": {
+   "expl_mA": 18.58337372288607,
+   "pct_pot": 0.9291686861443036,
+   "seat0_exploitable_by_mA": 22.06295763411556,
+   "seat1_exploitable_by_mA": 15.103789811656581,
+   "ceiling_slack_up": 0.0,
+   "ceiling_slack_down": 0.0,
+   "wall_s": [
+    575.1513488292694,
+    486.2519817352295
+   ]
+  },
+  "start_cfv": {
+   "expl_mA": 62.38384407789245,
+   "pct_pot": 3.1191922038946225,
+   "seat0_exploitable_by_mA": 65.8838211179281,
+   "seat1_exploitable_by_mA": 58.88386703785681,
+   "ceiling_slack_up": 0.0,
+   "ceiling_slack_down": 0.0,
+   "wall_s": [
+    676.8549647331238,
+    623.5206489562988
+   ]
+  }
+ }
+}

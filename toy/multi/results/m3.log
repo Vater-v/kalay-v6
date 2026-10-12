@@ -1,0 +1,54 @@
+self-play sigma*: EV per seat [-0.1018 -0.0232  0.125 ], delta(mA) [0.22 0.07 0.67]
+
+== coalition softplay: seat0 frozen EV -0.1059, BR EV -0.0283, coalition EV 0.1059
+  CFR+ fresh: t=1: avg -0.1059/cur -0.0351, t=2: avg -0.0587/cur -0.0312, t=5: avg -0.0352/cur -0.0286, t=10: avg -0.0304/cur -0.0284, t=20: avg -0.0289/cur -0.0283, t=50: avg -0.0284/cur -0.0283, t=100: avg -0.0284/cur -0.0283, t=200: avg -0.0284/cur -0.0283, t=500: avg -0.0283/cur -0.0283, t=1000: avg -0.0283/cur -0.0283, t=2000: avg -0.0283/cur -0.0283
+  CFR+ warm: t=1: avg -0.1060/cur -0.0987, t=2: avg -0.1012/cur -0.0943, t=5: avg -0.0932/cur -0.0869, t=10: avg -0.0856/cur -0.0782, t=20: avg -0.0751/cur -0.0651, t=50: avg -0.0509/cur -0.0339, t=100: avg -0.0346/cur -0.0287, t=200: avg -0.0302/cur -0.0286, t=500: avg -0.0288/cur -0.0285, t=1000: avg -0.0286/cur -0.0285, t=2000: avg -0.0285/cur -0.0284
+  OS fresh eps=0.6 hands=    1000: avg EV -1.7027 cur EV -1.7003 realised/hand -1.8910
+  OS fresh eps=0.6 hands=   10000: avg EV -1.3922 cur EV -1.2037 realised/hand -1.7029
+  OS fresh eps=0.6 hands=  100000: avg EV -0.8840 cur EV -0.6943 realised/hand -1.4330
+  OS fresh eps=0.6 hands=  300000: avg EV -0.6550 cur EV -0.4814 realised/hand -1.3532
+  OS fresh eps=0.6 hands= 1000000: avg EV -0.4811 cur EV -0.3653 realised/hand -1.2852
+  OS fresh eps=0.2 hands=    1000: avg EV -1.6297 cur EV -1.5866 realised/hand -1.6580
+  OS fresh eps=0.2 hands=   10000: avg EV -1.4109 cur EV -1.3233 realised/hand -1.5372
+  OS fresh eps=0.2 hands=  100000: avg EV -0.9253 cur EV -0.6670 realised/hand -1.1371
+  OS fresh eps=0.2 hands=  300000: avg EV -0.7014 cur EV -0.5569 realised/hand -0.9524
+  OS fresh eps=0.2 hands= 1000000: avg EV -0.5162 cur EV -0.3842 realised/hand -0.7973
+  OS warm eps=0.2 hands=    1000: avg EV -1.3912 cur EV -1.2624 realised/hand -1.4725
+  OS warm eps=0.2 hands=   10000: avg EV -1.2107 cur EV -0.9843 realised/hand -1.3847
+  OS warm eps=0.2 hands=  100000: avg EV -0.8551 cur EV -0.6820 realised/hand -1.0562
+  OS warm eps=0.2 hands=  300000: avg EV -0.6851 cur EV -0.5464 realised/hand -0.9142
+  OS warm eps=0.2 hands= 1000000: avg EV -0.5150 cur EV -0.3728 realised/hand -0.7900
+  OS warm eps=0.05 hands=    1000: avg EV -1.5258 cur EV -1.3232 realised/hand -1.6840
+  OS warm eps=0.05 hands=   10000: avg EV -1.2232 cur EV -1.1009 realised/hand -1.1626
+  OS warm eps=0.05 hands=  100000: avg EV -0.9259 cur EV -0.7942 realised/hand -0.9930
+  OS warm eps=0.05 hands=  300000: avg EV -0.7446 cur EV -0.6119 realised/hand -0.8095
+  OS warm eps=0.05 hands= 1000000: avg EV -0.5753 cur EV -0.4463 realised/hand -0.6374
+
+== coalition whipsaw: seat0 frozen EV -0.0311, BR EV 5.6797, coalition EV 0.0311
+  CFR+ fresh: t=1: avg -0.0311/cur 1.6901, t=2: avg 1.1164/cur 5.6737, t=5: avg 4.7646/cur 5.6788, t=10: avg 5.4296/cur 5.6790, t=20: avg 5.6137/cur 5.6791, t=50: avg 5.6685/cur 5.6796, t=100: avg 5.6769/cur 5.6797, t=200: avg 5.6790/cur 5.6797, t=500: avg 5.6795/cur 5.6797, t=1000: avg 5.6796/cur 5.6797, t=2000: avg 5.6797/cur 5.6797
+  CFR+ warm: t=1: avg -0.0340/cur 1.0144, t=2: avg 0.6649/cur 2.0209, t=5: avg 3.2296/cur 5.4824, t=10: avg 4.9369/cur 5.6071, t=20: avg 5.4441/cur 5.6343, t=50: avg 5.6281/cur 5.6751, t=100: avg 5.6660/cur 5.6794, t=200: avg 5.6762/cur 5.6797, t=500: avg 5.6791/cur 5.6797, t=1000: avg 5.6795/cur 5.6797, t=2000: avg 5.6796/cur 5.6797
+  OS fresh eps=0.6 hands=    1000: avg EV -0.6581 cur EV 0.2210 realised/hand -2.0650
+  OS fresh eps=0.6 hands=   10000: avg EV 2.1015 cur EV 3.2299 realised/hand -0.9450
+  OS fresh eps=0.6 hands=  100000: avg EV 4.2899 cur EV 4.8030 realised/hand -0.4913
+  OS fresh eps=0.6 hands=  300000: avg EV 4.8091 cur EV 5.2372 realised/hand -0.3372
+  OS fresh eps=0.6 hands= 1000000: avg EV 5.1553 cur EV 5.4493 realised/hand -0.2245
+  OS fresh eps=0.2 hands=    1000: avg EV -0.6359 cur EV 0.0619 realised/hand -1.1990
+  OS fresh eps=0.2 hands=   10000: avg EV 2.1840 cur EV 3.0576 realised/hand 0.8656
+  OS fresh eps=0.2 hands=  100000: avg EV 4.3879 cur EV 5.0260 realised/hand 2.3745
+  OS fresh eps=0.2 hands=  300000: avg EV 4.8558 cur EV 5.1613 realised/hand 2.7146
+  OS fresh eps=0.2 hands= 1000000: avg EV 5.1836 cur EV 5.3793 realised/hand 2.9662
+  OS warm eps=0.2 hands=    1000: avg EV -1.1780 cur EV -0.3445 realised/hand -1.6125
+  OS warm eps=0.2 hands=   10000: avg EV 2.2395 cur EV 3.6205 realised/hand 0.8515
+  OS warm eps=0.2 hands=  100000: avg EV 4.3703 cur EV 4.8605 realised/hand 2.3691
+  OS warm eps=0.2 hands=  300000: avg EV 4.8449 cur EV 5.1541 realised/hand 2.6895
+  OS warm eps=0.2 hands= 1000000: avg EV 5.1780 cur EV 5.3741 realised/hand 2.9536
+  OS warm eps=0.05 hands=    1000: avg EV -1.0994 cur EV -0.4019 realised/hand -1.5005
+  OS warm eps=0.05 hands=   10000: avg EV 1.7948 cur EV 3.0543 realised/hand 1.4540
+  OS warm eps=0.05 hands=  100000: avg EV 4.1167 cur EV 4.7633 realised/hand 3.5857
+  OS warm eps=0.05 hands=  300000: avg EV 4.6746 cur EV 5.0843 realised/hand 4.0906
+  OS warm eps=0.05 hands= 1000000: avg EV 5.0722 cur EV 5.3755 realised/hand 4.4611
+| coalition | seat0 EV self-play | (i) frozen sigma* | (ii) best response | coalition EV (vs frozen) | (iii) CFR+ fresh avg @2000 | (iii) CFR+ warm avg @2000 | fresh: iters to 90% of gap | fresh: 99% | warm: 90% | warm: 99% |
+|---|---|---|---|---|---|---|---|---|---|---|
+| softplay | -0.1018 | -0.1059 | -0.0283 | 0.1059 | -0.0283 | -0.0285 | 5 | 20 | 100 | 500 |
+| whipsaw | -0.1018 | -0.0311 | 5.6797 | 0.0311 | 5.6797 | 5.6796 | 10 | 50 | 20 | 50 |
+EXIT 0

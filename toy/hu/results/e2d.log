@@ -1,0 +1,5 @@
+[  112.6s] checkdown@preflop + oracle@flop          expl    416.5 mA/h (20.82% pot)
+[  112.7s] oracle@preflop + checkdown@flop          expl    379.9 mA/h (18.99% pot)
+[  112.7s] learned20000_rw@preflop + oracle@flop    expl    215.6 mA/h (10.78% pot)
+[  112.8s] oracle@preflop + learned20000_rw@flop    expl    258.7 mA/h (12.94% pot)
+[  112.8s] done

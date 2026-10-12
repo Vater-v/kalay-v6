@@ -1,0 +1,10 @@
+| game | variant | iters | ms/iter | d0 mA | d1 mA | d2 mA | d3 mA | NashConv mA | terminal rel L1 err (at exact eq) | max root cond-EV err mA (at exact eq) | self-assessed EV err mA |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| N3 | exact | 2000 | 27.6 | 0.24 | 0.21 | 0.66 |  | 1.12 |  |  |  |
+| N3 | drop_nu | 2000 | 29.0 | 62.87 | 66.22 | 70.41 |  | 199.5 | 8.20e-02 | 386.54 | 39.87 |
+| N3 | drop_nu_post | 2000 | 28.3 | 57.61 | 44.49 | 41.76 |  | 143.86 | 8.09e-02 | 156.36 | 32.2 |
+| N4 | exact | 400 | 86.1 | 10.0 | 15.86 | 9.96 | 11.51 | 47.34 |  |  |  |
+| N4 | drop_nu | 400 | 87.5 | 251.5 | 402.02 | 230.36 | 257.43 | 1141.31 | 2.49e-01 | 338.93 | 61.36 |
+| N4 | drop_nu_post | 400 | 84.2 | 419.4 | 465.81 | 261.58 | 259.61 | 1406.4 | 2.46e-01 | 370.92 | 65.31 |
+N3 share of (product-weight) terminal mass at live>=2 with a folder: 0.281
+N4 share of (product-weight) terminal mass at live>=2 with a folder: 0.482

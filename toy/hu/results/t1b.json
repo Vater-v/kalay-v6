@@ -1,0 +1,29 @@
+{
+ "K": 300,
+ "agents": {
+  "chance_root": {
+   "expl_mA": 25.154462524199214,
+   "pct_pot": 1.2577231262099606,
+   "seat0_exploitable_by_mA": 23.84561426930673,
+   "seat1_exploitable_by_mA": 26.4633107790917,
+   "ceiling_slack_up": 0.0,
+   "ceiling_slack_down": 0.0,
+   "wall_s": [
+    85.23161149024963,
+    69.45751166343689
+   ]
+  },
+  "start_min": {
+   "expl_mA": 93.22801400772839,
+   "pct_pot": 4.6614007003864195,
+   "seat0_exploitable_by_mA": 108.5941212674798,
+   "seat1_exploitable_by_mA": 77.86190674797696,
+   "ceiling_slack_up": 0.0,
+   "ceiling_slack_down": 0.0,
+   "wall_s": [
+    116.97345352172852,
+    100.44751620292664
+   ]
+  }
+ }
+}

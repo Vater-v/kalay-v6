@@ -1,0 +1,13 @@
+[    0.1s] checkdown identity {'checkdown_identity_maxabs': 0.0, 'checkdown_naive_legal_maxabs': 0.333175, 'checkdown_naive_legal_rw_rmse': 0.101475, 'checkdown_naive_noth_maxabs': 0.249878, 'checkdown_naive_noth_rw_rmse': 0.057765}
+[   52.4s] solved full: 2000 situations, 18000 turn subgames, label expl 0.00070 x, 52s
+[   71.5s] solved test: 400 situations, 3600 turn subgames, label expl 0.00084 x, 71s
+[  124.7s] solved m=3: 6000 situations, 18000 turn subgames, 125s
+[  177.8s] solved m=1: 18000 situations, 18000 turn subgames, 178s
+[  177.8s] bias/noise {'checkdown_naive_legal_maxabs': 0.33317, 'checkdown_naive_legal_rw_rmse': 0.10148, 'checkdown_naive_noth_maxabs': 0.24988, 'checkdown_naive_noth_rw_rmse': 0.05776, 'naive_legal_rw_rmse': 0.11841, 'naive_legal_mean_abs_err_held': 0.10639, 'naive_legal_ratio_sum': 0.84065, 'naive_noth_rw_rmse': 0.07481, 'naive_noth_mean_abs_err_held': 0.05907, 'naive_noth_ratio_sum': 0.94573, 'single_card_noise_rw_rms': 0.70402, 'signal_rw_rms_across_situations': 0.62331, 'checkdown_vs_truth_rw_rmse': 0.2212}
+[  203.8s] train m9_exact@4500solves    test range-w RMSE 0.1895  unweighted 0.6085  (13s)
+[  203.8s] train m3@4500solves          test range-w RMSE 0.2223  unweighted 0.6457  (13s)
+[  203.8s] train m1@4500solves          test range-w RMSE 0.2209  unweighted 0.6410  (13s)
+[  203.8s] train m9_exact@18000solves   test range-w RMSE 0.1527  unweighted 0.5540  (13s)
+[  203.8s] train m3@18000solves         test range-w RMSE 0.1778  unweighted 0.6092  (13s)
+[  203.8s] train m1@18000solves         test range-w RMSE 0.1796  unweighted 0.6249  (13s)
+[  203.8s] done

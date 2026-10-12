@@ -1,0 +1,190 @@
+
+====================================================================================================
+WALKTHROUGH: one decision of the safe continual re-solving agent (oracle leaves, K=300 CFR+ iterations)
+====================================================================================================
+game: 10 cards (5 ranks x 2 suits), ante 1, stacks 12, menu open {0.5 pot, 1 pot, all-in}, raise {1 pot, all-in}, then all-in
+cards: 0=Ts 1=Th 2=Js 3=Jh 4=Qs 5=Qh 6=Ks 7=Kh 8=As 9=Ah   (strength = rank + 5*#board cards of that rank)
+agent = P0 (acts first on every street = out of position); opponent = P1
+units: chips are in antes; 'mA' = milli-antes (1 mA = 0.001 ante); one hand = one private card
+
+====================================================================================================
+CHAIN STEP [1]  re-solve at the preflop root (game start: nothing to enforce, no gadget)
+====================================================================================================
+  tree: 54957 public nodes (the whole game); 21.0 s wall-clock
+  our preflop action probabilities at the root, per hand (b1 is on the chosen path):
+      hand        Ts      Th      Js      Jh      Qs      Qh      Ks      Kh      As      Ah
+      k        0.749   0.749   0.726   0.725   0.447   0.448   0.403   0.403   0.324   0.323
+      b0.5     0.087   0.087   0.082   0.082   0.294   0.294   0.347   0.345   0.201   0.202
+      b1       0.165   0.165   0.192   0.193   0.259   0.258   0.250   0.252   0.475   0.475
+      A        0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000
+
+====================================================================================================
+CHAIN STEP [2]  re-solve at the flop street root 'b1/c/d5'  (gadget with the CFVs handed over by [1])
+====================================================================================================
+  tree: 654 public nodes (flop + turn, oracle); 0.27 s wall-clock
+
+====================================================================================================
+(a) THE PUBLIC NODE
+====================================================================================================
+  betting so far : P0 bet 1 pot P1 call | flop card Qh | P0 check P1 bet 1 pot
+  key            : 'b1/c/d5/k/b1'
+  board          : flop card Qh (turn card not yet dealt)
+  contributions  : P0 3, P1 9  -> pot 12
+  stacks behind  : P0 9, P1 3
+  to act         : P0 (the agent) facing 6 into a pot of 6; call needs 33.3% equity; legal actions ['f', 'c', 'A']
+
+====================================================================================================
+(b) THE AGENT'S OWN RANGE at this node (carried from its earlier solves)
+====================================================================================================
+  pi_a(h) = product of the agent's own action probabilities on the path (preflop root [1], flop check [2]),
+  0 for the flop card (card removal).  It is an INPUT (exact, never approximated).
+      hand        Ts      Th      Js      Jh      Qs      Qh      Ks      Kh      As      Ah
+      pi_a     0.077   0.078   0.118   0.118   0.029      --   0.041   0.041   0.086   0.086
+      (preflop b1: 0.165 0.165 0.192 0.193 0.259 0.258 0.250 0.252 0.475 0.475)  x  (flop check: 0.468 0.471 0.615 0.614 0.111 0.250 0.166 0.164 0.182 0.182)
+
+====================================================================================================
+(c) THE OPPONENT'S COUNTERFACTUAL-VALUE CEILINGS w(h')  = the gadget inputs, from the previous solve [2]
+====================================================================================================
+  w(h') = value of the opponent holding h' at THIS node under [2]'s solution.  The gadget lets the opponent
+  'terminate' with w(h') per hand instead of entering the subgame, so the new strategy cannot hold any
+  hand below its old value (it can never be exploited more than [2] allowed).
+      hand          Ts        Th        Js        Jh        Qs        Qh        Ks        Kh        As        Ah
+      w  [mA]    -0.87     -0.87     -1.05     -1.05      3.93        --     -0.60     -0.60      1.63      1.63
+      w/(cs*M)   -1.046    -1.048    -1.352    -1.352     4.376        --    -0.682    -0.682     1.991     1.991
+      ('w/(cs*M)' = w divided by the chance scale and our range mass excluding h': the average NET chips the
+       opponent's hand makes against our range here, chips already in the pot included.)
+      for contrast, the naive agent would carry the opponent RANGE instead (see (f)).
+
+====================================================================================================
+(d) LOCAL SUBTREE SIZE (what this re-solve actually builds)
+====================================================================================================
+  ORACLE tree (what is solved here; turn street kept below the flop): 87 public nodes = 38 decision, 1 chance, 20 fold terminals, 28 showdown terminals, 0 street-boundary leaves, 6 levels
+  DEPTH-LIMITED tree (same root, cut where the street closes; leaves would be valued by V): 6 public nodes = 2 decision, 2 fold terminals, 1 showdown terminals, 1 street-boundary LEAVES, 3 levels
+  (the full game has 54,957 public nodes; solver rows = nodes x 10 hands; rows here 870; info sets here 306)
+
+====================================================================================================
+(e) THE RE-SOLVED STRATEGY of the agent at this node, EVERY hand  (K=300)
+====================================================================================================
+  agent's re-solved action probabilities (rows sum to 1; hands with pi_a=0 are not constrained by play):
+      hand    pi_a       f       c       A   raise    fold
+      Ts     0.077   1.000   0.000   0.000   0.000   1.000
+      Th     0.078   1.000   0.000   0.000   0.000   1.000
+      Js     0.118   1.000   0.000   0.000   0.000   1.000
+      Jh     0.118   1.000   0.000   0.000   0.000   1.000
+      Qs     0.029   0.000   0.001   0.999   0.999   0.000
+      Qh      (on the board)
+      Ks     0.041   0.999   0.000   0.001   0.001   0.999
+      Kh     0.041   0.997   0.000   0.002   0.002   0.997
+      As     0.086   0.000   0.000   1.000   1.000   0.000
+      Ah     0.086   0.000   0.000   1.000   1.000   0.000
+      range-weighted frequency: f 0.702  c 0.000  A 0.298
+
+====================================================================================================
+(f) THE OPPONENT'S RANGE after the bet: a BY-PRODUCT of the safe re-solve, not an input
+====================================================================================================
+  safe re-solve: the opponent's root reach is root_reach (all hands possible) x g_follow, where g_follow(h') is the
+  gadget's learnt probability that hand h' 'enters the subgame' rather than terminating at w(h').  Nothing
+  about the opponent's range was passed in; this is what the equilibrium of the gadget game says it must be.
+      hand                Ts      Th      Js      Jh      Qs      Qh      Ks      Kh      As      Ah
+      g_follow (raw)   0.216   0.209   0.186   0.187   1.000      --   0.804   0.802   1.000   1.000
+      safe range  %      4.0     3.9     3.4     3.5    18.5      --    14.9    14.8    18.5    18.5   <- OUTPUT of the safe re-solve
+      [2]'s range  %     5.0     5.2     4.8     4.7    13.2      --     3.3     3.3    30.5    30.2   <- reach of this node in the previous solve [2] (what a naive agent carries from its own last solve)
+
+====================================================================================================
+      NAIVE counterpart: same chain but every re-solve takes the opponent RANGE carried from the previous one as input
+====================================================================================================
+      hand                Ts      Th      Js      Jh      Qs      Qh      Ks      Kh      As      Ah
+      naive input  %     5.0     5.0     2.3     2.3    15.5      --     5.8     5.8    29.2    29.1   <- INPUT of the naive agent (a range, trusted as is)
+      naive our pi_a   0.076   0.076   0.120   0.120   0.029      --   0.046   0.047   0.090   0.091   <- the naive agent's own range here (its [2n] check differs)
+      safe our pi_a    0.077   0.078   0.118   0.118   0.029      --   0.041   0.041   0.086   0.086
+  NAIVE agent's action probabilities at the same node:
+      hand    pi_a       f       c       A   raise    fold
+      Ts     0.077   1.000   0.000   0.000   0.000   1.000
+      Th     0.078   1.000   0.000   0.000   0.000   1.000
+      Js     0.118   1.000   0.000   0.000   0.000   1.000
+      Jh     0.118   1.000   0.000   0.000   0.000   1.000
+      Qs     0.029   0.000   0.000   1.000   1.000   0.000
+      Qh      (on the board)
+      Ks     0.041   1.000   0.000   0.000   0.000   1.000
+      Kh     0.041   1.000   0.000   0.000   0.000   1.000
+      As     0.086   0.000   0.000   1.000   1.000   0.000
+      Ah     0.086   0.000   0.000   1.000   1.000   0.000
+      difference safe-vs-naive in range-weighted frequency: f -0.000  c +0.000  A +0.000
+
+====================================================================================================
+(g) WALL-CLOCK of the re-solve [3] (tree build + 300 CFR+ iterations + average strategy/values), single root, 1 core
+====================================================================================================
+  [3] this decision    :    125.1 ms   (87 nodes, 300 iterations)
+  [2] flop street root :    274.6 ms   (654 nodes)
+  [1] preflop root     :  20971.2 ms   (54957 nodes, whole game)
+  (README E5 reports 0.593 s for a flop-root oracle re-solve; wall-clock varies with machine load)
+
+====================================================================================================
+OFF-MENU CASE: the opponent bets 0.75 pot after our check (menu has only 0.5 pot, 1 pot, all-in)
+====================================================================================================
+  The agent has no stored values for this node (it is not in the tree [2] solved), so it cannot continue [3].
+  E3's recipe: add the size to the tree, re-solve from the root of that decision with the gadget, and use the
+  result only below the new action.  E3's own hook (extra_open) only inserts P0's OPENING bet, so it cannot
+  put a size into P1's reply to a check; here tree.legal_actions is wrapped for this block (no file edited).
+  Re-solve root = P1's node right after our check ('b1/c/d5/k'): our range there is pi_a after the check,
+  the gadget ceilings are the opponent's CFVs at that same node from [2] (w_chk).  We have already committed to the
+  check, so the street root (our own decision) is not re-opened.
+  augmented subtree: 617 public nodes (242 decision, 169 fold, 202 showdown); P1's actions at the root: ['k', 'b0.5', 'b1', 'b0.75', 'A']
+  wall-clock of this re-solve (tree build + 300 iterations): 257.2 ms
+  node after the off-menu bet: pot 10.5, we face 4.5; call needs 30.0% equity
+  opponent range after the off-menu bet (reach of that node in the re-solve; normalised %), a by-product:
+      hand                Ts      Th      Js      Jh      Qs      Qh      Ks      Kh      As      Ah
+      range %           14.1    14.5     0.5     0.5    16.7      --     0.4     0.4    26.6    26.1
+      P1 bets this size with prob (per hand) 0.005 0.005 0.000 0.000 0.003    -- 0.000 0.000 0.004 0.004
+  agent's strategy facing the 0.75-pot bet (legal ['f', 'c', 'A']); pi_a = our range after the check:
+      hand    pi_a       f       c       A   raise    fold
+      Ts     0.077   0.998   0.001   0.002   0.002   0.998
+      Th     0.078   0.998   0.001   0.001   0.001   0.998
+      Js     0.118   0.985   0.012   0.003   0.003   0.985
+      Jh     0.118   0.985   0.012   0.003   0.003   0.985
+      Qs     0.029   0.000   0.061   0.939   0.939   0.000
+      Qh      (on the board)
+      Ks     0.041   0.920   0.047   0.033   0.033   0.920
+      Kh     0.041   0.920   0.047   0.033   0.033   0.920
+      As     0.086   0.001   0.000   0.999   0.999   0.001
+      Ah     0.086   0.001   0.000   0.999   0.999   0.001
+      range-weighted frequency: f 0.687  c 0.013  A 0.301
+
+====================================================================================================
+RNR EXPLOITATION: the same decision [3] with the opponent modelled as the 'station' (never folds, never raises)
+====================================================================================================
+  Inputs held fixed: our range pi_a and the gadget ceilings w from the safe chain above.  The ONLY change:
+  Solver(..., rnr=dict(player=1, p=p, eff=model_eff(tree, 1, 'station'))), i.e. while WE traverse, the opponent's
+  reach is  p * reach(station) + (1-p) * reach(free CFR+ opponent)   (cfr.py opp_reach, 2 lines).
+  Note: the station never bets, so this node has probability 0 under the model; the hook applies the model's
+  behaviour BELOW the root (it calls every raise, never folds), starting from the root range.
+  RNR p = 0.01  (re-solve 145 ms):
+      hand    pi_a       f       c       A   raise    fold
+      Ts     0.077   1.000   0.000   0.000   0.000   1.000
+      Th     0.078   1.000   0.000   0.000   0.000   1.000
+      Js     0.118   1.000   0.000   0.000   0.000   1.000
+      Jh     0.118   1.000   0.000   0.000   0.000   1.000
+      Qs     0.029   0.000   0.000   1.000   1.000   0.000
+      Qh      (on the board)
+      Ks     0.041   0.998   0.001   0.001   0.001   0.998
+      Kh     0.041   0.997   0.001   0.002   0.002   0.997
+      As     0.086   0.000   0.000   1.000   1.000   0.000
+      Ah     0.086   0.000   0.000   1.000   1.000   0.000
+      range-weighted frequency: f 0.702  c 0.000  A 0.298
+      change vs safe Nash re-solve: f -0.000  c +0.000  A -0.000
+  RNR p = 0.25  (re-solve 124 ms):
+      hand    pi_a       f       c       A   raise    fold
+      Ts     0.077   1.000   0.000   0.000   0.000   1.000
+      Th     0.078   1.000   0.000   0.000   0.000   1.000
+      Js     0.118   1.000   0.000   0.000   0.000   1.000
+      Jh     0.118   1.000   0.000   0.000   0.000   1.000
+      Qs     0.029   0.000   0.001   0.999   0.999   0.000
+      Qh      (on the board)
+      Ks     0.041   0.988   0.011   0.001   0.001   0.988
+      Kh     0.041   0.988   0.011   0.001   0.001   0.988
+      As     0.086   0.000   0.002   0.998   0.998   0.000
+      Ah     0.086   0.000   0.002   0.998   0.998   0.000
+      range-weighted frequency: f 0.700  c 0.002  A 0.298
+      change vs safe Nash re-solve: f -0.001  c +0.002  A -0.001
+
+total wall-clock of this script: 22.3 s

@@ -1,0 +1,44 @@
+
+== N=3 D=12 (6r x 2s) stack=15 raise_cap=2  public nodes 6295, infosets 30888
+| budget s | CFR+ iters | CFR+ NashConv mA | ES iters | ES node visits | ES NashConv mA (mean of 2 seeds) | winner | ES/CFR+ ratio |
+|---|---|---|---|---|---|---|---|
+| 5 | 180 | 31.38 | 28200 | 2.23e+06 | 2477.55 | CFR+ | 78.9 |
+| 15 | 534 | 6.29 | 80100 | 6.58e+06 | 1306.5 | CFR+ | 207.6 |
+| 45 | 1677 | 1.35 | 231200 | 1.93e+07 | 597.58 | CFR+ | 442.2 |
+| 90 | 3329 | 0.87 | 462000 | 3.86e+07 | 460.08 | CFR+ | 529.9 |
+
+== N=2 D=12 (6r x 2s) stack=15 raise_cap=2  public nodes 1119, infosets 5016
+| budget s | CFR+ iters | CFR+ NashConv mA | ES iters | ES node visits | ES NashConv mA (mean of 1 seeds) | winner | ES/CFR+ ratio |
+|---|---|---|---|---|---|---|---|
+| 3 | 888 | 1.09 | 38000 | 1.61e+06 | 745.09 | CFR+ | 684.5 |
+| 10 | 3037 | 0.14 | 129800 | 5.55e+06 | 435.97 | CFR+ | 3059.3 |
+| 30 | 9227 | 0.02 | 397600 | 1.69e+07 | 240.88 | CFR+ | 10877.3 |
+
+== N=3 D=8 (4r x 2s) stack=15 raise_cap=2  public nodes 4239, infosets 13872
+| budget s | CFR+ iters | CFR+ NashConv mA | ES iters | ES node visits | ES NashConv mA (mean of 1 seeds) | winner | ES/CFR+ ratio |
+|---|---|---|---|---|---|---|---|
+| 3 | 230 | 19.82 | 16900 | 1.31e+06 | 1719.08 | CFR+ | 86.7 |
+| 10 | 789 | 2.98 | 57200 | 4.61e+06 | 696.4 | CFR+ | 233.5 |
+| 30 | 2284 | 0.5 | 164300 | 1.35e+07 | 431.4 | CFR+ | 854.5 |
+
+== N=3 D=16 (8r x 2s) stack=15 raise_cap=2  public nodes 8351, infosets 54624
+| budget s | CFR+ iters | CFR+ NashConv mA | ES iters | ES node visits | ES NashConv mA (mean of 1 seeds) | winner | ES/CFR+ ratio |
+|---|---|---|---|---|---|---|---|
+| 3 | 49 | 259.51 | 13200 | 1.08e+06 | 5570.4 | CFR+ | 21.5 |
+| 10 | 178 | 33.8 | 48100 | 3.80e+06 | 2500.52 | CFR+ | 74.0 |
+| 30 | 525 | 6.22 | 141400 | 1.16e+07 | 1364.28 | CFR+ | 219.2 |
+
+== N=4 D=8 (4r x 2s) stack=15 raise_cap=1  public nodes 6693, infosets 24800
+| budget s | CFR+ iters | CFR+ NashConv mA | ES iters | ES node visits | ES NashConv mA (mean of 1 seeds) | winner | ES/CFR+ ratio |
+|---|---|---|---|---|---|---|---|
+| 3 | 44 | 468.54 | 14900 | 1.46e+06 | 4135.16 | CFR+ | 8.8 |
+| 10 | 153 | 100.95 | 44500 | 4.46e+06 | 2160.09 | CFR+ | 21.4 |
+| 30 | 458 | 39.74 | 123800 | 1.30e+07 | 1398.32 | CFR+ | 35.2 |
+| game | public nodes | infosets | budget s | CFR+ NashConv mA | ES NashConv mA | winner | ES/CFR+ |
+|---|---|---|---|---|---|---|---|
+| N=3 D=12 (6r x 2s) stack=15 raise_cap=2 | 6295 | 30888 | 90 | 0.87 | 460.08 | CFR+ | 529.9 |
+| N=2 D=12 (6r x 2s) stack=15 raise_cap=2 | 1119 | 5016 | 30 | 0.02 | 240.88 | CFR+ | 10877.3 |
+| N=3 D=8 (4r x 2s) stack=15 raise_cap=2 | 4239 | 13872 | 30 | 0.5 | 431.4 | CFR+ | 854.5 |
+| N=3 D=16 (8r x 2s) stack=15 raise_cap=2 | 8351 | 54624 | 30 | 6.22 | 1364.28 | CFR+ | 219.2 |
+| N=4 D=8 (4r x 2s) stack=15 raise_cap=1 | 6693 | 24800 | 30 | 39.74 | 1398.32 | CFR+ | 35.2 |
+EXIT 0

@@ -1,0 +1,10 @@
+[  219.8s] agent oracle_naive                 expl    520.5 mA/h (26.03% pot) hybrid(pre,flop,turn)=[148.0, 207.7, 464.0]
+[  220.1s] agent oracle_safe                  expl     23.7 mA/h ( 1.18% pot) hybrid(pre,flop,turn)=[58.9, 67.4, 69.1]
+[  220.4s] agent checkdown_safe               expl    532.5 mA/h (26.63% pot) hybrid(pre,flop,turn)=[621.9, 859.6, 999.6]
+[  220.6s] agent learned200_safe              expl    521.2 mA/h (26.06% pot) hybrid(pre,flop,turn)=[631.1, 1051.5, 794.1]
+[  220.9s] agent learned2000_safe             expl    511.8 mA/h (25.59% pot) hybrid(pre,flop,turn)=[589.2, 864.0, 768.4]
+[  221.1s] agent learned20000_safe            expl    499.1 mA/h (24.95% pot) hybrid(pre,flop,turn)=[507.0, 748.6, 784.1]
+[  221.4s] agent learned20000_raw_safe        expl    506.0 mA/h (25.30% pot) hybrid(pre,flop,turn)=[548.5, 933.1, 782.7]
+[  221.6s] agent learned20000_rw_safe         expl    417.4 mA/h (20.87% pot) hybrid(pre,flop,turn)=[541.7, 603.6, 609.2]
+[  221.9s] agent learned20000_naive           expl    824.4 mA/h (41.22% pot) hybrid(pre,flop,turn)=[597.1, 824.7, 884.9]
+[  221.9s] done
