@@ -4,3 +4,11 @@ __pycache__/
 *.npy
 *.npz
 *.pkl
+results/cache/
+results/jax_cache/
+results/pack/
+results/loop*/
+results/k0*/
+results/river*/
+results/outbox/
+.venv/
