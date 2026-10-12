@@ -1,0 +1,43 @@
+{
+  "created_at": "2026-10-12T13:59:57.691532+00:00",
+  "contract": {
+    "schema_version": 1,
+    "policy_id": "audit-stub",
+    "hands": 60,
+    "workers": 2,
+    "seed": 1,
+    "hand_cap": 60,
+    "action_cap_per_hand": 512,
+    "timeout": 15.0,
+    "api_origin": "https://slumbot.com",
+    "algorithm": "critic_backed_live_pcfr_stochastic_sampling",
+    "rng": "numpy.default_rng(SeedSequence([seed, global_hand_number]))",
+    "game": {
+      "variant": "nlh",
+      "players": 2,
+      "blinds": [
+        50,
+        100
+      ],
+      "stacks": [
+        20000,
+        20000
+      ]
+    },
+    "policy_metadata": null,
+    "retries": 0,
+    "inference_config": null,
+    "implementation_sha256": {
+      "__init__.py": "f7baac19d48fa1da7a9b5ee9b646d1c038d3359f5ce2b6f4af4f292d3f099abe",
+      "cards.py": "da8e99dc2c7b582ebe898676de660ba7568865e46225f4ed80afd906a7921fea",
+      "client.py": "4cb6fade64e2418088ce173f1ffceabf3f35d711d3963f8081ab70b5290bba81",
+      "live_bot.py": "f466f5911b5023f16993f74250d2011401da5ba98a565b31d597c8251c6965c0",
+      "metrics.py": "c7dd80c697d54907d52d2d0253c19287a7d38d375610b790ef1da640435915f6",
+      "parallel.py": "09cdd81a774d55a17757c1bf25512d387739a08edd6b68ec8148817d21db581b",
+      "protocol.py": "2f741afea82d88dc2638e869ec1001048401a5e8f0aab502881b339bc08362a6",
+      "run.py": "1c603e1fcc499c454fb0ee2de34d09727d61364841ef7b220bce518f84b93444",
+      "util.py": "651a318823b5ee16207e8577c9204cd32bcf5e0eb986f775ede47c38179720ee"
+    }
+  },
+  "contract_hash": "9b5cff89611b31f0b37af24b6589ce4821be5f28a4a9a8367395ee942780ec3c"
+}

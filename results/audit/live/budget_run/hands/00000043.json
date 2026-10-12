@@ -1,0 +1,380 @@
+{
+  "number": 43,
+  "worker": 0,
+  "policy_id": "audit-stub",
+  "status": "completed",
+  "started_at": "2026-10-12T14:00:09.124573+00:00",
+  "mutation_outcome_unknown": false,
+  "result": {
+    "requested_hands": 1,
+    "policy_id": "audit-stub",
+    "completed": [
+      {
+        "number": 43,
+        "client_pos": 0,
+        "action": "ck/b100c/kb600f",
+        "hole_cards": [
+          47,
+          10
+        ],
+        "board": [
+          14,
+          3,
+          33,
+          9
+        ],
+        "winnings_chips": -200,
+        "baseline_winnings_chips": 0
+      }
+    ],
+    "requests": [
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/new_hand",
+        "request": {
+          "token": "[REDACTED]"
+        },
+        "response": {
+          "old_action": "",
+          "action": "c",
+          "client_pos": 0,
+          "hole_cards": [
+            "Kc",
+            "4d"
+          ],
+          "board": [],
+          "token": "[REDACTED]"
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "k"
+        },
+        "response": {
+          "old_action": "c",
+          "action": "ck",
+          "client_pos": 0,
+          "hole_cards": [
+            "Kc",
+            "4d"
+          ],
+          "board": [
+            "5d",
+            "2c",
+            "Th"
+          ]
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "b100"
+        },
+        "response": {
+          "old_action": "ck",
+          "action": "ck/b100c/",
+          "client_pos": 0,
+          "hole_cards": [
+            "Kc",
+            "4d"
+          ],
+          "board": [
+            "5d",
+            "2c",
+            "Th",
+            "4h"
+          ]
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "k"
+        },
+        "response": {
+          "old_action": "ck/b100c/",
+          "action": "ck/b100c/kb600",
+          "client_pos": 0,
+          "hole_cards": [
+            "Kc",
+            "4d"
+          ],
+          "board": [
+            "5d",
+            "2c",
+            "Th",
+            "4h"
+          ]
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "f"
+        },
+        "response": {
+          "old_action": "ck/b100c/kb600",
+          "action": "ck/b100c/kb600f",
+          "client_pos": 0,
+          "hole_cards": [
+            "Kc",
+            "4d"
+          ],
+          "board": [
+            "5d",
+            "2c",
+            "Th",
+            "4h"
+          ],
+          "winnings": -200,
+          "baseline_winnings": 0
+        },
+        "error": null
+      }
+    ],
+    "unresolved": null,
+    "status": "completed",
+    "completed_hands": 1,
+    "big_blind_chips": 100,
+    "profit_chips": -200,
+    "profit_bb": -2.0,
+    "chips_per_100": -20000.0,
+    "bb_per_100": -200.0,
+    "baseline_profit_chips": 0,
+    "baseline_bb_per_100": 0.0,
+    "seat_counts": {
+      "bb": 1,
+      "sb": 0
+    },
+    "rates_scope": "all_requested_hands",
+    "quality_verdict": null
+  },
+  "player_stats": {
+    "hero": {
+      "hands": 1,
+      "vpip": 0,
+      "pfr": 0,
+      "saw_flop": 1,
+      "won_when_saw_flop": 0,
+      "showdown": 0,
+      "won_showdown": 0,
+      "postflop_raises": 1,
+      "postflop_calls": 0,
+      "action_check": 2,
+      "street0_check": 1,
+      "action_raise": 1,
+      "street1_raise": 1,
+      "street2_check": 1,
+      "action_fold": 1,
+      "street2_fold": 1
+    },
+    "opponent": {
+      "hands": 1,
+      "vpip": 1,
+      "pfr": 0,
+      "saw_flop": 1,
+      "won_when_saw_flop": 1,
+      "showdown": 0,
+      "won_showdown": 0,
+      "postflop_raises": 1,
+      "postflop_calls": 1,
+      "action_call": 2,
+      "street0_call": 1,
+      "street1_call": 1,
+      "action_raise": 1,
+      "street2_raise": 1
+    }
+  },
+  "completed_at": "2026-10-12T14:00:09.423053+00:00",
+  "decisions": [
+    {
+      "increment": "k",
+      "bucket": 1,
+      "probabilities": [
+        0.299430193747805,
+        0.11253101462521414,
+        0.09517826210840241,
+        0.4928605295185784
+      ],
+      "inference_ms": 58.254547000615275,
+      "street": 0,
+      "candidates": [
+        [
+          1,
+          100
+        ],
+        [
+          2,
+          200
+        ],
+        [
+          2,
+          300
+        ],
+        [
+          3,
+          20000
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        50,
+        28
+      ],
+      "engine_board": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "increment": "b100",
+      "bucket": 2,
+      "probabilities": [
+        0.004508555365425795,
+        0.47142231091196685,
+        0.06196115116898922,
+        0.4621079825536182
+      ],
+      "inference_ms": 51.74022699975467,
+      "street": 1,
+      "candidates": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          100
+        ],
+        [
+          2,
+          150
+        ],
+        [
+          3,
+          19900
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        50,
+        28
+      ],
+      "engine_board": [
+        29,
+        39,
+        21,
+        -1,
+        -1
+      ]
+    },
+    {
+      "increment": "k",
+      "bucket": 1,
+      "probabilities": [
+        0.5671513710976428,
+        0.08575476757940463,
+        0.0015167384500231593,
+        0.07331374331986469,
+        0.2722633795530647
+      ],
+      "inference_ms": 93.6993880004593,
+      "street": 2,
+      "candidates": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          200
+        ],
+        [
+          2,
+          400
+        ],
+        [
+          2,
+          600
+        ],
+        [
+          3,
+          19800
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        50,
+        28
+      ],
+      "engine_board": [
+        29,
+        39,
+        21,
+        15,
+        -1
+      ]
+    },
+    {
+      "increment": "f",
+      "bucket": 0,
+      "probabilities": [
+        0.6005138021776563,
+        0.009698805177937517,
+        0.003538038035219599,
+        0.3862493546091866
+      ],
+      "inference_ms": 88.20600899980491,
+      "street": 2,
+      "candidates": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          600
+        ],
+        [
+          2,
+          1666
+        ],
+        [
+          3,
+          19800
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        50,
+        28
+      ],
+      "engine_board": [
+        29,
+        39,
+        21,
+        15,
+        -1
+      ]
+    }
+  ],
+  "requests": 5,
+  "http_seconds": 0.0003538409991961089,
+  "record_sha256": "6285735960ea463879afbcc13fe9210ef27f008bde5152b46e360027fa0f0144"
+}

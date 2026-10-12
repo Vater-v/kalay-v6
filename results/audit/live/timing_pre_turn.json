@@ -1,0 +1,30 @@
+{
+ "turn": {
+  "nodes": 231,
+  "decisions": 78,
+  "leaves": 38,
+  "columns": 7,
+  "tree_build_cold_s": 1.7990474710004491,
+  "solve100_cold_s": 6.635387215000264,
+  "compile_cold_s": 3.373553514480591,
+  "solve100_warm_s": 3.2412787809998918,
+  "compile_warm_s": 0.0,
+  "play_T": 400,
+  "per_iteration_ms": 32.41278780999892,
+  "extrapolated_play_T_s": 12.965115123999567
+ },
+ "preflop": {
+  "nodes": 166,
+  "decisions": 56,
+  "leaves": 27,
+  "columns": 6,
+  "tree_build_cold_s": 0.05776290399990103,
+  "solve100_cold_s": 6.250957954000114,
+  "compile_cold_s": 3.869093656539917,
+  "solve100_warm_s": 2.635054915999717,
+  "compile_warm_s": 0.0,
+  "play_T": 300,
+  "per_iteration_ms": 26.350549159997172,
+  "extrapolated_play_T_s": 7.905164747999152
+ }
+}

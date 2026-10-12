@@ -178,11 +178,11 @@
  {
   "case": "three players: flop live tree and a solve",
   "ok": false,
-  "error": "MemoryError: "
+  "error": "NOT COMPLETED: MemoryError under a 6 GB address-space cap (ulimit -v); a rerun without the cap was stopped after 300 s while building the 3-way topology. A preflop 3-way topology build reached 4.5 GB RSS and was killed. Read-only inference only (see REPORT)."
  },
  {
   "case": "three players: river live tree and a solve",
   "ok": false,
-  "error": "MemoryError: "
+  "error": "NOT COMPLETED: MemoryError under a 6 GB address-space cap (ulimit -v); a rerun without the cap was stopped after 300 s while building the 3-way topology. A preflop 3-way topology build reached 4.5 GB RSS and was killed. Read-only inference only (see REPORT)."
  }
 ]

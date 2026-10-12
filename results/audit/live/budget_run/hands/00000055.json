@@ -1,0 +1,176 @@
+{
+  "number": 55,
+  "worker": 0,
+  "policy_id": "audit-stub",
+  "status": "completed",
+  "started_at": "2026-10-12T14:00:10.737584+00:00",
+  "mutation_outcome_unknown": false,
+  "result": {
+    "requested_hands": 1,
+    "policy_id": "audit-stub",
+    "completed": [
+      {
+        "number": 55,
+        "client_pos": 0,
+        "action": "cb20000c///",
+        "hole_cards": [
+          16,
+          27
+        ],
+        "board": [
+          22,
+          15,
+          32,
+          19,
+          17
+        ],
+        "winnings_chips": 20000,
+        "baseline_winnings_chips": 0
+      }
+    ],
+    "requests": [
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/new_hand",
+        "request": {
+          "token": "[REDACTED]"
+        },
+        "response": {
+          "old_action": "",
+          "action": "c",
+          "client_pos": 0,
+          "hole_cards": [
+            "6s",
+            "8c"
+          ],
+          "board": [],
+          "token": "[REDACTED]"
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "b20000"
+        },
+        "response": {
+          "old_action": "c",
+          "action": "cb20000c///",
+          "client_pos": 0,
+          "hole_cards": [
+            "6s",
+            "8c"
+          ],
+          "board": [
+            "7d",
+            "5c",
+            "Ts",
+            "6c",
+            "6h"
+          ],
+          "bot_hole_cards": [
+            "4h",
+            "7s"
+          ],
+          "winnings": 20000,
+          "baseline_winnings": 0
+        },
+        "error": null
+      }
+    ],
+    "unresolved": null,
+    "status": "completed",
+    "completed_hands": 1,
+    "big_blind_chips": 100,
+    "profit_chips": 20000,
+    "profit_bb": 200.0,
+    "chips_per_100": 2000000.0,
+    "bb_per_100": 20000.0,
+    "baseline_profit_chips": 0,
+    "baseline_bb_per_100": 0.0,
+    "seat_counts": {
+      "bb": 1,
+      "sb": 0
+    },
+    "rates_scope": "all_requested_hands",
+    "quality_verdict": null
+  },
+  "player_stats": {
+    "hero": {
+      "hands": 1,
+      "vpip": 1,
+      "pfr": 1,
+      "saw_flop": 1,
+      "won_when_saw_flop": 1,
+      "showdown": 1,
+      "won_showdown": 1,
+      "postflop_raises": 0,
+      "postflop_calls": 0,
+      "action_raise": 1,
+      "street0_raise": 1
+    },
+    "opponent": {
+      "hands": 1,
+      "vpip": 1,
+      "pfr": 0,
+      "saw_flop": 1,
+      "won_when_saw_flop": 0,
+      "showdown": 1,
+      "won_showdown": 0,
+      "postflop_raises": 0,
+      "postflop_calls": 0,
+      "action_call": 2,
+      "street0_call": 2
+    }
+  },
+  "completed_at": "2026-10-12T14:00:10.842421+00:00",
+  "decisions": [
+    {
+      "increment": "b20000",
+      "bucket": 3,
+      "probabilities": [
+        0.01927298672768106,
+        0.18615460326464994,
+        0.223758100629754,
+        0.570814309377915
+      ],
+      "inference_ms": 96.58348900029523,
+      "street": 0,
+      "candidates": [
+        [
+          1,
+          100
+        ],
+        [
+          2,
+          200
+        ],
+        [
+          2,
+          300
+        ],
+        [
+          3,
+          20000
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        4,
+        45
+      ],
+      "engine_board": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    }
+  ],
+  "requests": 2,
+  "http_seconds": 0.00039470099909522105,
+  "record_sha256": "dbff5ac9d6f87307a04d2cd57ad3670a1350d985350a9f4c654df57850da75e4"
+}

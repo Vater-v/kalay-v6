@@ -1,0 +1,172 @@
+{
+  "status": "unresolved",
+  "requested_hands": 60,
+  "completed_hands": 54,
+  "unresolved_hands": [
+    41
+  ],
+  "hands": 54,
+  "profit_chips": 95607,
+  "profit_bb": 956.07,
+  "bb_per_100": 1770.4999999999998,
+  "ci95_bb_per_100": [
+    -1319.1714986545132,
+    4860.171498654513
+  ],
+  "fixed_n_hoeffding95_bb_per_100": [
+    -5622.068294366521,
+    9163.068294366522
+  ],
+  "standard_error_bb_per_100": 1540.4101545594085,
+  "positions": {
+    "bb": {
+      "hands": 28,
+      "profit_chips": -20700,
+      "profit_bb": -207.0,
+      "bb_per_100": -739.2857142857143,
+      "ci95_bb_per_100": [
+        -5208.101974214337,
+        3729.5305456429082
+      ],
+      "fixed_n_hoeffding95_bb_per_100": [
+        -11005.568188084431,
+        9526.996759513004
+      ],
+      "standard_error_bb_per_100": 2177.9655892799774
+    },
+    "sb": {
+      "hands": 26,
+      "profit_chips": 116307,
+      "profit_bb": 1163.07,
+      "bb_per_100": 4473.346153846154,
+      "ci95_bb_per_100": [
+        169.3306176910454,
+        8777.361690001262
+      ],
+      "fixed_n_hoeffding95_bb_per_100": [
+        -6180.478661848241,
+        15127.17096954055
+      ],
+      "standard_error_bb_per_100": 2089.796051839515
+    }
+  },
+  "player_stats": {
+    "hero": {
+      "hands": 54,
+      "vpip": 36,
+      "pfr": 27,
+      "saw_flop": 29,
+      "won_when_saw_flop": 18,
+      "showdown": 18,
+      "won_showdown": 11,
+      "postflop_raises": 25,
+      "postflop_calls": 6,
+      "action_fold": 16,
+      "street0_fold": 12,
+      "action_call": 19,
+      "street0_call": 13,
+      "action_raise": 54,
+      "street1_raise": 14,
+      "street2_raise": 10,
+      "action_check": 9,
+      "street0_check": 4,
+      "street0_raise": 29,
+      "street2_call": 2,
+      "street3_raise": 1,
+      "fold_to_three_bet_opportunities": 6,
+      "fold_to_three_bet": 1,
+      "cbet_opportunities": 5,
+      "cbets": 3,
+      "street1_call": 4,
+      "street2_fold": 4,
+      "three_bet_opportunities": 8,
+      "three_bets": 2,
+      "fold_to_cbet_opportunities": 2,
+      "fold_to_cbet": 0,
+      "street1_check": 3,
+      "street3_check": 1,
+      "street2_check": 1,
+      "vpip_percent": 66.66666666666667,
+      "pfr_percent": 50.0,
+      "three_bet_percent": 25.0,
+      "fold_to_three_bet_percent": 16.666666666666668,
+      "cbet_percent": 60.0,
+      "fold_to_cbet_percent": 0.0,
+      "wwsf_percent": 62.06896551724138,
+      "wtsd_percent": 62.06896551724138,
+      "wsd_percent": 61.111111111111114,
+      "aggression_factor": 4.166666666666667
+    },
+    "opponent": {
+      "hands": 54,
+      "vpip": 35,
+      "pfr": 17,
+      "saw_flop": 29,
+      "won_when_saw_flop": 11,
+      "showdown": 18,
+      "won_showdown": 7,
+      "postflop_raises": 14,
+      "postflop_calls": 15,
+      "action_fold": 20,
+      "street0_fold": 13,
+      "action_check": 15,
+      "street0_check": 4,
+      "street1_check": 6,
+      "action_call": 44,
+      "street1_call": 11,
+      "street2_check": 4,
+      "street2_call": 3,
+      "street0_call": 29,
+      "action_raise": 31,
+      "street1_raise": 6,
+      "street2_raise": 8,
+      "street2_fold": 5,
+      "three_bet_opportunities": 15,
+      "three_bets": 6,
+      "street1_fold": 2,
+      "street0_raise": 17,
+      "street3_call": 1,
+      "fold_to_cbet_opportunities": 3,
+      "fold_to_cbet": 0,
+      "cbet_opportunities": 2,
+      "cbets": 2,
+      "street3_check": 1,
+      "fold_to_three_bet_opportunities": 2,
+      "fold_to_three_bet": 0,
+      "vpip_percent": 64.81481481481481,
+      "pfr_percent": 31.48148148148148,
+      "three_bet_percent": 40.0,
+      "fold_to_three_bet_percent": 0.0,
+      "cbet_percent": 100.0,
+      "fold_to_cbet_percent": 0.0,
+      "wwsf_percent": 37.93103448275862,
+      "wtsd_percent": 62.06896551724138,
+      "wsd_percent": 38.888888888888886,
+      "aggression_factor": 0.9333333333333333
+    }
+  },
+  "equal_position_weighted": {
+    "bb_per_100": 1867.0302197802198,
+    "ci95_bb_per_100": [
+      -1161.4088815651799,
+      4895.469321125619
+    ]
+  },
+  "wins": 31,
+  "ties": 0,
+  "losses": 23,
+  "quality_verdict": null,
+  "rates_scope": "completed_hands_only; no complete-match conclusion",
+  "confidence_method": "Student-t 95% approximate fixed-sample interval; independent identically distributed hand profits assumed; not anytime-valid",
+  "bounded_confidence_method": "Hoeffding 95% fixed-n bound with profit in [-200,200] BB; independent hands assumed; not anytime-valid",
+  "retries": 0,
+  "policy_id": "audit-stub",
+  "contract_hash": "9b5cff89611b31f0b37af24b6589ce4821be5f28a4a9a8367395ee942780ec3c",
+  "elapsed_seconds": 14.65928828000051,
+  "requests_this_run": 156,
+  "http_seconds_this_run": 0.017169570000078238,
+  "created_at": "2026-10-12T14:00:12.357573+00:00",
+  "inference_batches": 101,
+  "inference_decisions": 101,
+  "max_inference_batch": 1
+}

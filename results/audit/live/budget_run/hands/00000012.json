@@ -1,0 +1,499 @@
+{
+  "number": 12,
+  "worker": 1,
+  "policy_id": "audit-stub",
+  "status": "completed",
+  "started_at": "2026-10-12T14:00:01.152579+00:00",
+  "mutation_outcome_unknown": false,
+  "result": {
+    "requested_hands": 1,
+    "policy_id": "audit-stub",
+    "completed": [
+      {
+        "number": 12,
+        "client_pos": 0,
+        "action": "cb200b1362b3178c/b2118c/b5296b12178c/b2526c",
+        "hole_cards": [
+          10,
+          26
+        ],
+        "board": [
+          4,
+          32,
+          30,
+          19,
+          14
+        ],
+        "winnings_chips": -20000,
+        "baseline_winnings_chips": 0
+      }
+    ],
+    "requests": [
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/new_hand",
+        "request": {
+          "token": "[REDACTED]"
+        },
+        "response": {
+          "old_action": "",
+          "action": "c",
+          "client_pos": 0,
+          "hole_cards": [
+            "4d",
+            "8d"
+          ],
+          "board": [],
+          "token": "[REDACTED]"
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "b200"
+        },
+        "response": {
+          "old_action": "c",
+          "action": "cb200b1362",
+          "client_pos": 0,
+          "hole_cards": [
+            "4d",
+            "8d"
+          ],
+          "board": []
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "b3178"
+        },
+        "response": {
+          "old_action": "cb200b1362",
+          "action": "cb200b1362b3178c",
+          "client_pos": 0,
+          "hole_cards": [
+            "4d",
+            "8d"
+          ],
+          "board": [
+            "3s",
+            "Ts",
+            "9d"
+          ]
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "b2118"
+        },
+        "response": {
+          "old_action": "cb200b1362b3178c",
+          "action": "cb200b1362b3178c/b2118c/",
+          "client_pos": 0,
+          "hole_cards": [
+            "4d",
+            "8d"
+          ],
+          "board": [
+            "3s",
+            "Ts",
+            "9d",
+            "6c"
+          ]
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "b5296"
+        },
+        "response": {
+          "old_action": "cb200b1362b3178c/b2118c/",
+          "action": "cb200b1362b3178c/b2118c/b5296b12178",
+          "client_pos": 0,
+          "hole_cards": [
+            "4d",
+            "8d"
+          ],
+          "board": [
+            "3s",
+            "Ts",
+            "9d",
+            "6c"
+          ]
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "c"
+        },
+        "response": {
+          "old_action": "cb200b1362b3178c/b2118c/b5296b12178",
+          "action": "cb200b1362b3178c/b2118c/b5296b12178c",
+          "client_pos": 0,
+          "hole_cards": [
+            "4d",
+            "8d"
+          ],
+          "board": [
+            "3s",
+            "Ts",
+            "9d",
+            "6c",
+            "5d"
+          ]
+        },
+        "error": null
+      },
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/act",
+        "request": {
+          "token": "[REDACTED]",
+          "incr": "b2526"
+        },
+        "response": {
+          "old_action": "cb200b1362b3178c/b2118c/b5296b12178c",
+          "action": "cb200b1362b3178c/b2118c/b5296b12178c/b2526c",
+          "client_pos": 0,
+          "hole_cards": [
+            "4d",
+            "8d"
+          ],
+          "board": [
+            "3s",
+            "Ts",
+            "9d",
+            "6c",
+            "5d"
+          ],
+          "bot_hole_cards": [
+            "3d",
+            "7s"
+          ],
+          "winnings": -20000,
+          "baseline_winnings": 0
+        },
+        "error": null
+      }
+    ],
+    "unresolved": null,
+    "status": "completed",
+    "completed_hands": 1,
+    "big_blind_chips": 100,
+    "profit_chips": -20000,
+    "profit_bb": -200.0,
+    "chips_per_100": -2000000.0,
+    "bb_per_100": -20000.0,
+    "baseline_profit_chips": 0,
+    "baseline_bb_per_100": 0.0,
+    "seat_counts": {
+      "bb": 1,
+      "sb": 0
+    },
+    "rates_scope": "all_requested_hands",
+    "quality_verdict": null
+  },
+  "player_stats": {
+    "hero": {
+      "hands": 1,
+      "vpip": 1,
+      "pfr": 1,
+      "saw_flop": 1,
+      "won_when_saw_flop": 0,
+      "showdown": 1,
+      "won_showdown": 0,
+      "postflop_raises": 3,
+      "postflop_calls": 1,
+      "action_raise": 5,
+      "street0_raise": 2,
+      "street1_raise": 1,
+      "street2_raise": 1,
+      "action_call": 1,
+      "street2_call": 1,
+      "street3_raise": 1,
+      "fold_to_three_bet_opportunities": 1,
+      "fold_to_three_bet": 0,
+      "cbet_opportunities": 1,
+      "cbets": 1
+    },
+    "opponent": {
+      "hands": 1,
+      "vpip": 1,
+      "pfr": 1,
+      "saw_flop": 1,
+      "won_when_saw_flop": 1,
+      "showdown": 1,
+      "won_showdown": 1,
+      "postflop_raises": 1,
+      "postflop_calls": 2,
+      "action_call": 4,
+      "street0_call": 2,
+      "action_raise": 2,
+      "street0_raise": 1,
+      "street1_call": 1,
+      "street2_raise": 1,
+      "street3_call": 1,
+      "three_bet_opportunities": 1,
+      "three_bets": 1,
+      "fold_to_cbet_opportunities": 1,
+      "fold_to_cbet": 0
+    }
+  },
+  "completed_at": "2026-10-12T14:00:04.238750+00:00",
+  "decisions": [
+    {
+      "increment": "b200",
+      "bucket": 2,
+      "probabilities": [
+        0.2714034013317803,
+        0.6990745644110966,
+        0.021779742031042253,
+        0.0077422922260808975
+      ],
+      "inference_ms": 107.368619999761,
+      "street": 0,
+      "candidates": [
+        [
+          1,
+          100
+        ],
+        [
+          2,
+          200
+        ],
+        [
+          2,
+          300
+        ],
+        [
+          3,
+          20000
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        28,
+        32
+      ],
+      "engine_board": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "increment": "b3178",
+      "bucket": 2,
+      "probabilities": [
+        0.029341875136041782,
+        0.2435770820680889,
+        0.4101691016769445,
+        0.31691194111892484
+      ],
+      "inference_ms": 57.6328460001605,
+      "street": 0,
+      "candidates": [
+        [
+          0,
+          200
+        ],
+        [
+          1,
+          1362
+        ],
+        [
+          2,
+          3178
+        ],
+        [
+          3,
+          20000
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        28,
+        32
+      ],
+      "engine_board": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "increment": "b2118",
+      "bucket": 2,
+      "probabilities": [
+        0.02091651228469916,
+        0.1169348138313154,
+        0.006169706131726751,
+        0.8559789677522587
+      ],
+      "inference_ms": 176.32418999983202,
+      "street": 1,
+      "candidates": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          2118
+        ],
+        [
+          2,
+          4767
+        ],
+        [
+          3,
+          16822
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        28,
+        32
+      ],
+      "engine_board": [
+        1,
+        8,
+        33,
+        -1,
+        -1
+      ]
+    },
+    {
+      "increment": "b5296",
+      "bucket": 2,
+      "probabilities": [
+        0.1902407705783844,
+        0.47828513383865356,
+        0.33147409558296204
+      ],
+      "inference_ms": 380.8579920005286,
+      "street": 2,
+      "candidates": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          5296
+        ],
+        [
+          3,
+          14704
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        28,
+        32
+      ],
+      "engine_board": [
+        1,
+        8,
+        33,
+        43,
+        -1
+      ]
+    },
+    {
+      "increment": "c",
+      "bucket": 1,
+      "probabilities": [
+        0.15382571747639354,
+        0.5786039319426407,
+        0.26757035058096573
+      ],
+      "inference_ms": 85.00860599997395,
+      "street": 2,
+      "candidates": [
+        [
+          0,
+          5296
+        ],
+        [
+          1,
+          12178
+        ],
+        [
+          3,
+          14704
+        ]
+      ],
+      "solve_seconds": 0.0,
+      "engine_hole_cards": [
+        28,
+        32
+      ],
+      "engine_board": [
+        1,
+        8,
+        33,
+        43,
+        -1
+      ]
+    },
+    {
+      "increment": "b2526",
+      "bucket": 3,
+      "probabilities": [
+        5.5278867686798344e-08,
+        0.9999999447211323
+      ],
+      "inference_ms": 2273.434702000486,
+      "street": 3,
+      "candidates": [
+        [
+          1,
+          0
+        ],
+        [
+          3,
+          2526
+        ]
+      ],
+      "solve_seconds": 2.147281281000687,
+      "engine_hole_cards": [
+        28,
+        32
+      ],
+      "engine_board": [
+        1,
+        8,
+        33,
+        43,
+        29
+      ]
+    }
+  ],
+  "requests": 7,
+  "http_seconds": 0.0011071029994127457,
+  "record_sha256": "46812a64630b4f43e3edef4621a4329124c2c7cb30d62bea3c75d277dc026807"
+}

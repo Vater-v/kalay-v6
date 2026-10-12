@@ -1,0 +1,94 @@
+{
+ "warm_up_seconds_river_only": 19.605616342000758,
+ "ready_line": "ready: n=[2], menus=['normal', 'short'], streets=[3], ladder=[1], 4 topologies x 1 batch sizes compiled in 20 s (compile 11 s; from cache: no)",
+ "budget_seconds": 4.0,
+ "first_run": {
+  "status": "unresolved",
+  "completed_hands": 54,
+  "unresolved_hands": [
+   41
+  ],
+  "bb_per_100": 1770.4999999999998
+ },
+ "first_run_seconds": 14.66941067300013,
+ "bot_failures": [
+  {
+   "hand": "w712-h18-pos1",
+   "seat": 0,
+   "street": 3,
+   "player_street": 3,
+   "error": "BudgetExceeded",
+   "message": "the solve did not return within 4.0 s",
+   "history": "ck/kk/kb300c/b528",
+   "time": "14:00:10",
+   "client_pos": 1,
+   "protocol_hole_cards": [
+    47,
+    46
+   ],
+   "protocol_board": [
+    51,
+    18,
+    4,
+    19,
+    6
+   ],
+   "player_failure": {
+    "hand": "w712-h18-pos1",
+    "street": 3,
+    "error": "BudgetExceeded",
+    "message": "the solve did not return within 4.0 s",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/user/kalay-v6/poker/player/live.py\", line 456, in request\n    return future.result(timeout=timeout)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.13/concurrent/futures/_base.py\", line 462, in result\n    raise TimeoutError()\nTimeoutError\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/user/kalay-v6/poker/player/live.py\", line 749, in _solve_street\n    sol = self.solver.solve(tree, self.street_ranges, fixed, self._street_equity())\n  File \"/home/user/kalay-v6/poker/player/live.py\", line 551, in solve\n    return self.server.request(tree, ranges, fixed, equity, timeout=self.budget_seconds)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/user/kalay-v6/tools/audit/live/budget_repro.py\", line 35, in request\n    return self.real.request(tree, ranges, fixed, equity, timeout=timeout)\n           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/user/kalay-v6/poker/player/live.py\", line 459, in request\n    raise BudgetExceeded(f\"the solve did not return within {timeout} s\")\npoker.player.live.BudgetExceeded: the solve did not return within 4.0 s\n",
+    "counters": {
+     "decisions": 3,
+     "translated": 0,
+     "solves": {
+      "0": 1,
+      "1": 1,
+      "2": 1
+     },
+     "off_tree": {},
+     "slot_overflow": 0,
+     "floor_hits": 4,
+     "solve_errors": 1,
+     "budget_exceeded": 0,
+     "illegal_actions": 0,
+     "table_unreachable": 0,
+     "invalid_hand": 0
+    }
+   },
+   "counters": {
+    "decisions": 3,
+    "translated": 0,
+    "solves": {
+     "0": 1,
+     "1": 1,
+     "2": 1
+    },
+    "off_tree": {},
+    "slot_overflow": 0,
+    "floor_hits": 4,
+    "solve_errors": 1,
+    "budget_exceeded": 0,
+    "illegal_actions": 0,
+    "table_unreachable": 0,
+    "invalid_hand": 0
+   }
+  }
+ ],
+ "server_errors": {
+  "timeout": 1,
+  "unavailable": 0,
+  "failed": 0,
+  "outside_field": 0
+ },
+ "real_river_requests": 3,
+ "unresolved_records": [
+  {
+   "number": 41,
+   "status": "unresolved",
+   "reason": "Policy adapter failed (LiveDecisionFailure)"
+  }
+ ],
+ "resume": "IncompleteMatchError: An unresolved/in-flight hand prevents safe resume; retain this partial match, never replace its missing outcome"
+}

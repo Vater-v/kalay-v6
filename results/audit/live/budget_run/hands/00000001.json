@@ -1,0 +1,94 @@
+{
+  "number": 1,
+  "worker": 0,
+  "policy_id": "audit-stub",
+  "status": "completed",
+  "started_at": "2026-10-12T13:59:57.700828+00:00",
+  "mutation_outcome_unknown": false,
+  "result": {
+    "requested_hands": 1,
+    "policy_id": "audit-stub",
+    "completed": [
+      {
+        "number": 1,
+        "client_pos": 0,
+        "action": "f",
+        "hole_cards": [
+          38,
+          31
+        ],
+        "board": [],
+        "winnings_chips": 50,
+        "baseline_winnings_chips": 0
+      }
+    ],
+    "requests": [
+      {
+        "hand": 1,
+        "endpoint": "/slumbot/api/new_hand",
+        "request": {},
+        "response": {
+          "old_action": "",
+          "action": "f",
+          "client_pos": 0,
+          "hole_cards": [
+            "Jd",
+            "9c"
+          ],
+          "board": [],
+          "token": "[REDACTED]",
+          "winnings": 50,
+          "baseline_winnings": 0
+        },
+        "error": null
+      }
+    ],
+    "unresolved": null,
+    "status": "completed",
+    "completed_hands": 1,
+    "big_blind_chips": 100,
+    "profit_chips": 50,
+    "profit_bb": 0.5,
+    "chips_per_100": 5000.0,
+    "bb_per_100": 50.0,
+    "baseline_profit_chips": 0,
+    "baseline_bb_per_100": 0.0,
+    "seat_counts": {
+      "bb": 1,
+      "sb": 0
+    },
+    "rates_scope": "all_requested_hands",
+    "quality_verdict": null
+  },
+  "player_stats": {
+    "hero": {
+      "hands": 1,
+      "vpip": 0,
+      "pfr": 0,
+      "saw_flop": 0,
+      "won_when_saw_flop": 0,
+      "showdown": 0,
+      "won_showdown": 0,
+      "postflop_raises": 0,
+      "postflop_calls": 0
+    },
+    "opponent": {
+      "hands": 1,
+      "vpip": 0,
+      "pfr": 0,
+      "saw_flop": 0,
+      "won_when_saw_flop": 0,
+      "showdown": 0,
+      "won_showdown": 0,
+      "postflop_raises": 0,
+      "postflop_calls": 0,
+      "action_fold": 1,
+      "street0_fold": 1
+    }
+  },
+  "completed_at": "2026-10-12T13:59:57.703045+00:00",
+  "decisions": [],
+  "requests": 1,
+  "http_seconds": 9.750100070959888e-05,
+  "record_sha256": "02d2f7d5cd2626aa2395c04a37e126c62b31b40c5512fb914a93f5b7a4876a4c"
+}
