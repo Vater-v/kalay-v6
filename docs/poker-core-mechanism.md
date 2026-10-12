@@ -282,7 +282,51 @@ With this menu one heads-up postflop street has **28 decision nodes, 26 fold ter
 
 ### 4.2 A complete decision with real numbers (toy game)
 
-[[WALKTHROUGH: inserted from toy/hu/results/walkthrough.txt]]
+The same mechanism, run end to end in `toy/hu` (`python3 experiments/walkthrough.py`, 23 s on one core; full output in `toy/hu/results/walkthrough.txt`). The game: 10 cards (Ts Th Js Jh Qs Qh Ks Kh As Ah), one private card each, antes of 1, stacks of 12, menu {½ pot, pot, all-in} → {pot-raise, all-in} → {all-in}. The agent is P0, out of position. Oracle leaves (the turn is solved exactly below the root), $K$ = 300 CFR⁺ iterations per re-solve. The single-root chain here reproduces the batched E2c agent's strategy to a maximum difference of 0.0 at every step.
+
+**The chain so far.** [1] Preflop root (the whole game, 54 957 nodes, 19.8 s; this is the only solve the oracle agent pays once per hand). [2] Flop street root after check–check and the flop card Ks (2 082 nodes, 0.6 s), with the gadget fed the opponent's values from [1]. Now:
+
+**(a) The public node.** Preflop: P0 checks, P1 checks. Flop Ks: P0 checks, P1 bets 2 (one pot). Pot 4; P0 has 11 behind, P1 has 9. P0 to act, facing 2 into 2 (needs 33.3 % equity). Legal: fold, call, raise (pot), all-in.
+
+**(b) The agent's own range, carried.** Product of its own preflop-check and flop-check probabilities from [1] and [2]:
+
+| hand | Ts | Th | Js | Jh | Qs | Qh | Ks | Kh | As | Ah |
+|---|---|---|---|---|---|---|---|---|---|---|
+| preflop check | 0.749 | 0.749 | 0.726 | 0.725 | 0.447 | 0.448 | 0.403 | 0.403 | 0.324 | 0.323 |
+| flop check | 0.720 | 0.720 | 0.669 | 0.669 | 0.470 | 0.471 | — | 0.502 | 0.189 | 0.198 |
+| **range** | 0.539 | 0.539 | 0.485 | 0.485 | 0.210 | 0.211 | board | 0.202 | 0.061 | 0.064 |
+
+**(c) The opponent's ceilings, from [2]** (what each opponent hand is worth at this node under the previous solution; in the re-solve each hand may take this instead of entering):
+
+| hand | Ts | Th | Js | Jh | Qs | Qh | Ks | Kh | As | Ah |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ceiling $w$ (mA) | −1.92 | −1.92 | −0.34 | −0.34 | 1.57 | 1.57 | — | 8.83 | 4.79 | 4.79 |
+
+No opponent range is passed in. These two vectors are the only state carried between decisions.
+
+**(d) Local subtree.** With oracle leaves: 390 public nodes (148 decision, 2 chance, 112 fold, 128 showdown), 1 188 information sets. The same root cut at the end of the flop, as a value network would see it: 12 public nodes (4 decision, 4 fold, 2 showdown, **2 street-boundary leaves**: after our call, and after our raise and P1's call).
+
+**(e) The re-solved strategy, every hand** (rows with larger range matter more; last row is range-weighted):
+
+| hand | range | fold | call | raise | all-in |
+|---|---|---|---|---|---|
+| Ts, Th | 0.539 | 1.000 | 0 | 0 | 0 |
+| Js, Jh | 0.485 | 0.659 | 0.267 | 0.072 | 0.003 |
+| Qs, Qh | 0.210 | 0.006 | 0.989 | 0.004 | 0.001 |
+| Kh | 0.202 | 0 | 0.566 | 0.413 | 0.020 |
+| As | 0.061 | 0 | 0.837 | 0.153 | 0.010 |
+| Ah | 0.064 | 0 | 0.846 | 0.144 | 0.010 |
+| **frequency** | | 0.615 | 0.320 | 0.062 | 0.003 |
+
+The full-game solve [1] at the same node (a different equilibrium, so only roughly comparable): 0.610 / 0.312 / 0.058 / 0.020. **Safety check**: the opponent's exact best response against this strategy sits at the ceiling for every hand (largest excess 0.071 mA against ceilings up to 8.83 mA; CFR⁺ residual at $K$ = 300). The re-solve gives the opponent what [2] allowed and no more.
+
+**(f) The opponent's range, as a by-product.** The gadget player's own Follow probability per hand, read off the solution, is the opponent's reach at this node: 0.736 / 0.741 / 0.257 / 0.257 / 0.419 / 0.415 / — / 0.580 / 0.273 / 0.283 for Ts…Ah, i.e. a range of 18.6 / 18.7 / 6.5 / 6.5 / 10.6 / 10.5 / — / 14.6 / 6.9 / 7.2 %. It was never an input. The naive agent, handed its own carried range instead (19.7 / 19.5 / 6.4 / 6.4 / 10.2 / 10.1 / — / 15.2 / 6.3 / 6.3 %) and no gadget, folds Js and Jh only 40 % instead of 66 % and calls 42 % overall instead of 32 %; over the whole game that agent is exploitable by 520 mA/h against 23.7 for the safe one (§8.1).
+
+**(g) Wall-clock.** This decision 215 ms (390 nodes, 300 iterations). The flop root 606 ms. The preflop root 19.8 s.
+
+**Off-menu.** P1 instead bets 0.75 pot after our check, a size not in the menu. The agent has no values for that branch, so it re-solves from P1's node right after our check with the 0.75 size added to P1's actions (1 958 public nodes, 579 ms including building the augmented tree), our range after the check as the root range, and P1's ceilings at that node from [2]. The opponent's range after the new bet comes out of the solve (P(bet 0.75 | hand) = 0.268 / 0.267 / 0.121 / 0.120 / 0.200 / 0.199 / — / 0.285 / 0.476 / 0.468), and our strategy facing it is folds 0.565, calls 0.349, raises 0.086: Js/Jh now call 38 % instead of 27 % (the price is 1.5 into 3.5, 30 % equity), As/Ah raise 37 % instead of 15 %. The opponent's best response against this strategy, including the new size, exceeds its ceilings by at most 0.058 mA. Snapping the 0.75 bet to the pot-sized branch would have played the (e) column instead.
+
+**Exploitation, one input swapped.** Same node, same range, same ceilings; the only change is the opponent reach the traversal sees, `q = p · reach(station) + (1−p) · reach(free CFR⁺ opponent)`, two lines in `cfr.py`; $p$ = 0 is the safe solve. Against the calling station at $p$ = 0.01 the strategy barely moves (largest range-weighted shift 0.004). At $p$ = 0.25: Js/Jh fold 84 % (the station never folds, so thin raises lose their bluff value), Qs/Qh raise 50 %, Kh raises 99 %, As/Ah raise 97 %, overall 0.677 / 0.131 / 0.190 / 0.002. Re-solve time unchanged (211 ms). The caveat the script prints: the station never bets, so this node has probability zero under the model; the hook applies the model's behaviour (calls every raise, never folds) below the root.
 
 ### 4.3 Three players to the flop
 

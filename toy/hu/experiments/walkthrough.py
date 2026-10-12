@@ -1,7 +1,7 @@
 """Walkthrough: ONE complete decision of the safe continual re-solving agent, with the
 mechanism's actual numbers printed (exact / ORACLE leaves, K = 300 CFR+ iterations).
 
-Run (from toy/hu):   python3 experiments/walkthrough.py        (~30 s, one core)
+Run (from toy/hu):   python3 experiments/walkthrough.py        (~25 s, one core)
 The output is also written to results/walkthrough.txt.  Nothing from results/ is needed (no
 blueprint, no value nets): the chain of re-solves is recomputed here.  If results/ holds E2c's
 agent_oracle_safe_eff0.npy the script also checks its own numbers against that stored strategy.
@@ -37,14 +37,14 @@ import numpy as np                                     # noqa: E402
 import tree as tree_mod                                # noqa: E402
 from common import CFG, RES, setup, mA                 # noqa: E402
 from cfr import Solver, values, forward                # noqa: E402
-from tree import PublicTree, DEC, CHANCE               # noqa: E402
+from tree import PublicTree, CHANCE                    # noqa: E402
 from opponents import model_eff                        # noqa: E402
 
 # ----------------------------------------------------------------------------------------------
 # SCENARIO KNOBS (env vars only for exploring other decisions; the saved output uses the defaults)
 # ----------------------------------------------------------------------------------------------
 K = int(os.environ.get("WT_K", 300))               # CFR+ iterations in every re-solve
-AGENT = 0                                          # 0 = acts first = out of position
+AGENT = 0                                          # fixed: the scenario is written for the out-of-position seat
 PRE_PATH = os.environ.get("WT_PRE", "k/k")         # preflop line: P0 checks, P1 checks
 FLOP_CARD = int(os.environ.get("WT_CARD", 6))      # flop card id (rank = id // 2); 6 = Ks
 OPP_BET = os.environ.get("WT_BET", "b1")           # P1's on-menu flop bet after our check: b1 = pot
@@ -76,20 +76,25 @@ def card(c):
 
 
 def describe_path(T, key):
-    """Betting sequence of public key `key`, e.g. 'P0 checks, P1 checks | flop Ks | P0 checks, P1 bets 2'."""
-    n, parts = 0, []
+    """Betting sequence of public key `key`, street by street, e.g.
+    'preflop: P0 checks, P1 checks  |  flop Ks: P0 checks, P1 bets 2 (= 1 pot, total in 3)'."""
+    n, segs, cur, street = 0, [], [], "preflop"
     for lab in key.split("/") if key else []:
         actor = int(T.player[n])
-        c = int(T.child_start[n] + T.label[T.child_start[n]: T.child_start[n] + T.n_child[n]].index(lab))
+        cs = int(T.child_start[n])
+        c = cs + T.label[cs: cs + int(T.n_child[n])].index(lab)
         if T.kind[n] == CHANCE:
-            parts.append(f"| {'flop' if len(T.states[n].board) == 0 else 'turn'} {card(int(lab[1:]))} |")
+            segs.append(f"{street}: " + ", ".join(cur))
+            street, cur = f"{'flop' if len(T.states[n].board) == 0 else 'turn'} {card(int(lab[1:]))}", []
         else:
             put = T.contrib[c][actor] - T.contrib[n][actor]
-            what = {"k": "checks", "c": f"calls {put:g}", "f": "folds", "A": f"goes ALL-IN (+{put:g})"}.get(
-                lab, f"{'bets' if lab[0] == 'b' else 'raises to'} {T.contrib[c][actor]:g} (+{put:g}, {lab[1:]} pot)")
-            parts.append(f"P{actor} {what}")
+            tot = T.contrib[c][actor]
+            what = {"k": "checks", "c": f"calls {put:g}", "f": "folds", "A": f"goes ALL-IN (+{put:g}, total in {tot:g})"}.get(
+                lab, f"{'bets' if lab[0] == 'b' else 'raises'} {put:g} (= {lab[1:]} pot, total in {tot:g})")
+            cur.append(f"P{actor} {what}")
         n = c
-    return " ".join(parts)
+    segs.append(f"{street}: " + ", ".join(cur))
+    return "  |  ".join(segs)
 
 
 def hand_row(label, vec, mask, fmt="{:6.3f}", w=6, head=14):
@@ -201,6 +206,10 @@ def main():
     out("cards  : " + " ".join(f"{c}={card(c)}" for c in range(N)) + "   (strength = rank + 5 * #board cards of that rank; one board card on the flop)")
     out("menu   : open bet {0.5 pot, 1 pot, all-in}; first raise {1 pot, all-in}; second raise all-in; P0 acts first on every street")
     out(f"agent  : P{a} = out of position (acts first);   opponent: P{o}.   units: antes; mA = milli-antes = 0.001 ante")
+    out("reading guide: the re-solve at the decision [3] takes exactly TWO inputs from the past, our range pi_a (b) and the")
+    out("  opponent's value ceilings w (c); with ORACLE leaves nothing else (the turn is solved jointly below, d).  It returns our")
+    out("  strategy for every hand (e); the opponent's range comes out as a by-product (f).  Nothing is stored between decisions")
+    out("  except those two vectors per future node.  Chain: [1] preflop root -> [2] flop root -> [3] the decision.")
 
     # ---------------------------------------------------------------- [1] preflop root
     hr("CHAIN STEP [1]   re-solve at the preflop root   (game start: nothing to enforce, no gadget)")
@@ -256,16 +265,16 @@ def main():
     out(hand_row(f"preflop '{first}'", eff_a[cs + labs0.index(first)], np.ones(N)))
     out(hand_row("flop 'k'", eff_a[full.child_start[n_flop] + labs2.index("k")], full.bmask[n_flop]))
     out(hand_row("pi_a (product)", pi_dec, mask))
-    out(f"  (sum over hands = {pi_dec.sum():.3f}: the agent reaches this node with ~{100 * pi_dec.sum() / mask.sum():.0f}% of its hands)")
+    out(f"  (sum over the {int(mask.sum())} possible hands = {pi_dec.sum():.3f}; mean {pi_dec.sum() / mask.sum():.3f} = how often the agent's own play brings a random hand here)")
 
     # the opponent ceilings, in absolute CFV units and as net chips per unit of our range
     M = pi_dec.sum() - pi_dec * mask
     with np.errstate(invalid="ignore", divide="ignore"):
         w_chips = w_dec / (full.cscale[n_dec] * M)
     hr("(c) THE OPPONENT'S COUNTERFACTUAL-VALUE CEILINGS w(h')   = the gadget inputs, from the previous solve [2]")
-    out("  w(h') = what the opponent holding h' is worth at THIS node under [2]'s solution.  In the re-solve it may")
-    out("  'terminate' and take w(h') instead of entering the subgame, so the new strategy can never leave a hand")
-    out("  with more than it had: the opponent cannot gain against us by the re-solve (that is the safety).")
+    out("  w(h') = what the opponent holding h' is worth at THIS node under [2]'s solution.  In the re-solve each hand may")
+    out("  'terminate' and take w(h') instead of entering the subgame, so (up to solver error) our new strategy cannot give")
+    out("  any opponent hand more than w(h'): the re-solve cannot make us more exploitable than [2] already allowed.")
     out(hand_header(N, 8))
     out(hand_row("w   (mA)", np.array([mA(x) for x in w_dec]), mask, "{:8.2f}", 8))
     out(hand_row("w in net chips", w_chips, mask, "{:8.3f}", 8))
@@ -280,7 +289,7 @@ def main():
         f"terminals;  street-boundary leaves: {so['leaf']}")
     out(f"  same root, DEPTH-LIMITED at the end of the flop (what a value net would be asked about): "
         f"{sd['public_nodes']} public nodes = {sd['decision']} decision + {sd['fold']} fold + {sd['showdown']} showdown "
-        f"+ {sd['leaf']} street-boundary LEAF (the 'closed street' after a call), {sd['levels']} levels")
+        f"+ {sd['leaf']} street-boundary LEAVES (street closed with chips behind: after our call, and after our raise + P1's call), {sd['levels']} levels")
     out(f"  (full game: 54,957 public nodes.  Solver rows = nodes x {N} hands = {so['public_nodes'] * N}; "
         f"information sets in this subtree: {so['info_sets']})")
 
@@ -291,6 +300,16 @@ def main():
     wgt = pi_dec * mask
     out("  for reference, the full-game solve [1] (same K, an equilibrium is not unique, so only roughly comparable):")
     out("      range-weighted frequency  " + "  ".join(f"{l} {(ref[j] * wgt).sum() / wgt.sum():.3f}" for j, l in enumerate(acts)))
+    # does the ceiling hold?  exact best response of the opponent (per hand) against the re-solved strategy
+    br = values(R3.S, R3.e[0], R3.e[1], best_response_for=o, g_follow=R3.S.avg_follow())[o][0]
+    out("  safety check: the opponent's exact best response against this strategy, per hand, vs the ceiling w (mA):")
+    out(hand_header(N, 8))
+    out(hand_row("ceiling w", mA(w_dec), mask, "{:8.2f}", 8))
+    out(hand_row("best response", mA(br), mask, "{:8.2f}", 8))
+    out(hand_row("BR - w", mA(br - w_dec), mask, "{:8.3f}", 8))
+    gap, scale = np.abs(br - w_dec)[mask > 0].max(), np.abs(w_dec)[mask > 0].max()
+    out(f"      largest |BR - w| = {mA(gap):.3f} mA against ceilings up to {mA(scale):.2f} mA (CFR+ error at K={K})."
+        + ("  Every hand sits at its ceiling: the re-solve gives the opponent what [2] allowed, and no more." if gap < 0.05 * scale else ""))
 
     # ---- (f) opponent range
     hr("(f) THE OPPONENT'S RANGE after its bet: a BY-PRODUCT of the safe re-solve, not an input")
@@ -300,7 +319,8 @@ def main():
         x = x * mask
         return 100 * x / x.sum()
     out("  safe re-solve: no opponent range is passed in.  The opponent's root reach is (all cards possible) x g_follow(h'),")
-    out("  g_follow = the gadget player's own equilibrium probability that h' ENTERS the subgame rather than taking w(h').")
+    out("  g_follow = the gadget player's own equilibrium probability that h' ENTERS the subgame rather than taking w(h'); it plays")
+    out("  the role of P(opponent got here | h'), i.e. how often hand h' bets the pot after our check.")
     out(hand_header(N))
     out(hand_row("g_follow", R3.gf, mask))
     out(hand_row("safe range  %", pct(rr), mask, "{:6.1f}"))
@@ -326,12 +346,12 @@ def main():
     fs = (E3 * wgt).sum(1) / wgt.sum()
     fn = (En * (pi_n * mask)).sum(1) / (pi_n * mask).sum()
     out("      naive minus safe, range-weighted frequency: " + "  ".join(f"{l} {x - y:+.3f}" for l, x, y in zip(acts, fn, fs)))
-    out("  (E2c: over the whole game, safe = 23.7 mA/h exploitable, naive = 520.5 mA/h, same exact leaves, same K.)")
+    out("  (README E2c, whole extracted agent, exact leaves, K=300: safe 23.7 mA/h exploitable, naive 520.5 mA/h.  Here: one node.)")
 
     hr("(g) WALL-CLOCK of the re-solve   (single root, 1 core, tree build + average strategy/values included)")
     out(f"  [3] this decision      : {R3.seconds * 1000:8.1f} ms   ({R3.F.M} nodes, {K} CFR+ iterations)")
     out(f"  [2] flop street root   : {R2.seconds * 1000:8.1f} ms   ({R2.F.M} nodes)")
-    out(f"  [1] preflop root       : {R1.seconds * 1000:8.1f} ms   ({R1.F.M} nodes, whole game; paid once per hand at the start)")
+    out(f"  [1] preflop root       : {R1.seconds * 1000:8.1f} ms   ({R1.F.M} nodes, whole game; the oracle agent pays this once, at the start of the hand)")
 
     # cross-check against E2c's stored strategy for the whole extracted agent
     stored = os.path.join(RES, "agent_oracle_safe_eff0.npy")
@@ -373,12 +393,18 @@ def main():
     p_bet = Ro.e[o][i_off]                                  # P1's probability of this action at the root, per hand
     out("  the opponent's range after the off-menu bet (reach of that node in the re-solve; a by-product again):")
     out(hand_header(N))
-    out(hand_row("P(P1 bets it|h')", p_bet, mask))
+    out(hand_row("P(bet | h')", p_bet, mask))
     out(hand_row("range %", pct(ro), mask, "{:6.1f}"))
     pi_o = Ro.r[a][i_off]
     Eo = Ro.e[a][cs_o: cs_o + cc_o]
     out("  the agent's strategy facing it:")
-    strat_table([(f"re-solved vs {OFF_MENU:g} pot", Eo)], acts_o, pi_o, mask, N)
+    cols_o = [(f"re-solved vs {OFF_MENU:g} pot", Eo)]
+    if acts_o == acts and np.allclose(pi_o, pi_dec):        # same legal actions and same range as at the on-menu bet
+        cols_o.append((f"snap up to {OPP_BET}: play (e)", E3))     # what translating the size to the menu would play
+    strat_table(cols_o, acts_o, pi_o, mask, N)
+    br_o = values(Ro.S, Ro.e[0], Ro.e[1], best_response_for=o, g_follow=Ro.S.avg_follow())[o][0]
+    out(f"  safety check: opponent best response (any of its actions incl. the new size) vs ceilings w_chk: largest excess "
+        f"{mA((br_o - w_chk)[mask > 0].max()):.3f} mA, largest |BR - w| {mA(np.abs(br_o - w_chk)[mask > 0].max()):.3f} mA")
 
     # ---------------------------------------------------------------- RNR
     hr("RNR EXPLOITATION: the same decision [3] against the 'station' model (calls everything, never folds, never raises)")
