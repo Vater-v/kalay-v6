@@ -1,0 +1,32 @@
+{
+ "turn_to_river": {
+  "board4": [
+   6,
+   25,
+   49,
+   40
+  ],
+  "hero_hands_checked": 120,
+  "max_abs_diff_engine_vs_bruteforce": 2.8371810913085938e-05,
+  "max_abs_diff_uniform_over_46_cards": 0.00553545355796814,
+  "mean_abs_diff_uniform_over_46_cards": 0.0011145685566589236,
+  "max_abs_diff_divide_by_48": 0.03941011428833008,
+  "max_rel_err_sum_m_c_eq_44J": 3.717529398272745e-05,
+  "engine_seconds": 3.63319513299939,
+  "independent_eval_seconds": 5.537401477000458
+ },
+ "end_of_turn_synthetic": {
+  "max_abs_diff_network_part": 1.73303815520498e-07,
+  "max_abs_diff_F_avg_vs_turn_share": 0.0
+ },
+ "flop_to_turn": {
+  "board3": [
+   17,
+   9,
+   13
+  ],
+  "hero_hands_checked": 12,
+  "max_abs_diff": 0.00022140145301818848,
+  "turn_cards_seconds_no_rank7_table": 24.817610656999932
+ }
+}

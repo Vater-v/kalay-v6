@@ -1,0 +1,5 @@
+[  273.2s] bias_l0.1              expl     50.9 mA/h (  2.55% of initial pot)  in-situ RMSE_rw(x) 0.0318  test RMSE_rw(x) turn 0.0274 flop 0.0363  wall 142s
+[  273.4s] bias_l0.3              expl    129.0 mA/h (  6.45% of initial pot)  in-situ RMSE_rw(x) 0.1011  test RMSE_rw(x) turn 0.0821 flop 0.1088  wall 136s
+[  273.6s] bias_l0.5              expl    218.7 mA/h ( 10.94% of initial pot)  in-situ RMSE_rw(x) 0.1731  test RMSE_rw(x) turn 0.1369 flop 0.1813  wall 130s
+[  273.8s] learned_20000_rw       expl    417.7 mA/h ( 20.89% of initial pot)  in-situ RMSE_rw(x) 0.1789  test RMSE_rw(x) turn 0.1508 flop 0.2271  wall 137s
+[  273.8s] done in 274s

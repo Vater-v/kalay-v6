@@ -1,0 +1,41 @@
+{
+ "rank7_table_present": false,
+ "cached_table_is_none": true,
+ "hand_ranks_one_board": {
+  "first_s": 0.7324978730000566,
+  "compile_s": 0.7268898487091064,
+  "steady_s": 0.0010368740000785692,
+  "evals_per_s": 1278843.9095777522
+ },
+ "rank_tables_16_boards": {
+  "first_s": 1.8765058180000551,
+  "compile_s": 1.6041338443756104,
+  "steady_s": 0.1736104899999873,
+  "per_board_s": 0.010850655624999206
+ },
+ "equity_matrix_turn_evaluator": {
+  "first_s": 2.097459941000011,
+  "compile_s": 1.2607266902923584,
+  "steady_s": 0.7809317810000493
+ },
+ "turn_matrix_check_max_abs_err": 2.1674416261774354e-08,
+ "rank7_scores_65536": {
+  "first_s": 1.050518244999921,
+  "compile_s": 0.7912909984588623,
+  "steady_s": 0.04425260199991499,
+  "evals_per_s": 1480952.4646737361,
+  "projected_full_build_s": 90.33683605062478
+ },
+ "equity_matrix_flop_evaluator": {
+  "flop": [
+   0,
+   1,
+   2
+  ],
+  "first_s": 18.46812818000012,
+  "compile_s": 1.060415267944336,
+  "run_s_excl_compile": 17.407712912055786
+ },
+ "flop_matrix_check_max_abs_err": 2.263772369559547e-08,
+ "peak_rss_mb": 370.06640625
+}

@@ -1,0 +1,231 @@
+{
+ "hu_blinds_button_posts_sb": {
+  "engine": {
+   "bets": [
+    50,
+    100
+   ],
+   "to_act": 0
+  },
+  "expected": {
+   "bets": [
+    50,
+    100
+   ],
+   "to_act": 0
+  },
+  "ok": true
+ },
+ "hu_postflop_first_actor_is_bb": {
+  "engine": {
+   "street": 1,
+   "to_act": 1
+  },
+  "expected": {
+   "street": 1,
+   "to_act": 1
+  },
+  "ok": true
+ },
+ "3h_blinds": {
+  "engine": {
+   "bets": [
+    0,
+    50,
+    100
+   ],
+   "to_act": 0
+  },
+  "expected": {
+   "bets": [
+    0,
+    50,
+    100
+   ],
+   "to_act": 0
+  },
+  "ok": true
+ },
+ "5h_postflop_first_actor_after_sb_folded": {
+  "engine": {
+   "street": 1,
+   "to_act": 2
+  },
+  "expected": {
+   "street": 1,
+   "to_act": 2
+  },
+  "ok": true
+ },
+ "min_raise_after_short_allin": {
+  "engine": {
+   "to_act": 2,
+   "min_raise_to": 650,
+   "last_raise": 200
+  },
+  "expected": {
+   "to_act": 2,
+   "min_raise_to": 650,
+   "last_raise": 200
+  },
+  "ok": true
+ },
+ "short_allin_does_not_reopen_for_original_raiser": {
+  "engine": {
+   "to_act": 0,
+   "raise_open": false,
+   "call_to": 450
+  },
+  "expected": {
+   "to_act": 0,
+   "raise_open": false,
+   "call_to": 450
+  },
+  "ok": true
+ },
+ "cumulative_short_allins_reopen": {
+  "engine": {
+   "to_act": 3,
+   "raise_open": true,
+   "min_raise_to": 760
+  },
+  "expected": {
+   "to_act": 3,
+   "raise_open": true,
+   "min_raise_to": 760
+  },
+  "ok": true
+ },
+ "allin_for_less_terminal_runout": {
+  "engine": {
+   "terminal": true,
+   "street": 3,
+   "abs_profit": [
+    250,
+    250
+   ],
+   "sum": 0
+  },
+  "expected": {
+   "terminal": true,
+   "street": 3,
+   "abs_profit": [
+    250,
+    250
+   ],
+   "sum": 0
+  },
+  "ok": true
+ },
+ "rake_preflop_fold_no_drop": {
+  "engine": 0,
+  "expected": 0,
+  "ok": true
+ },
+ "rake_preflop_allin_raked_cap": {
+  "engine": {
+   "rake": 260,
+   "sum_rewards": -260
+  },
+  "expected": {
+   "rake": 260,
+   "sum_rewards": -260
+  },
+  "ok": true
+ },
+ "rake_flop_fold_uncalled_excluded": {
+  "engine": 10,
+  "expected": 10,
+  "ok": true
+ },
+ "rake_terms": {
+  "0.0": {
+   "engine": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "expected": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ok": true
+  },
+  "0.333": {
+   "engine": [
+    500,
+    200,
+    480,
+    800
+   ],
+   "expected": [
+    500,
+    200,
+    480,
+    800
+   ],
+   "ok": true
+  },
+  "0.667": {
+   "engine": [
+    500,
+    250,
+    600,
+    1000
+   ],
+   "expected": [
+    500,
+    250,
+    600,
+    1000
+   ],
+   "ok": true
+  },
+  "1.0": {
+   "engine": [
+    500,
+    260,
+    600,
+    1000
+   ],
+   "expected": [
+    500,
+    260,
+    600,
+    1000
+   ],
+   "ok": true
+  },
+  "1/6 (interpolated)": {
+   "engine": [
+    250,
+    100
+   ],
+   "expected": [
+    250,
+    100
+   ],
+   "ok": true
+  }
+ },
+ "rake_split_int32_overflow_deep_sidepot": {
+  "engine": {
+   "payouts": [
+    2283,
+    5997717,
+    0
+   ]
+  },
+  "expected": {
+   "payouts": [
+    3000,
+    5997000,
+    0
+   ]
+  },
+  "ok": false
+ }
+}

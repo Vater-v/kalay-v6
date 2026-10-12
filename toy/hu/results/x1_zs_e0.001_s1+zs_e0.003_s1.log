@@ -1,0 +1,4 @@
+[    0.0s] to do: ['zs_e0.001_s1', 'zs_e0.003_s1']
+[  150.2s] zs_e0.001_s1           expl     23.4 mA/h (  1.17% of initial pot)  in-situ RMSE_rw(x) 0.0019  test RMSE_rw(x) turn 0.0017 flop 0.0018  wall 150s
+[  150.9s] zs_e0.003_s1           expl     26.6 mA/h (  1.33% of initial pot)  in-situ RMSE_rw(x) 0.0056  test RMSE_rw(x) turn 0.0052 flop 0.0053  wall 151s
+[  150.9s] done in 151s

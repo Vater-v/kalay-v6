@@ -1,0 +1,21 @@
+{
+ "internal": 40,
+ "A": 13,
+ "edges": 114,
+ "mean_legal": 2.85,
+ "max_legal": 5,
+ "B1": {
+  "padded_ms": 10.439969850006037,
+  "compact_ms": 0.3727580000031594,
+  "ratio": 28.007366307141762,
+  "padded_state_mb_per_spot": 7.89093017578125,
+  "compact_state_mb_per_spot": 1.7299346923828125
+ },
+ "B16": {
+  "padded_ms": 163.88824829999749,
+  "compact_ms": 15.332992749995356,
+  "ratio": 10.688601434318628,
+  "padded_state_mb_per_spot": 7.89093017578125,
+  "compact_state_mb_per_spot": 1.7299346923828125
+ }
+}

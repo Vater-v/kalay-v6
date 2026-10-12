@@ -1,0 +1,16 @@
+12:16:50 [w0] WARNING: dirty tree (git): numbers of this run do not go into a review
+12:16:50 [w0] loop critics grid 13 rake scheme 1, regime 1 (slumbot: players [2], depth mix [[200, 200, 1.0]] BB, rake mix [[0.0, 0.0, 1.0]]): device cpu:0, stages ['river_solve'], teacher fixed T {'river': 800, 'turn': 1500, 'flop': 1500} (E once at the end, flag above 2 x the stage median, every spot into the data), game b499cfcbc689 (grid 13, regime 1, caps {'2 players': {'preflop': {'normal': 3, 'short': 2}, 'flop': {'normal': 3, 'short': 2}, 'turn': {'normal': 3, 'short': 2}, 'river': {'normal': 3, 'short': 2}}}, street sizes by menu), critic projection kappa {'river': 0.0176, 'turn': 0.0, 'flop': 0.0, 'preflop': 0.0}; code 0b81b6acc443 (commit 2932d39dd930, DIRTY 9: ?? tools/audit/engine-profile/README.md, ?? tools/audit/engine-profile/equity_timing.py, ?? tools/audit/engine-profile/layout_bench.py, 67 files, git)
+12:16:53 [w0] rank7: 1048576/133784560 (4 s)
+12:17:15 [w0] rank7: 17825792/133784560 (26 s)
+12:17:38 [w0] rank7: 34603008/133784560 (48 s)
+12:17:56 [w0] rank7: 51380224/133784560 (67 s)
+12:18:15 [w0] rank7: 68157440/133784560 (85 s)
+12:18:35 [w0] rank7: 84934656/133784560 (105 s)
+12:18:54 [w0] rank7: 101711872/133784560 (124 s)
+12:19:16 [w0] rank7: 118489088/133784560 (146 s)
+12:19:53 [w0] rank7: 4824 classes, saved /tmp/claude-0/-home-user-kalay-v6/721b9d69-ee04-59bb-a6cc-2f7cda70f7ae/scratchpad/rank7/rank7_v1.npy
+[audit] rank7 table built in 183.8 s -> /tmp/claude-0/-home-user-kalay-v6/721b9d69-ee04-59bb-a6cc-2f7cda70f7ae/scratchpad/rank7/rank7_v1.npy
+12:19:55 [w0] river: speed fuse off (EXPECT_RIVER_SPM not set)
+12:22:51 [w0] river 0-16/48 (short, 800 iterations): 8.969 s/spot, prepare 0.599 s/spot, E median 0.00001 max 0.00004, iters median 800, wall 176 s
+12:24:23 [w0] river 16-23/48 (short, 800 iterations): 9.443 s/spot, prepare 1.321 s/spot, E median 0.00016 max 0.00071, iters median 800, wall 92 s
+[audit] wall 599.5 s, peak RSS 2075 MB

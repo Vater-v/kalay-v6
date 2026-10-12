@@ -1,0 +1,1237 @@
+{
+ "commit_merge": [
+  1,
+  4
+ ],
+ "menu_bounds": {
+  "normal": null,
+  "short": {
+   "depth_bb": 40.0,
+   "spr": 2.0
+  }
+ },
+ "preflop": [
+  {
+   "street": 0,
+   "menu": "normal",
+   "level": 0,
+   "cap": 3,
+   "pot": 150,
+   "to_call": 50,
+   "stack_behind": 19950,
+   "allin_offered": true,
+   "allin_target": 20000,
+   "sizes": [
+    {
+     "size": "1/100",
+     "raw_target": 200,
+     "engine_target": 200,
+     "offered": true,
+     "behind_after": 19800,
+     "pot_after": 300,
+     "why_masked": null
+    },
+    {
+     "size": "1/1",
+     "raw_target": 300,
+     "engine_target": 300,
+     "offered": true,
+     "behind_after": 19700,
+     "pot_after": 400,
+     "why_masked": null
+    }
+   ]
+  },
+  {
+   "street": 0,
+   "menu": "normal",
+   "level": 1,
+   "cap": 3,
+   "pot": 400,
+   "to_call": 200,
+   "stack_behind": 19900,
+   "allin_offered": true,
+   "allin_target": 20000,
+   "sizes": [
+    {
+     "size": "1/1",
+     "raw_target": 900,
+     "engine_target": 900,
+     "offered": true,
+     "behind_after": 19100,
+     "pot_after": 1200,
+     "why_masked": null
+    }
+   ]
+  },
+  {
+   "street": 0,
+   "menu": "normal",
+   "level": 2,
+   "cap": 3,
+   "pot": 1200,
+   "to_call": 600,
+   "stack_behind": 19700,
+   "allin_offered": true,
+   "allin_target": 20000,
+   "sizes": [
+    {
+     "size": "2/3",
+     "raw_target": 2100,
+     "engine_target": 2100,
+     "offered": true,
+     "behind_after": 17900,
+     "pot_after": 3000,
+     "why_masked": null
+    }
+   ]
+  },
+  {
+   "street": 0,
+   "menu": "normal",
+   "level": 3,
+   "cap": 3,
+   "pot": 3000,
+   "to_call": 1200,
+   "stack_behind": 19100,
+   "allin_offered": true,
+   "allin_target": 20000,
+   "sizes": []
+  }
+ ],
+ "flop_lines": [
+  {
+   "preflop_to": 100,
+   "flop_pot": 200,
+   "spr": 99.5,
+   "pick": "largest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 200,
+     "to_call": 0,
+     "stack_behind": 19900,
+     "allin_offered": true,
+     "allin_target": 19900,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 100,
+       "engine_target": 100,
+       "offered": true,
+       "behind_after": 19800,
+       "pot_after": 300,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 150,
+       "engine_target": 150,
+       "offered": true,
+       "behind_after": 19750,
+       "pot_after": 350,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 350,
+     "to_call": 150,
+     "stack_behind": 19900,
+     "allin_offered": true,
+     "allin_target": 19900,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 483,
+       "engine_target": 483,
+       "offered": true,
+       "behind_after": 19417,
+       "pot_after": 833,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 833,
+     "to_call": 333,
+     "stack_behind": 19750,
+     "allin_offered": true,
+     "allin_target": 19900,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 1260,
+       "engine_target": 1260,
+       "offered": true,
+       "behind_after": 18640,
+       "pot_after": 1943,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 3,
+     "cap": 3,
+     "pot": 1943,
+     "to_call": 777,
+     "stack_behind": 19417,
+     "allin_offered": true,
+     "allin_target": 19900,
+     "sizes": []
+    }
+   ]
+  },
+  {
+   "preflop_to": 100,
+   "flop_pot": 200,
+   "spr": 99.5,
+   "pick": "smallest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 200,
+     "to_call": 0,
+     "stack_behind": 19900,
+     "allin_offered": true,
+     "allin_target": 19900,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 100,
+       "engine_target": 100,
+       "offered": true,
+       "behind_after": 19800,
+       "pot_after": 300,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 150,
+       "engine_target": 150,
+       "offered": true,
+       "behind_after": 19750,
+       "pot_after": 350,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 300,
+     "to_call": 100,
+     "stack_behind": 19900,
+     "allin_offered": true,
+     "allin_target": 19900,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 366,
+       "engine_target": 366,
+       "offered": true,
+       "behind_after": 19534,
+       "pot_after": 666,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 666,
+     "to_call": 266,
+     "stack_behind": 19800,
+     "allin_offered": true,
+     "allin_target": 19900,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 987,
+       "engine_target": 987,
+       "offered": true,
+       "behind_after": 18913,
+       "pot_after": 1553,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 3,
+     "cap": 3,
+     "pot": 1553,
+     "to_call": 621,
+     "stack_behind": 19534,
+     "allin_offered": true,
+     "allin_target": 19900,
+     "sizes": []
+    }
+   ]
+  },
+  {
+   "preflop_to": 200,
+   "flop_pot": 400,
+   "spr": 49.5,
+   "pick": "largest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 400,
+     "to_call": 0,
+     "stack_behind": 19800,
+     "allin_offered": true,
+     "allin_target": 19800,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 133,
+       "engine_target": 133,
+       "offered": true,
+       "behind_after": 19667,
+       "pot_after": 533,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 300,
+       "engine_target": 300,
+       "offered": true,
+       "behind_after": 19500,
+       "pot_after": 700,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 700,
+     "to_call": 300,
+     "stack_behind": 19800,
+     "allin_offered": true,
+     "allin_target": 19800,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 966,
+       "engine_target": 966,
+       "offered": true,
+       "behind_after": 18834,
+       "pot_after": 1666,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 1666,
+     "to_call": 666,
+     "stack_behind": 19500,
+     "allin_offered": true,
+     "allin_target": 19800,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 2520,
+       "engine_target": 2520,
+       "offered": true,
+       "behind_after": 17280,
+       "pot_after": 3886,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 3,
+     "cap": 3,
+     "pot": 3886,
+     "to_call": 1554,
+     "stack_behind": 18834,
+     "allin_offered": true,
+     "allin_target": 19800,
+     "sizes": []
+    }
+   ]
+  },
+  {
+   "preflop_to": 200,
+   "flop_pot": 400,
+   "spr": 49.5,
+   "pick": "smallest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 400,
+     "to_call": 0,
+     "stack_behind": 19800,
+     "allin_offered": true,
+     "allin_target": 19800,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 133,
+       "engine_target": 133,
+       "offered": true,
+       "behind_after": 19667,
+       "pot_after": 533,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 300,
+       "engine_target": 300,
+       "offered": true,
+       "behind_after": 19500,
+       "pot_after": 700,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 533,
+     "to_call": 133,
+     "stack_behind": 19800,
+     "allin_offered": true,
+     "allin_target": 19800,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 577,
+       "engine_target": 577,
+       "offered": true,
+       "behind_after": 19223,
+       "pot_after": 1110,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 1110,
+     "to_call": 444,
+     "stack_behind": 19667,
+     "allin_offered": true,
+     "allin_target": 19800,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 1613,
+       "engine_target": 1613,
+       "offered": true,
+       "behind_after": 18187,
+       "pot_after": 2590,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 3,
+     "cap": 3,
+     "pot": 2590,
+     "to_call": 1036,
+     "stack_behind": 19223,
+     "allin_offered": true,
+     "allin_target": 19800,
+     "sizes": []
+    }
+   ]
+  },
+  {
+   "preflop_to": 300,
+   "flop_pot": 600,
+   "spr": 32.83,
+   "pick": "largest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 600,
+     "to_call": 0,
+     "stack_behind": 19700,
+     "allin_offered": true,
+     "allin_target": 19700,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 200,
+       "engine_target": 200,
+       "offered": true,
+       "behind_after": 19500,
+       "pot_after": 800,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 450,
+       "engine_target": 450,
+       "offered": true,
+       "behind_after": 19250,
+       "pot_after": 1050,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 1050,
+     "to_call": 450,
+     "stack_behind": 19700,
+     "allin_offered": true,
+     "allin_target": 19700,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 1450,
+       "engine_target": 1450,
+       "offered": true,
+       "behind_after": 18250,
+       "pot_after": 2500,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 2500,
+     "to_call": 1000,
+     "stack_behind": 19250,
+     "allin_offered": true,
+     "allin_target": 19700,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 3783,
+       "engine_target": 3783,
+       "offered": true,
+       "behind_after": 15917,
+       "pot_after": 5833,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 3,
+     "cap": 3,
+     "pot": 5833,
+     "to_call": 2333,
+     "stack_behind": 18250,
+     "allin_offered": true,
+     "allin_target": 19700,
+     "sizes": []
+    }
+   ]
+  },
+  {
+   "preflop_to": 300,
+   "flop_pot": 600,
+   "spr": 32.83,
+   "pick": "smallest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 600,
+     "to_call": 0,
+     "stack_behind": 19700,
+     "allin_offered": true,
+     "allin_target": 19700,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 200,
+       "engine_target": 200,
+       "offered": true,
+       "behind_after": 19500,
+       "pot_after": 800,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 450,
+       "engine_target": 450,
+       "offered": true,
+       "behind_after": 19250,
+       "pot_after": 1050,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 800,
+     "to_call": 200,
+     "stack_behind": 19700,
+     "allin_offered": true,
+     "allin_target": 19700,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 866,
+       "engine_target": 866,
+       "offered": true,
+       "behind_after": 18834,
+       "pot_after": 1666,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 1666,
+     "to_call": 666,
+     "stack_behind": 19500,
+     "allin_offered": true,
+     "allin_target": 19700,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 2420,
+       "engine_target": 2420,
+       "offered": true,
+       "behind_after": 17280,
+       "pot_after": 3886,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 3,
+     "cap": 3,
+     "pot": 3886,
+     "to_call": 1554,
+     "stack_behind": 18834,
+     "allin_offered": true,
+     "allin_target": 19700,
+     "sizes": []
+    }
+   ]
+  },
+  {
+   "preflop_to": 900,
+   "flop_pot": 1800,
+   "spr": 10.61,
+   "pick": "largest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 1800,
+     "to_call": 0,
+     "stack_behind": 19100,
+     "allin_offered": true,
+     "allin_target": 19100,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 600,
+       "engine_target": 600,
+       "offered": true,
+       "behind_after": 18500,
+       "pot_after": 2400,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 1350,
+       "engine_target": 1350,
+       "offered": true,
+       "behind_after": 17750,
+       "pot_after": 3150,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 3150,
+     "to_call": 1350,
+     "stack_behind": 19100,
+     "allin_offered": true,
+     "allin_target": 19100,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 4350,
+       "engine_target": 4350,
+       "offered": true,
+       "behind_after": 14750,
+       "pot_after": 7500,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 7500,
+     "to_call": 3000,
+     "stack_behind": 17750,
+     "allin_offered": true,
+     "allin_target": 19100,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 11350,
+       "engine_target": 11350,
+       "offered": true,
+       "behind_after": 7750,
+       "pot_after": 17500,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 3,
+     "cap": 3,
+     "pot": 17500,
+     "to_call": 7000,
+     "stack_behind": 14750,
+     "allin_offered": true,
+     "allin_target": 19100,
+     "sizes": []
+    }
+   ]
+  },
+  {
+   "preflop_to": 900,
+   "flop_pot": 1800,
+   "spr": 10.61,
+   "pick": "smallest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 1800,
+     "to_call": 0,
+     "stack_behind": 19100,
+     "allin_offered": true,
+     "allin_target": 19100,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 600,
+       "engine_target": 600,
+       "offered": true,
+       "behind_after": 18500,
+       "pot_after": 2400,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 1350,
+       "engine_target": 1350,
+       "offered": true,
+       "behind_after": 17750,
+       "pot_after": 3150,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 2400,
+     "to_call": 600,
+     "stack_behind": 19100,
+     "allin_offered": true,
+     "allin_target": 19100,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 2600,
+       "engine_target": 2600,
+       "offered": true,
+       "behind_after": 16500,
+       "pot_after": 5000,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 5000,
+     "to_call": 2000,
+     "stack_behind": 18500,
+     "allin_offered": true,
+     "allin_target": 19100,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 7266,
+       "engine_target": 7266,
+       "offered": true,
+       "behind_after": 11834,
+       "pot_after": 11666,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 3,
+     "cap": 3,
+     "pot": 11666,
+     "to_call": 4666,
+     "stack_behind": 16500,
+     "allin_offered": true,
+     "allin_target": 19100,
+     "sizes": []
+    }
+   ]
+  },
+  {
+   "preflop_to": 2100,
+   "flop_pot": 4200,
+   "spr": 4.26,
+   "pick": "largest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 4200,
+     "to_call": 0,
+     "stack_behind": 17900,
+     "allin_offered": true,
+     "allin_target": 17900,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 1400,
+       "engine_target": 1400,
+       "offered": true,
+       "behind_after": 16500,
+       "pot_after": 5600,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 3150,
+       "engine_target": 3150,
+       "offered": true,
+       "behind_after": 14750,
+       "pot_after": 7350,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 7350,
+     "to_call": 3150,
+     "stack_behind": 17900,
+     "allin_offered": true,
+     "allin_target": 17900,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 10150,
+       "engine_target": 10150,
+       "offered": true,
+       "behind_after": 7750,
+       "pot_after": 17500,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 17500,
+     "to_call": 7000,
+     "stack_behind": 14750,
+     "allin_offered": true,
+     "allin_target": 17900,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 26483,
+       "engine_target": 17900,
+       "offered": false,
+       "behind_after": -8583,
+       "pot_after": 40833,
+       "why_masked": "at/above stack"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "preflop_to": 2100,
+   "flop_pot": 4200,
+   "spr": 4.26,
+   "pick": "smallest",
+   "levels": [
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 0,
+     "cap": 3,
+     "pot": 4200,
+     "to_call": 0,
+     "stack_behind": 17900,
+     "allin_offered": true,
+     "allin_target": 17900,
+     "sizes": [
+      {
+       "size": "1/3",
+       "raw_target": 1400,
+       "engine_target": 1400,
+       "offered": true,
+       "behind_after": 16500,
+       "pot_after": 5600,
+       "why_masked": null
+      },
+      {
+       "size": "3/4",
+       "raw_target": 3150,
+       "engine_target": 3150,
+       "offered": true,
+       "behind_after": 14750,
+       "pot_after": 7350,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 1,
+     "cap": 3,
+     "pot": 5600,
+     "to_call": 1400,
+     "stack_behind": 17900,
+     "allin_offered": true,
+     "allin_target": 17900,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 6066,
+       "engine_target": 6066,
+       "offered": true,
+       "behind_after": 11834,
+       "pot_after": 11666,
+       "why_masked": null
+      }
+     ]
+    },
+    {
+     "street": 1,
+     "menu": "normal",
+     "level": 2,
+     "cap": 3,
+     "pot": 11666,
+     "to_call": 4666,
+     "stack_behind": 16500,
+     "allin_offered": true,
+     "allin_target": 17900,
+     "sizes": [
+      {
+       "size": "2/3",
+       "raw_target": 16954,
+       "engine_target": 17900,
+       "offered": false,
+       "behind_after": 946,
+       "pot_after": 27220,
+       "why_masked": "merged into all-in"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "flop_bet_merge_sweep": [
+  {
+   "spr": 1.0,
+   "pot": 20000,
+   "merged_grid_sizes": [
+    "2/3",
+    "3/4"
+   ]
+  },
+  {
+   "spr": 1.2,
+   "pot": 16667,
+   "merged_grid_sizes": [
+    "1/1"
+   ]
+  },
+  {
+   "spr": 1.4,
+   "pot": 14286,
+   "merged_grid_sizes": [
+    "1/1"
+   ]
+  },
+  {
+   "spr": 1.6,
+   "pot": 12500,
+   "merged_grid_sizes": [
+    "3/2"
+   ]
+  },
+  {
+   "spr": 1.8,
+   "pot": 11111,
+   "merged_grid_sizes": [
+    "3/2"
+   ]
+  },
+  {
+   "spr": 2.0,
+   "pot": 10000,
+   "merged_grid_sizes": [
+    "3/2"
+   ]
+  },
+  {
+   "spr": 2.2,
+   "pot": 9091,
+   "merged_grid_sizes": [
+    "2/1"
+   ]
+  },
+  {
+   "spr": 2.4,
+   "pot": 8333,
+   "merged_grid_sizes": [
+    "2/1"
+   ]
+  },
+  {
+   "spr": 2.6,
+   "pot": 7692,
+   "merged_grid_sizes": [
+    "2/1",
+    "5/2"
+   ]
+  },
+  {
+   "spr": 2.8,
+   "pot": 7143,
+   "merged_grid_sizes": [
+    "5/2"
+   ]
+  },
+  {
+   "spr": 3.0,
+   "pot": 6667,
+   "merged_grid_sizes": [
+    "5/2"
+   ]
+  },
+  {
+   "spr": 3.2,
+   "pot": 6250,
+   "merged_grid_sizes": [
+    "5/2"
+   ]
+  },
+  {
+   "spr": 3.4,
+   "pot": 5882,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 3.6,
+   "pot": 5556,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 3.8,
+   "pot": 5263,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 4.0,
+   "pot": 5000,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 4.2,
+   "pot": 4762,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 4.4,
+   "pot": 4545,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 4.6,
+   "pot": 4348,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 4.8,
+   "pot": 4167,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 5.0,
+   "pot": 4000,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 5.2,
+   "pot": 3846,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 5.4,
+   "pot": 3704,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 5.6,
+   "pot": 3571,
+   "merged_grid_sizes": []
+  },
+  {
+   "spr": 5.8,
+   "pot": 3448,
+   "merged_grid_sizes": []
+  }
+ ],
+ "opponent_side": {
+  "to_act": 0,
+  "grid_targets": {
+   "1/100": [
+    100,
+    true
+   ],
+   "1/4": [
+    1050,
+    true
+   ],
+   "1/3": [
+    1400,
+    true
+   ],
+   "1/2": [
+    2100,
+    true
+   ],
+   "2/3": [
+    2800,
+    true
+   ],
+   "3/4": [
+    3150,
+    true
+   ],
+   "1/1": [
+    4200,
+    true
+   ],
+   "3/2": [
+    6300,
+    true
+   ],
+   "2/1": [
+    8400,
+    true
+   ],
+   "5/2": [
+    10500,
+    true
+   ]
+  },
+  "observed_exact_bet": 16500,
+  "after_step_target_bet_street": [
+   16500,
+   0
+  ],
+  "after_step_target_stack": [
+   1400,
+   17900
+  ]
+ }
+}

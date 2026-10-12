@@ -1,0 +1,1298 @@
+{
+ "scheme": {
+  "grid": 13,
+  "raise_fracs": [
+   [
+    1,
+    100
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    1,
+    3
+   ],
+   [
+    1,
+    2
+   ],
+   [
+    2,
+    3
+   ],
+   [
+    3,
+    4
+   ],
+   [
+    1,
+    1
+   ],
+   [
+    3,
+    2
+   ],
+   [
+    2,
+    1
+   ],
+   [
+    5,
+    2
+   ]
+  ],
+  "num_actions": 13,
+  "chip_per_bb": 100,
+  "sb": 50,
+  "rake_scheme": 1,
+  "regime": {
+   "number": 1,
+   "name": "slumbot",
+   "players": [
+    2
+   ],
+   "depth_mix": [
+    [
+     200,
+     200,
+     1.0
+    ]
+   ],
+   "rake_mix": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  }
+ },
+ "regime": {
+  "number": 1,
+  "name": "slumbot",
+  "players": [
+   2
+  ],
+  "depth_mix": [
+   [
+    200,
+    200,
+    1.0
+   ]
+  ],
+  "rake_mix": [
+   [
+    0.0,
+    0.0,
+    1.0
+   ]
+  ]
+ },
+ "players_solved": [
+  2
+ ],
+ "training_domain": {
+  "version": 1,
+  "kind": "equal_stack_hu_synthetic",
+  "players": 2,
+  "bb_chips": 100,
+  "depth_mix_bb": [
+   [
+    200.0,
+    200.0,
+    1.0
+   ]
+  ],
+  "minimum_pot_bb": 2.0,
+  "maximum_pot_bb": 400.0,
+  "maximum_spr": 99.5,
+  "physical_constraint": "pot / 2 + behind = sampled starting depth (gross pot before terminal rake)",
+  "spr_bands": [
+   {
+    "low": 0.0,
+    "high": 0.25,
+    "probability": 0.2
+   },
+   {
+    "low": 0.25,
+    "high": 16.0,
+    "probability": 0.6
+   },
+   {
+    "low": 16.0,
+    "high": null,
+    "probability": 0.2
+   }
+  ],
+  "empty_bands": "redistribute probabilities over chip-feasible bands at the sampled depth",
+  "draw": "log1p SPR in the first band; log SPR otherwise; derive pot and behind conserving sampled depth",
+  "chip_rounding": "round pot / 2 to a chip within its SPR band; behind is depth minus pot / 2",
+  "minimum_positive_behind_chips": 1,
+  "street_start_allin_fraction": 0.0,
+  "street_end_allin_fraction": 0.1,
+  "river_allin_rows": "separate exact check-down copies on the same board split",
+  "calibration": "unmeasured initial coverage/cost allocation; validate quality and cost by band",
+  "beyond_domain": "do not clip real states; quality outside the sampled envelope is unvalidated",
+  "protocol_hash": "e4e7536efdc5bb51590111e24f6b682045e0e80a3df5bba947b9ef50c1f299d6"
+ },
+ "iteration": 0,
+ "river": 48,
+ "turn": 24,
+ "turn_end": 64,
+ "flop": 16,
+ "flop_end": 16,
+ "pre_end": 32,
+ "solve_batch": 16,
+ "critic_hidden": [
+  64,
+  64
+ ],
+ "critic_epochs": 20,
+ "critic_epoch_steps": 25,
+ "critic_patience": null,
+ "critic_clip_norm": 0.05,
+ "critic_lr": 0.0005,
+ "quick": true,
+ "code": {
+  "commit": "2932d39dd930bfc4132424d26654b7c5c943a817",
+  "dirty": true,
+  "source": "git"
+ },
+ "matmul_precision": "highest",
+ "rake_mix": [
+  [
+   0.0,
+   0.0,
+   1.0
+  ]
+ ],
+ "critic_form": "residual_checkdown_f",
+ "accept_rule": "fixed T: every solved spot enters the critic data (no acceptance threshold)",
+ "split_version": 2,
+ "critic_projection": {
+  "kappa": {
+   "river": 0.0176,
+   "turn": 0.0,
+   "flop": 0.0,
+   "preflop": 0.0
+  },
+  "street_of": {
+   "river_critic": "river",
+   "turn_end": "river",
+   "turn_critic": "turn",
+   "flop_end": "turn",
+   "flop_critic": "flop",
+   "pre_end": "flop"
+  },
+  "rule": "every critic call and the critics' training loss project the values onto S(V) = net0 - min(kappa, headroom) (critics.project_values)"
+ },
+ "teacher": {
+  "stop": "fixed_t",
+  "iterations": {
+   "river": 800,
+   "turn": 1500,
+   "flop": 1500
+  },
+  "chunk": 50,
+  "e_flag_factor": 2.0,
+  "rule": "every solve runs exactly T PCFR+ iterations of its street (no E-stop, no second pass); E is computed once at the end of every solve as a diagnostic, and a spot whose E exceeds e_flag_factor x the median E of its stage is flagged (e_flag in its metrics, <stage>_eflags.json); every spot enters the critic data"
+ },
+ "trees": "config.tree_rule(2, street, menu) (poker/solver/tree.py rule_topology; players: config.LOOP_PLAYERS); menu = config.menu_for of the spot SPR at the street start; one tree per batch (stage_batches)",
+ "game_hash": "b499cfcbc6891768422428e88ed1bfa289c282f28675bf35b6b51b4ffc233d5f",
+ "game_record": {
+  "version": 1,
+  "grid": 13,
+  "regime": {
+   "number": 1,
+   "name": "slumbot",
+   "players": [
+    2
+   ],
+   "depth_mix": [
+    [
+     200,
+     200,
+     1.0
+    ]
+   ],
+   "rake_mix": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ]
+   ]
+  },
+  "tree_rules": {
+   "grid": 13,
+   "sizes_in_effect": true,
+   "max_players": 6,
+   "menus": {
+    "normal": {
+     "bounds": null,
+     "sizes": {
+      "0": [
+       [
+        [
+         1,
+         100
+        ],
+        [
+         1,
+         1
+        ]
+       ],
+       [
+        [
+         1,
+         1
+        ]
+       ],
+       [
+        [
+         2,
+         3
+        ]
+       ]
+      ],
+      "1": [
+       [
+        [
+         1,
+         3
+        ],
+        [
+         3,
+         4
+        ]
+       ],
+       [
+        [
+         2,
+         3
+        ]
+       ]
+      ],
+      "2": [
+       [
+        [
+         1,
+         2
+        ],
+        [
+         1,
+         1
+        ],
+        [
+         3,
+         2
+        ]
+       ],
+       [
+        [
+         2,
+         3
+        ]
+       ]
+      ],
+      "3": [
+       [
+        [
+         1,
+         3
+        ],
+        [
+         3,
+         4
+        ],
+        [
+         3,
+         2
+        ]
+       ],
+       [
+        [
+         3,
+         4
+        ]
+       ]
+      ]
+     }
+    },
+    "short": {
+     "bounds": {
+      "depth_bb": 40.0,
+      "spr": 2.0
+     },
+     "sizes": {
+      "0": [
+       [
+        [
+         1,
+         100
+        ],
+        [
+         1,
+         1
+        ]
+       ],
+       [
+        [
+         1,
+         1
+        ]
+       ]
+      ],
+      "1": [
+       [
+        [
+         1,
+         2
+        ],
+        [
+         1,
+         1
+        ]
+       ],
+       [
+        [
+         2,
+         3
+        ]
+       ]
+      ],
+      "2": [
+       [
+        [
+         1,
+         2
+        ],
+        [
+         1,
+         1
+        ]
+       ],
+       [
+        [
+         2,
+         3
+        ]
+       ]
+      ],
+      "3": [
+       [
+        [
+         1,
+         2
+        ],
+        [
+         1,
+         1
+        ]
+       ],
+       [
+        [
+         3,
+         4
+        ]
+       ]
+      ]
+     }
+    }
+   },
+   "preflop_trees": {
+    "2": {
+     "cap": 2,
+     "no_open_limp": false,
+     "sizes": null
+    },
+    "3": {
+     "cap": 3,
+     "no_open_limp": true,
+     "sizes": [
+      [
+       [
+        2,
+        3
+       ],
+       [
+        1,
+        1
+       ]
+      ]
+     ]
+    },
+    "4": {
+     "cap": 3,
+     "no_open_limp": true,
+     "sizes": [
+      [
+       [
+        2,
+        3
+       ],
+       [
+        1,
+        1
+       ]
+      ]
+     ]
+    },
+    "5": {
+     "cap": 3,
+     "no_open_limp": true,
+     "sizes": [
+      [
+       [
+        2,
+        3
+       ],
+       [
+        1,
+        1
+       ]
+      ]
+     ]
+    },
+    "6": {
+     "cap": 3,
+     "no_open_limp": true,
+     "sizes": [
+      [
+       [
+        2,
+        3
+       ]
+      ],
+      [
+       [
+        1,
+        1
+       ]
+      ],
+      [
+       [
+        2,
+        3
+       ]
+      ]
+     ]
+    }
+   },
+   "caps": {
+    "2": {
+     "0": {
+      "normal": 3,
+      "short": 2
+     },
+     "1": {
+      "normal": 3,
+      "short": 2
+     },
+     "2": {
+      "normal": 3,
+      "short": 2
+     },
+     "3": {
+      "normal": 3,
+      "short": 2
+     }
+    },
+    "3": {
+     "0": {
+      "normal": 3,
+      "short": 3
+     },
+     "1": {
+      "normal": 1,
+      "short": 1
+     },
+     "2": {
+      "normal": 1,
+      "short": 1
+     },
+     "3": {
+      "normal": 1,
+      "short": 1
+     }
+    },
+    "4": {
+     "0": {
+      "normal": 3,
+      "short": 3
+     },
+     "1": {
+      "normal": 1,
+      "short": 1
+     },
+     "2": {
+      "normal": 1,
+      "short": 1
+     },
+     "3": {
+      "normal": 1,
+      "short": 1
+     }
+    },
+    "5": {
+     "0": {
+      "normal": 3,
+      "short": 3
+     },
+     "1": {
+      "normal": 1,
+      "short": 1
+     },
+     "2": {
+      "normal": 1,
+      "short": 1
+     },
+     "3": {
+      "normal": 1,
+      "short": 1
+     }
+    },
+    "6": {
+     "0": {
+      "normal": 3,
+      "short": 3
+     },
+     "1": {
+      "normal": 1,
+      "short": 1
+     },
+     "2": {
+      "normal": 1,
+      "short": 1
+     },
+     "3": {
+      "normal": 1,
+      "short": 1
+     }
+    }
+   },
+   "trees": {
+    "2": {
+     "0": {
+      "normal": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         2,
+         8
+        ],
+        [
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 2,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         2,
+         8
+        ],
+        [
+         8
+        ]
+       ]
+      }
+     },
+     "1": {
+      "normal": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 2,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "2": {
+      "normal": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8,
+         9
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 2,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "3": {
+      "normal": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7,
+         9
+        ],
+        [
+         7
+        ]
+       ]
+      },
+      "short": {
+       "cap": 2,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         7
+        ]
+       ]
+      }
+     }
+    },
+    "3": {
+     "0": {
+      "normal": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": true,
+       "sizes": [
+        [
+         6,
+         8
+        ]
+       ]
+      },
+      "short": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": true,
+       "sizes": [
+        [
+         6,
+         8
+        ]
+       ]
+      }
+     },
+     "1": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "2": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8,
+         9
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "3": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7,
+         9
+        ],
+        [
+         7
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         7
+        ]
+       ]
+      }
+     }
+    },
+    "4": {
+     "0": {
+      "normal": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": true,
+       "sizes": [
+        [
+         6,
+         8
+        ]
+       ]
+      },
+      "short": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": true,
+       "sizes": [
+        [
+         6,
+         8
+        ]
+       ]
+      }
+     },
+     "1": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "2": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8,
+         9
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "3": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7,
+         9
+        ],
+        [
+         7
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         7
+        ]
+       ]
+      }
+     }
+    },
+    "5": {
+     "0": {
+      "normal": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": true,
+       "sizes": [
+        [
+         6,
+         8
+        ]
+       ]
+      },
+      "short": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": true,
+       "sizes": [
+        [
+         6,
+         8
+        ]
+       ]
+      }
+     },
+     "1": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "2": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8,
+         9
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "3": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7,
+         9
+        ],
+        [
+         7
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         7
+        ]
+       ]
+      }
+     }
+    },
+    "6": {
+     "0": {
+      "normal": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": true,
+       "sizes": [
+        [
+         6
+        ],
+        [
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 3,
+       "allin_after_cap": true,
+       "no_open_limp": true,
+       "sizes": [
+        [
+         6
+        ],
+        [
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "1": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "2": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8,
+         9
+        ],
+        [
+         6
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         6
+        ]
+       ]
+      }
+     },
+     "3": {
+      "normal": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         4,
+         7,
+         9
+        ],
+        [
+         7
+        ]
+       ]
+      },
+      "short": {
+       "cap": 1,
+       "allin_after_cap": true,
+       "no_open_limp": false,
+       "sizes": [
+        [
+         5,
+         8
+        ],
+        [
+         7
+        ]
+       ]
+      }
+     }
+    }
+   }
+  },
+  "sized_tree_engine": 4,
+  "commit_merge_pot": 0.25
+ },
+ "code_fingerprint": {
+  "version": 1,
+  "sha256": "0b81b6acc44306d600eaa95efb33940123be3a48b8500aa495d895b8b6016ab3",
+  "commit": "2932d39dd930bfc4132424d26654b7c5c943a817",
+  "dirty": true,
+  "dirty_count": 9,
+  "dirty_paths": [
+   "?? tools/audit/engine-profile/README.md",
+   "?? tools/audit/engine-profile/equity_timing.py",
+   "?? tools/audit/engine-profile/layout_bench.py",
+   "?? tools/audit/engine-profile/profile_solve.py",
+   "?? tools/audit/engine-profile/run_flop_turn.sh",
+   "?? tools/audit/engine-profile/run_loop_river.py",
+   "?? tools/audit/engine-profile/run_river.sh",
+   "?? tools/audit/engine-profile/show.py",
+   "?? tools/audit/engine-profile/summarise.py"
+  ],
+  "source": "git",
+  "roots": [
+   "poker",
+   "checks",
+   "tools",
+   "requirements.lock"
+  ],
+  "files": {
+   "poker/__init__.py": "f2d073b46a7f4d1ca976f99b878f552e9d72ac9f42e9e4fe1ea0c0a40fa74dd1",
+   "poker/arena/__init__.py": "2810be30dfa588655f44268611c70dfc89951db6aae8865b8179a345770dde60",
+   "poker/arena/live_match.py": "40be2cd04dc2b1b95ba8610814a9222cb938f93b6f98f0dd16ac12822aad0aef",
+   "poker/arena/match.py": "4d9a14b761591789312a8c1840a13ce97f4ccb883d01ce36e0d6ff7d487f5e76",
+   "poker/arena/slumbot/__init__.py": "f7baac19d48fa1da7a9b5ee9b646d1c038d3359f5ce2b6f4af4f292d3f099abe",
+   "poker/arena/slumbot/cards.py": "da8e99dc2c7b582ebe898676de660ba7568865e46225f4ed80afd906a7921fea",
+   "poker/arena/slumbot/client.py": "4cb6fade64e2418088ce173f1ffceabf3f35d711d3963f8081ab70b5290bba81",
+   "poker/arena/slumbot/live_bot.py": "f466f5911b5023f16993f74250d2011401da5ba98a565b31d597c8251c6965c0",
+   "poker/arena/slumbot/metrics.py": "c7dd80c697d54907d52d2d0253c19287a7d38d375610b790ef1da640435915f6",
+   "poker/arena/slumbot/parallel.py": "09cdd81a774d55a17757c1bf25512d387739a08edd6b68ec8148817d21db581b",
+   "poker/arena/slumbot/protocol.py": "2f741afea82d88dc2638e869ec1001048401a5e8f0aab502881b339bc08362a6",
+   "poker/arena/slumbot/run.py": "1c603e1fcc499c454fb0ee2de34d09727d61364841ef7b220bce518f84b93444",
+   "poker/arena/slumbot/util.py": "651a318823b5ee16207e8577c9204cd32bcf5e0eb986f775ede47c38179720ee",
+   "poker/envs/__init__.py": "433a2a611f202339059f7ce0ed2b3e9581e147c28d2d327f90bae4eeb3a4340e",
+   "poker/envs/action_input.py": "20808d8067ad82a73b8afa400404d156ea4f512a26e55d5b98301b38932c71b1",
+   "poker/envs/actions.py": "cdb9600b1180a5a83217a87a65a75afde9ca6833e4b305a302874a96c16b5051",
+   "poker/envs/betting.py": "0c8f55a0956bfbedbb7004ad81fccbcce1ce7f60b73c98f8a3972a61d534947b",
+   "poker/envs/config.py": "1c7bcd8ad0a80fa97a6ceb2695fffd0240fc3d6e8cf912e9ad180b22915ec620",
+   "poker/envs/derived.py": "fc40003386a12e45d50f2e8be8fd8bef4964e3204efa4273db72ebc497062f6a",
+   "poker/envs/evaluator.py": "051dc3409d3accd954c33fb377632838f0e188b34acf7251080d6c83129e7f5c",
+   "poker/envs/fingerprint.py": "5f63d44cc38b0261e66dc30883681b921dab29c725db77572aa7b54e9ccf89bf",
+   "poker/envs/guards.py": "943067dd758cae4fb34e512e013a8df5dae667673d8d222033d8ad329b1cfa03",
+   "poker/envs/state.py": "30223c519d8180f99eaecc8f3d92258e145454c163300e4da3ad840d1f66845c",
+   "poker/envs/table.py": "771f0807d0ed13e9eaf4e3b4cf8ff62c84a47e99fbfe74a47ca1473fa8c5752d",
+   "poker/envs/transition.py": "47f47942a5030cff05724d21fbc8f56455df2019783226108a1c176884e0af9c",
+   "poker/player/__init__.py": "7c9a4f7572b66bb8c8a8d7ed1d3130073c6550d6d4d0ab26bbef6ab62a7c41da",
+   "poker/player/live.py": "6b7221072ca563fa7e37493630afa4b53b6caa1ee4b1370c59497e078b7c5c52",
+   "poker/solver/__init__.py": "873172a64ef35b09f409bbbd580e98b110597693af3cbd8f6e0077f62c4bb50b",
+   "poker/solver/cap_price_n3.py": "4414ebc39d69c9d816b5820f51136612ba58b4e472b820d914c01fc16b0cfb12",
+   "poker/solver/cards.py": "ef459f64231b89fa1d3b3c236e249c6c727f3d352b1d44bc625c0a2b4e48c902",
+   "poker/solver/checkdown.py": "52bc322bc3344c5fb6d0431b4053821aae2f3542cb89f3d4b96b5f4fea5359ba",
+   "poker/solver/critics.py": "0a145c2765e6260b3465f772f9d1885431f7ea0e2358d72f7fd89d34189a85ad",
+   "poker/solver/flops.py": "10396b214315e67fcf2111ce90f9d3c932934e009d4a882e970dee1263a37a44",
+   "poker/solver/io.py": "230e88724e68f2e95a7fa24490d94f0b1e830f49276779362625515ceaf9f9f6",
+   "poker/solver/learning_curve.py": "c37a0dccf9ea5604f6a1cd3e8b3676a6ddc042b5120e193f610a28b75f317e88",
+   "poker/solver/loop.py": "260fad3277255920d541cc1bceb12d579c920ab3b261bd13a3485596ce0ce42b",
+   "poker/solver/pcfr.py": "4157f25e61c6d26445f96c1fea02487eb86d19ec53bccf25a22dc0f9d0dad7fb",
+   "poker/solver/preflop.py": "5779572508b43edddff1fb973682d15aad0a43f3e965b562393305f2ab4de0cf",
+   "poker/solver/rank7.py": "0bc08b4ea62a6b3319f770e6eb82d588095170bd8b2acdf2b3d1cc43435834a3",
+   "poker/solver/runout.py": "7bd0380c1d8182e59872da2e1fca04248c0664d0f86d9130853c88d0f5c0ac96",
+   "poker/solver/showdown.py": "11e392925a12cdc8b4b53e943c4febafee2838f346c09ddd9eb2b5203b1c81ee",
+   "poker/solver/situations.py": "bb80ba8aed85a5bb89e98b8abb88dea93d3e04474c0df3dd9e1dc46a412827a2",
+   "poker/solver/sizing_lab.py": "44883008cc9bf9003c91a1c4256ac19b53fb5eb2c618244d64882fdbbb616f65",
+   "poker/solver/subgame.py": "8d6a08bb5cffab65a0d915b708f8619a69f5edb3791177b0de55282c645995d0",
+   "poker/solver/tree.py": "0634e8cd30eef3c507e7e9ef94fb86434246918e45ee4df16776292ce0c1c571",
+   "tools/check_caches.py": "dbbb77f0383a87c3377a6a4be2980992b072c23c356ff0d35b40555b259923e5",
+   "tools/checks_fresh_clone.sh": "71a82cc9e3ec339feb6599dd330ae42c3333cb4829cebeb0546cecf974830f9b",
+   "tools/cloud/bootstrap.sh": "134b57b27c2b9ad59654f718f92350b1afdc24a98db4538aad3b208823b19e15",
+   "tools/cloud/box_run.sh": "3aedb8faa8c276a83101782c6f2f225c2bbcf89ab8c85253c99c732e57eb4830",
+   "tools/cloud/cache_sha256.json": "4c728d3ee2c3bf651833c6f585293f2fe0444f438545b1b522c36a5ff4adc79f",
+   "tools/cloud/fetch.sh": "b6dcb05f5f46620313e49cda806ef941e0381bba37856d8de2b27f4e13bfd48f",
+   "tools/cloud/flop_equity_v1.sha256": "51d1e3cc2ba4b718d83272f9337fc2f6f396261040b1a2114389e58e80b18979",
+   "tools/cloud/gate.py": "50d6a31581b40c9ffaf27be87be8e7a464c047081e905c87eea996b678efaf23",
+   "tools/cloud/gpu_util.py": "7396aa166501b47de51560bf6bb1e23ebb2a238db5dbe19fe232f1f2098e519b",
+   "tools/cloud/launch.py": "9fef9ba1b9b0bd787cd4a47d31268caea04b291fc5a8e0d2cad1bb69e7f5e907",
+   "tools/cloud/pack.sh": "adee273b07534044181e01b611632ad5f236e2e12743216e4af1dddc359895b8",
+   "tools/cloud/probe_aux.py": "91c80cbc305dcdb00f287f53cb76879e91bdc36d3b855437af0962d261973028",
+   "tools/cloud/probe_gpu.py": "a4044dfec473eb61cd42ab8f6bf6504ba426f9bb0cf2d8b0314c6435094136db",
+   "tools/cloud/queue.sh": "16ebb87627f36d94697403849628500b86e1a5b78c5edd8573d5bf90355b0289",
+   "tools/cloud/release.sh": "48136d7a731e43b4eca8ef59ea91a6047b7840d085a3a5ec184df9b84e1293c2",
+   "tools/cloud/watch.sh": "9c78813c19e88ab1c77937d98a042c64042085d0ad90572c465b45bb61455d47",
+   "tools/generate_oracle.py": "fd8f8f413ede261ae6bd30cbee9b4bc9491cf64a710b8a440b59d62a95c31fbe",
+   "tools/generate_trees_ref.py": "31137a5ad733cdd2a1010ddf04d59c6a87adb0be12ab76373ad19d8dfac81c1d",
+   "tools/measure_runout_sampling.py": "62eb642d5fe7b73dddf83f5f85fc9d8f0015ffd3350ef183805566f4e4106651",
+   "tools/oracle.rs": "cb645bacee40b47bc76dbc70ecf02b846558cb5a4d9e983fb67a0b6faabc804e",
+   "tools/slumbot_actions.py": "eee6277909e530e76cb5cb7216001080af230d0c1914ca126fb61d040fcd2f93",
+   "tools/slumbot_showdowns.py": "a7422199209c99fe594f3603a2a9fc840b53eda85a0cecd340859472a4346b24"
+  },
+  "runtime": {
+   "python": "3.13.16",
+   "packages": {
+    "numpy": "2.5.3",
+    "jax": "0.11.2",
+    "jaxlib": "0.11.2",
+    "jax-cuda12-plugin": null,
+    "jax-cuda12-pjrt": null,
+    "nvidia-cuda-nvcc-cu12": null
+   },
+   "gpus": [],
+   "driver": null
+  }
+ }
+}

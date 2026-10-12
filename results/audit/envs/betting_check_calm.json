@@ -1,0 +1,21 @@
+{
+ "hands": 1200,
+ "decisions": 12225,
+ "showdowns": 1062,
+ "side_pot_hands": 738,
+ "short_allin_raises": 122,
+ "allin_for_less_calls": 1172,
+ "grid_actions": 424,
+ "exact_actions": 11801,
+ "raked_hands": 747,
+ "by_n": {
+  "4": 200,
+  "5": 195,
+  "2": 202,
+  "6": 191,
+  "3": 412
+ },
+ "mismatches": [],
+ "seconds": 87.1,
+ "mismatch_count": 0
+}

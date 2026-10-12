@@ -1,0 +1,8 @@
+{
+ "chunk": 262144,
+ "first_s_incl_compile": 2.2509671509997133,
+ "warm_s": 0.26614703299946996,
+ "extrapolated_build_minutes_single_thread": 2.263791637747419,
+ "code_claim": "~10 min on a GTX 1070 (rank7.py:53)",
+ "table_mb_int16": 267.56912
+}

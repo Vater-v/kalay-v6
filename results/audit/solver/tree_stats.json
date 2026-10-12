@@ -1,0 +1,248 @@
+[
+ {
+  "n": 2,
+  "street": 3,
+  "menu": "normal",
+  "rule": {
+   "cap": 3,
+   "allin_after_cap": true,
+   "sizes": "((4, 7, 9), (7,))",
+   "no_open_limp": false
+  },
+  "nodes": 117,
+  "decisions": 40,
+  "folds": 38,
+  "showdowns": 39,
+  "leaves": 0,
+  "depth": 6,
+  "mean_actions_per_decision": 2.9,
+  "max_actions": 5,
+  "A_padded": 13,
+  "build_s_first": 5.972427683000205,
+  "build_s_warm": 0.4209400999998252
+ },
+ {
+  "n": 2,
+  "street": 3,
+  "menu": "short",
+  "rule": {
+   "cap": 2,
+   "allin_after_cap": true,
+   "sizes": "((5, 8), (7,))",
+   "no_open_limp": false
+  },
+  "nodes": 57,
+  "decisions": 20,
+  "folds": 18,
+  "showdowns": 19,
+  "leaves": 0,
+  "depth": 5,
+  "mean_actions_per_decision": 2.8,
+  "max_actions": 4,
+  "A_padded": 13,
+  "build_s_first": 0.4030008789995918,
+  "build_s_warm": 0.3834961190004833
+ },
+ {
+  "n": 2,
+  "street": 2,
+  "menu": "normal",
+  "rule": {
+   "cap": 3,
+   "allin_after_cap": true,
+   "sizes": "((5, 8, 9), (6,))",
+   "no_open_limp": false
+  },
+  "nodes": 117,
+  "decisions": 40,
+  "folds": 38,
+  "allin_runouts": 20,
+  "leaves": 19,
+  "depth": 6,
+  "mean_actions_per_decision": 2.9,
+  "max_actions": 5,
+  "A_padded": 13,
+  "build_s_first": 0.38883442299993476,
+  "build_s_warm": 0.3403291499998886
+ },
+ {
+  "n": 2,
+  "street": 2,
+  "menu": "short",
+  "rule": {
+   "cap": 2,
+   "allin_after_cap": true,
+   "sizes": "((5, 8), (6,))",
+   "no_open_limp": false
+  },
+  "nodes": 57,
+  "decisions": 20,
+  "folds": 18,
+  "allin_runouts": 10,
+  "leaves": 9,
+  "depth": 5,
+  "mean_actions_per_decision": 2.8,
+  "max_actions": 4,
+  "A_padded": 13,
+  "build_s_first": 0.3781305689999499,
+  "build_s_warm": 0.3214997350005433
+ },
+ {
+  "n": 2,
+  "street": 1,
+  "menu": "normal",
+  "rule": {
+   "cap": 3,
+   "allin_after_cap": true,
+   "sizes": "((4, 7), (6,))",
+   "no_open_limp": false
+  },
+  "nodes": 81,
+  "decisions": 28,
+  "folds": 26,
+  "allin_runouts": 14,
+  "leaves": 13,
+  "depth": 6,
+  "mean_actions_per_decision": 2.857142857142857,
+  "max_actions": 4,
+  "A_padded": 13,
+  "build_s_first": 0.37952683999992587,
+  "build_s_warm": 0.36721726700034196
+ },
+ {
+  "n": 2,
+  "street": 1,
+  "menu": "short",
+  "rule": {
+   "cap": 2,
+   "allin_after_cap": true,
+   "sizes": "((5, 8), (6,))",
+   "no_open_limp": false
+  },
+  "nodes": 57,
+  "decisions": 20,
+  "folds": 18,
+  "allin_runouts": 10,
+  "leaves": 9,
+  "depth": 5,
+  "mean_actions_per_decision": 2.8,
+  "max_actions": 4,
+  "A_padded": 13,
+  "build_s_first": 0.33014092200028244,
+  "build_s_warm": 0.4060012589998223
+ },
+ {
+  "n": 2,
+  "street": 0,
+  "menu": "normal",
+  "rule": {
+   "cap": 3,
+   "allin_after_cap": true,
+   "sizes": "((2, 8), (8,), (6,))",
+   "no_open_limp": false
+  },
+  "nodes": 82,
+  "decisions": 28,
+  "folds": 27,
+  "allin_runouts": 14,
+  "leaves": 13,
+  "depth": 6,
+  "mean_actions_per_decision": 2.892857142857143,
+  "max_actions": 5,
+  "A_padded": 13,
+  "build_s_first": 5.177923694000128,
+  "build_s_warm": 0.07196603899956244
+ },
+ {
+  "n": 2,
+  "street": 0,
+  "menu": "short",
+  "rule": {
+   "cap": 2,
+   "allin_after_cap": true,
+   "sizes": "((2, 8), (8,))",
+   "no_open_limp": false
+  },
+  "nodes": 58,
+  "decisions": 20,
+  "folds": 19,
+  "allin_runouts": 10,
+  "leaves": 9,
+  "depth": 5,
+  "mean_actions_per_decision": 2.85,
+  "max_actions": 5,
+  "A_padded": 13,
+  "build_s_first": 0.06361679800011188,
+  "build_s_warm": 0.06452825099950132
+ },
+ {
+  "n": 3,
+  "street": 3,
+  "menu": "normal",
+  "rule": {
+   "cap": 1,
+   "allin_after_cap": true,
+   "sizes": "((4, 7, 9), (7,))",
+   "no_open_limp": false
+  },
+  "nodes": 241,
+  "decisions": 102,
+  "folds": 39,
+  "showdowns": 100,
+  "leaves": 0,
+  "depth": 7,
+  "mean_actions_per_decision": 2.3529411764705883,
+  "max_actions": 5,
+  "A_padded": 13,
+  "build_s_first": 7.357173784999759,
+  "build_s_warm": 0.6056194310003775
+ },
+ {
+  "n": 3,
+  "street": 2,
+  "menu": "normal",
+  "rule": {
+   "cap": 1,
+   "allin_after_cap": true,
+   "sizes": "((5, 8, 9), (6,))",
+   "no_open_limp": false
+  },
+  "nodes": 241,
+  "decisions": 102,
+  "folds": 39,
+  "allin_runouts": 72,
+  "leaves": 28,
+  "depth": 7,
+  "mean_actions_per_decision": 2.3529411764705883,
+  "max_actions": 5,
+  "A_padded": 13,
+  "build_s_first": 0.559964779999973,
+  "build_s_warm": 0.5455035810000481
+ },
+ {
+  "n": 3,
+  "street": 1,
+  "menu": "normal",
+  "rule": {
+   "cap": 1,
+   "allin_after_cap": true,
+   "sizes": "((4, 7), (6,))",
+   "no_open_limp": false
+  },
+  "nodes": 169,
+  "decisions": 72,
+  "folds": 27,
+  "allin_runouts": 51,
+  "leaves": 19,
+  "depth": 7,
+  "mean_actions_per_decision": 2.3333333333333335,
+  "max_actions": 4,
+  "A_padded": 13,
+  "build_s_first": 0.7097207330007222,
+  "build_s_warm": 0.6002202879999459
+ },
+ {
+  "replay_river_normal_B8_first_s": 5.76151183499951,
+  "replay_warm_s": 0.005140424000273924
+ }
+]

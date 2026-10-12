@@ -1,0 +1,19 @@
+{
+ "checked": 35,
+ "disagreements": [
+  {
+   "street": 1,
+   "pot": 16777217,
+   "stack": 33554433,
+   "menu_for": "short",
+   "menu_index": "normal"
+  },
+  {
+   "street": 1,
+   "pot": 50000001,
+   "stack": 100000001,
+   "menu_for": "short",
+   "menu_index": "normal"
+  }
+ ]
+}

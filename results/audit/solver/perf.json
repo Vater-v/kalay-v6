@@ -1,0 +1,90 @@
+{
+ "jax": "0.11.2",
+ "device": "cpu:0",
+ "kernels_ms_B1": {
+  "apply_all": 0.05736684997827979,
+  "dense_matvec_same_job": 0.4746640499888599,
+  "per_card": 0.8522885500042321,
+  "mass_three": 0.12279145003049052,
+  "couple_live_folded": 2.108718450017477,
+  "three_showdown_all_live": 2.6028483000118285,
+  "two_showdown": 0.14201519998096046
+ },
+ "kernels_ms_B64": {
+  "apply_all": 2.474184049970063,
+  "dense_matvec_same_job": 3.2150105999789957,
+  "per_card": 174.00156449998576,
+  "mass_three": 8.29393664998861,
+  "couple_live_folded": 426.3832338499924,
+  "three_showdown_all_live": 272.1999304500059,
+  "two_showdown": 3.5673545000008744
+ },
+ "solve": [
+  {
+   "n": 2,
+   "street": 3,
+   "B": 1,
+   "decisions": 40,
+   "prepare_s": 8.293891877000533,
+   "first_chunk_s_incl_compile": 7.465351259999807,
+   "iters": 100,
+   "ms_per_iter_batch": 63.73413355000594,
+   "ms_per_iter_per_spot": 63.73413355000594
+  },
+  {
+   "n": 2,
+   "street": 3,
+   "B": 8,
+   "decisions": 40,
+   "prepare_s": 10.707320505999633,
+   "first_chunk_s_incl_compile": 16.933504862000518,
+   "iters": 100,
+   "ms_per_iter_batch": 331.0349096800019,
+   "ms_per_iter_per_spot": 41.379363710000234
+  },
+  {
+   "n": 2,
+   "street": 3,
+   "B": 32,
+   "decisions": 40,
+   "prepare_s": 18.619347759999982,
+   "first_chunk_s_incl_compile": 48.315585485000156,
+   "iters": 50,
+   "ms_per_iter_batch": 729.6198019999974,
+   "ms_per_iter_per_spot": 22.80061881249992
+  },
+  {
+   "n": 2,
+   "street": 1,
+   "B": 1,
+   "decisions": 28,
+   "prepare_s": 7.475982622000629,
+   "first_chunk_s_incl_compile": 6.385761802000161,
+   "iters": 100,
+   "ms_per_iter_batch": 66.38245978000668,
+   "ms_per_iter_per_spot": 66.38245978000668
+  },
+  {
+   "n": 2,
+   "street": 1,
+   "B": 8,
+   "decisions": 28,
+   "prepare_s": 7.294814087999839,
+   "first_chunk_s_incl_compile": 12.801115481000124,
+   "iters": 100,
+   "ms_per_iter_batch": 209.59836148999784,
+   "ms_per_iter_per_spot": 26.19979518624973
+  },
+  {
+   "n": 3,
+   "street": 3,
+   "B": 1,
+   "decisions": 102,
+   "prepare_s": 7.1053446940004505,
+   "first_chunk_s_incl_compile": 60.5345718489998,
+   "iters": 100,
+   "ms_per_iter_batch": 934.6591088199966,
+   "ms_per_iter_per_spot": 934.6591088199966
+  }
+ ]
+}

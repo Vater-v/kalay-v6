@@ -1,0 +1,12 @@
+{
+ "M1_short_allin_reopens": {
+  "hands": 300,
+  "mismatches": 12,
+  "first": "('legal', [True, True, False, False, False, False, False, False, False, False, False, False, False], [419, 474, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1], {'fold': True, 'call_to': 474, 'raise': Tru"
+ },
+ "M3_rake_without_flop": {
+  "hands": 300,
+  "mismatches": 14,
+  "first": "('settle', [150, -50, 0, -100], [138, -50, 0, -100], 0, 12, [24054, 50, 0, 100], [False, True, True, True], 4, [24054, 7889, 0, 555])"
+ }
+}

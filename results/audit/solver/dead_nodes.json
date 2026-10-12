@@ -1,0 +1,194 @@
+[
+ {
+  "street": 3,
+  "spr": 0.25,
+  "alive_decisions": 4,
+  "decisions": 40,
+  "alive_nodes": 9,
+  "nodes": 117
+ },
+ {
+  "street": 3,
+  "spr": 0.5,
+  "alive_decisions": 4,
+  "decisions": 40,
+  "alive_nodes": 9,
+  "nodes": 117
+ },
+ {
+  "street": 3,
+  "spr": 1.0,
+  "alive_decisions": 8,
+  "decisions": 40,
+  "alive_nodes": 21,
+  "nodes": 117
+ },
+ {
+  "street": 3,
+  "spr": 2.0,
+  "alive_decisions": 12,
+  "decisions": 40,
+  "alive_nodes": 33,
+  "nodes": 117
+ },
+ {
+  "street": 3,
+  "spr": 4.0,
+  "alive_decisions": 24,
+  "decisions": 40,
+  "alive_nodes": 69,
+  "nodes": 117
+ },
+ {
+  "street": 3,
+  "spr": 8.0,
+  "alive_decisions": 32,
+  "decisions": 40,
+  "alive_nodes": 93,
+  "nodes": 117
+ },
+ {
+  "street": 3,
+  "spr": 16.0,
+  "alive_decisions": 36,
+  "decisions": 40,
+  "alive_nodes": 105,
+  "nodes": 117
+ },
+ {
+  "street": 3,
+  "spr": 50.0,
+  "alive_decisions": 40,
+  "decisions": 40,
+  "alive_nodes": 117,
+  "nodes": 117
+ },
+ {
+  "street": 2,
+  "spr": 0.25,
+  "alive_decisions": 4,
+  "decisions": 40,
+  "alive_nodes": 9,
+  "nodes": 117
+ },
+ {
+  "street": 2,
+  "spr": 0.5,
+  "alive_decisions": 4,
+  "decisions": 40,
+  "alive_nodes": 9,
+  "nodes": 117
+ },
+ {
+  "street": 2,
+  "spr": 1.0,
+  "alive_decisions": 8,
+  "decisions": 40,
+  "alive_nodes": 21,
+  "nodes": 117
+ },
+ {
+  "street": 2,
+  "spr": 2.0,
+  "alive_decisions": 12,
+  "decisions": 40,
+  "alive_nodes": 33,
+  "nodes": 117
+ },
+ {
+  "street": 2,
+  "spr": 4.0,
+  "alive_decisions": 20,
+  "decisions": 40,
+  "alive_nodes": 57,
+  "nodes": 117
+ },
+ {
+  "street": 2,
+  "spr": 8.0,
+  "alive_decisions": 32,
+  "decisions": 40,
+  "alive_nodes": 93,
+  "nodes": 117
+ },
+ {
+  "street": 2,
+  "spr": 16.0,
+  "alive_decisions": 40,
+  "decisions": 40,
+  "alive_nodes": 117,
+  "nodes": 117
+ },
+ {
+  "street": 2,
+  "spr": 50.0,
+  "alive_decisions": 40,
+  "decisions": 40,
+  "alive_nodes": 117,
+  "nodes": 117
+ },
+ {
+  "street": 1,
+  "spr": 0.25,
+  "alive_decisions": 4,
+  "decisions": 28,
+  "alive_nodes": 9,
+  "nodes": 81
+ },
+ {
+  "street": 1,
+  "spr": 0.5,
+  "alive_decisions": 4,
+  "decisions": 28,
+  "alive_nodes": 9,
+  "nodes": 81
+ },
+ {
+  "street": 1,
+  "spr": 1.0,
+  "alive_decisions": 8,
+  "decisions": 28,
+  "alive_nodes": 21,
+  "nodes": 81
+ },
+ {
+  "street": 1,
+  "spr": 2.0,
+  "alive_decisions": 12,
+  "decisions": 28,
+  "alive_nodes": 33,
+  "nodes": 81
+ },
+ {
+  "street": 1,
+  "spr": 4.0,
+  "alive_decisions": 20,
+  "decisions": 28,
+  "alive_nodes": 57,
+  "nodes": 81
+ },
+ {
+  "street": 1,
+  "spr": 8.0,
+  "alive_decisions": 24,
+  "decisions": 28,
+  "alive_nodes": 69,
+  "nodes": 81
+ },
+ {
+  "street": 1,
+  "spr": 16.0,
+  "alive_decisions": 28,
+  "decisions": 28,
+  "alive_nodes": 81,
+  "nodes": 81
+ },
+ {
+  "street": 1,
+  "spr": 50.0,
+  "alive_decisions": 28,
+  "decisions": 28,
+  "alive_nodes": 81,
+  "nodes": 81
+ }
+]

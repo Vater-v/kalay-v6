@@ -1,0 +1,4 @@
+[    0.0s] to do: ['iid_e0.01_s0', 'iid_e0.03_s0']
+[  120.4s] iid_e0.03_s0           expl     78.6 mA/h (  3.93% of initial pot)  in-situ RMSE_rw(x) 0.0599  test RMSE_rw(x) turn 0.0594 flop 0.0601  wall 120s
+[  126.8s] iid_e0.01_s0           expl     39.7 mA/h (  1.98% of initial pot)  in-situ RMSE_rw(x) 0.0200  test RMSE_rw(x) turn 0.0198 flop 0.0200  wall 126s
+[  126.8s] done in 127s

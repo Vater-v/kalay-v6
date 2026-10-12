@@ -1,0 +1,99 @@
+{
+ "architecture": {
+  "D_IN": 12017,
+  "D_F": 11934,
+  "D_OUT": 11934,
+  "PUB": 31,
+  "P_MAX": 9,
+  "hidden": [
+   512,
+   512,
+   512
+  ],
+  "params_stored": 18910878,
+  "params_used_hu": 4644444,
+  "first_layer_inputs_used_hu": 5387,
+  "mflop_per_call_hu": 9.280512,
+  "spec_default": "3x512 MLP ~3.3M params, 6.5 MFLOP/call (docs \u00a72.5)"
+ },
+ "cpu_forward_single_thread": {
+  "raw_B1": {
+   "ms_per_batch": 1.6148373699979857,
+   "ms_per_call": 1.6148373699979857,
+   "gflops": 5.747025782547735
+  },
+  "projected_B1": {
+   "ms_per_batch": 2.9868435749995115,
+   "ms_per_call": 2.9868435749995115,
+   "gflops": 3.1071302419985347
+  },
+  "raw_B13": {
+   "ms_per_batch": 6.3616330666870144,
+   "ms_per_call": 0.48935638974515494,
+   "gflops": 18.964730397886633
+  },
+  "projected_B13": {
+   "ms_per_batch": 5.712902933373698,
+   "ms_per_call": 0.4394540717979768,
+   "gflops": 21.11827514085791
+  },
+  "raw_B52": {
+   "ms_per_batch": 9.135450666387138,
+   "ms_per_call": 0.17568174358436803,
+   "gflops": 52.82570522498941
+  },
+  "projected_B52": {
+   "ms_per_batch": 10.17273333339593,
+   "ms_per_call": 0.19562948718069098,
+   "gflops": 47.439228787775534
+  },
+  "raw_B256": {
+   "ms_per_batch": 17.79186466652997,
+   "ms_per_call": 0.0694994713536327,
+   "gflops": 133.53356247529086
+  },
+  "projected_B256": {
+   "ms_per_batch": 36.64541599997998,
+   "ms_per_call": 0.1431461562499218,
+   "gflops": 64.83242193242664
+  }
+ },
+ "projection_synthetic": {
+  "iid": {
+   "wmse_increased_frac": 0.0,
+   "wmse_before_mean": 0.005048146426351989,
+   "wmse_after_mean": 0.0050322006122814,
+   "range_mae_increased_frac": 0.265625,
+   "range_mae_before_mean": 0.04006794515826583,
+   "range_mae_after_mean": 0.03999315417241438,
+   "slot1_mae_before_mean": 0.04006209698815999,
+   "slot1_mae_after_mean": 0.039955299095170024,
+   "max_abs_constraint_after": 2.384185791015625e-07,
+   "shift_is_constant_per_slot": true
+  },
+  "slot0_offset": {
+   "wmse_increased_frac": 0.0,
+   "wmse_before_mean": 0.010000000098760961,
+   "wmse_after_mean": 0.005000000075328966,
+   "range_mae_increased_frac": 0.59375,
+   "range_mae_before_mean": 0.049999999999999996,
+   "range_mae_after_mean": 0.05000000017455773,
+   "slot1_mae_before_mean": 0.0,
+   "slot1_mae_after_mean": 0.049999996204520766,
+   "max_abs_constraint_after": 2.384185791015625e-07,
+   "shift_is_constant_per_slot": true
+  },
+  "hand_dependent_offset": {
+   "wmse_increased_frac": 0.0,
+   "wmse_before_mean": 0.034870851393529315,
+   "wmse_after_mean": 0.019364898069070182,
+   "range_mae_increased_frac": 0.953125,
+   "range_mae_before_mean": 0.08719430541843426,
+   "range_mae_after_mean": 0.09682793235898804,
+   "slot1_mae_before_mean": 0.0,
+   "slot1_mae_after_mean": 0.0871771248712821,
+   "max_abs_constraint_after": 2.384185791015625e-07,
+   "shift_is_constant_per_slot": true
+  }
+ }
+}

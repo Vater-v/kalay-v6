@@ -1,0 +1,16 @@
+{
+ "turn_device_rank7": {
+  "first_s": 0.4140866799998548,
+  "steady_s": 0.03326583400007621,
+  "max_abs_diff_vs_evaluator": 0.0
+ },
+ "turn_host_rank7_subgame.turn_equity": {
+  "first_s": 0.7704969159999564,
+  "steady_s": 0.7837615299999925,
+  "max_abs_diff_vs_evaluator": 5.960464477539063e-08
+ },
+ "flop_device_rank7": {
+  "first_s": 1.3161677929999769,
+  "steady_s": 0.7923642729999756
+ }
+}

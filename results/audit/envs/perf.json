@@ -1,0 +1,151 @@
+[
+ {
+  "fn": "step",
+  "n": 2,
+  "history": true,
+  "history_capacity": 512,
+  "single_us": 1459.0,
+  "batch1024_us_per_item": 5.289,
+  "batch8192_us_per_item": 2.473
+ },
+ {
+  "fn": "step_target",
+  "n": 2,
+  "history": true,
+  "history_capacity": 512,
+  "single_us": 777.1,
+  "batch1024_us_per_item": 2.921,
+  "batch8192_us_per_item": 2.725
+ },
+ {
+  "fn": "action_table",
+  "n": 2,
+  "history": true,
+  "history_capacity": 512,
+  "single_us": 132.2,
+  "batch1024_us_per_item": 1.052,
+  "batch8192_us_per_item": 0.61
+ },
+ {
+  "fn": "get_rewards",
+  "n": 2,
+  "history": true,
+  "history_capacity": 512,
+  "single_us": 197.9,
+  "batch1024_us_per_item": 2.279,
+  "batch8192_us_per_item": 1.371
+ },
+ {
+  "fn": "step",
+  "n": 2,
+  "history": false,
+  "history_capacity": 0,
+  "single_us": 839.8,
+  "batch1024_us_per_item": 2.037,
+  "batch8192_us_per_item": 0.802
+ },
+ {
+  "fn": "step_target",
+  "n": 2,
+  "history": false,
+  "history_capacity": 0,
+  "single_us": 653.0,
+  "batch1024_us_per_item": 1.284,
+  "batch8192_us_per_item": 0.245
+ },
+ {
+  "fn": "action_table",
+  "n": 2,
+  "history": false,
+  "history_capacity": 0,
+  "single_us": 115.7,
+  "batch1024_us_per_item": 0.99,
+  "batch8192_us_per_item": 0.592
+ },
+ {
+  "fn": "get_rewards",
+  "n": 2,
+  "history": false,
+  "history_capacity": 0,
+  "single_us": 123.1,
+  "batch1024_us_per_item": 1.816,
+  "batch8192_us_per_item": 1.091
+ },
+ {
+  "fn": "step",
+  "n": 6,
+  "history": true,
+  "history_capacity": 2176,
+  "single_us": 866.9,
+  "batch1024_us_per_item": 13.386,
+  "batch8192_us_per_item": 22.264
+ },
+ {
+  "fn": "step_target",
+  "n": 6,
+  "history": true,
+  "history_capacity": 2176,
+  "single_us": 728.3,
+  "batch1024_us_per_item": 11.807,
+  "batch8192_us_per_item": 25.001
+ },
+ {
+  "fn": "action_table",
+  "n": 6,
+  "history": true,
+  "history_capacity": 2176,
+  "single_us": 112.5,
+  "batch1024_us_per_item": 0.734,
+  "batch8192_us_per_item": 0.551
+ },
+ {
+  "fn": "get_rewards",
+  "n": 6,
+  "history": true,
+  "history_capacity": 2176,
+  "single_us": 167.6,
+  "batch1024_us_per_item": 5.169,
+  "batch8192_us_per_item": 5.047
+ },
+ {
+  "fn": "step",
+  "n": 6,
+  "history": false,
+  "history_capacity": 0,
+  "single_us": 695.8,
+  "batch1024_us_per_item": 2.622,
+  "batch8192_us_per_item": 0.881
+ },
+ {
+  "fn": "step_target",
+  "n": 6,
+  "history": false,
+  "history_capacity": 0,
+  "single_us": 635.5,
+  "batch1024_us_per_item": 2.107,
+  "batch8192_us_per_item": 0.282
+ },
+ {
+  "fn": "action_table",
+  "n": 6,
+  "history": false,
+  "history_capacity": 0,
+  "single_us": 176.9,
+  "batch1024_us_per_item": 1.458,
+  "batch8192_us_per_item": 0.732
+ },
+ {
+  "fn": "get_rewards",
+  "n": 6,
+  "history": false,
+  "history_capacity": 0,
+  "single_us": 359.2,
+  "batch1024_us_per_item": 7.758,
+  "batch8192_us_per_item": 3.629
+ },
+ {
+  "fn": "evaluate_hand",
+  "batch8192_us_per_item": 0.684,
+  "hands_per_s": 1462080
+ }
+]

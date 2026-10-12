@@ -1,0 +1,57 @@
+{
+ "mask": [
+  true,
+  true,
+  true,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  true
+ ],
+ "targets": [
+  50,
+  100,
+  200,
+  -1,
+  -1,
+  -1,
+  -1,
+  -1,
+  -1,
+  -1,
+  -1,
+  -1,
+  300
+ ],
+ "masked_grid_action": 11,
+ "after_step": {
+  "stack": [
+   301,
+   200
+  ],
+  "bet_street": [
+   -1,
+   100
+  ],
+  "chips_total": 600,
+  "chips_before": 600
+ },
+ "checkify_step_error": "None",
+ "step_target_over_stack": {
+  "stack": [
+   -4700,
+   200
+  ],
+  "bet_street": [
+   5000,
+   100
+  ]
+ },
+ "guards_target_over_stack": "rejected: step_target: raise to 5000 > 300, seat 0's chips (street bet + stack)"
+}

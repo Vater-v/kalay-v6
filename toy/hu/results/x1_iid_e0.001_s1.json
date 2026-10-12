@@ -1,0 +1,43 @@
+{
+ "name": "iid_e0.001_s1",
+ "cfg": {
+  "mode": "noise",
+  "project": false,
+  "eps": 0.001,
+  "seed": 1
+ },
+ "K": 300,
+ "expl": 0.024448162145408445,
+ "expl_mA": 24.448162145408446,
+ "expl_pct_initial_pot": 1.2224081072704223,
+ "seat0_exploitable_by_mA": 24.056953974875977,
+ "seat1_exploitable_by_mA": 24.83937031594091,
+ "insitu": {
+  "preflop->flop": {
+   "rmse_rangew": 0.0019945010216908562,
+   "n_nodes": 166,
+   "rmse_rangew_reachweighted": 0.001970015789326179
+  },
+  "flop->turn": {
+   "rmse_rangew": 0.0020063285315030923,
+   "n_nodes": 5960,
+   "rmse_rangew_reachweighted": 0.0020039422006994352
+  }
+ },
+ "insitu_rmse_rangew_all": 0.0020060089534055933,
+ "test_rmse_rangew": {
+  "turn_test": 0.001981391508424718,
+  "flop_test": 0.002003001347990192,
+  "turn_onpolicy": 0.0019924177576203838,
+  "flop_onpolicy": 0.002001718952508045
+ },
+ "wall_s": [
+  90.38094210624695,
+  76.62684392929077
+ ],
+ "seconds_by_street": {
+  "0": 56.35043478012085,
+  "1": 51.82740139961243,
+  "2": 58.50950765609741
+ }
+}

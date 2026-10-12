@@ -1,0 +1,41 @@
+{
+ "name": "bias_l0.1",
+ "cfg": {
+  "mode": "bias",
+  "lam": 0.1
+ },
+ "K": 300,
+ "expl": 0.050941600057938005,
+ "expl_mA": 50.941600057938004,
+ "expl_pct_initial_pot": 2.5470800028969003,
+ "seat0_exploitable_by_mA": 46.68930266910254,
+ "seat1_exploitable_by_mA": 55.19389744677347,
+ "insitu": {
+  "preflop->flop": {
+   "rmse_rangew": 0.047877060021479345,
+   "n_nodes": 170,
+   "rmse_rangew_reachweighted": 0.05582450149430615
+  },
+  "flop->turn": {
+   "rmse_rangew": 0.031230411318694685,
+   "n_nodes": 6002,
+   "rmse_rangew_reachweighted": 0.033980146678584885
+  }
+ },
+ "insitu_rmse_rangew_all": 0.03180582088066292,
+ "test_rmse_rangew": {
+  "turn_test": 0.027372418029298164,
+  "flop_test": 0.0362569850473849,
+  "turn_onpolicy": 0.03131888994110945,
+  "flop_onpolicy": 0.04600097802971748
+ },
+ "wall_s": [
+  141.6333453655243,
+  110.76570844650269
+ ],
+ "seconds_by_street": {
+  "0": 60.27220368385315,
+  "1": 100.20777535438538,
+  "2": 91.63110661506653
+ }
+}
