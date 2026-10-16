@@ -1,0 +1,432 @@
+[
+ {
+  "scene": "G00-bg",
+  "out": "render/G00-bg.mp4",
+  "lines": [
+   "под все скриншоты постов"
+  ]
+ },
+ {
+  "scene": "G01-bet",
+  "out": "render/G01-bet.mp4",
+  "lines": [
+   "00-04"
+  ]
+ },
+ {
+  "scene": "G01-bet",
+  "out": "render/G01-bet-two-sides.mp4",
+  "lines": [
+   "07-07"
+  ],
+  "q": "v=2"
+ },
+ {
+  "scene": "G02-balance",
+  "out": "render/G02-balance.mp4"
+ },
+ {
+  "scene": "G03-title",
+  "out": "render/G03-title.mp4",
+  "lines": [
+   "00-11"
+  ]
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-01.mp4",
+  "lines": [
+   "01-01"
+  ],
+  "q": "n=01&t=%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82+%D0%B6%D0%B8%D0%B7%D0%BD%D0%B8&d=9+%D0%B0%D0%BF%D1%80%D0%B5%D0%BB%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-02.mp4",
+  "lines": [
+   "02-01"
+  ],
+  "q": "n=02&t=%D0%92%D1%81%D0%B5%D0%BB%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F+%D0%BD%D0%B0%D0%B9%D0%B4%D1%91%D1%82+%D1%81%D0%BF%D0%BE%D1%81%D0%BE%D0%B1&d=23+%D0%B0%D0%BF%D1%80%D0%B5%D0%BB%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-03.mp4",
+  "lines": [
+   "03-01"
+  ],
+  "q": "n=03&t=%D0%9F%D0%BE%D1%82%D0%BE%D0%BC%D1%83+%D1%87%D1%82%D0%BE+%D1%85%D0%BE%D1%87%D1%83&d=3%E2%80%934+%D0%BC%D0%B0%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-04.mp4",
+  "lines": [
+   "04-01"
+  ],
+  "q": "n=04&t=%D0%A0%D0%B5%D0%B6%D0%B8%D0%BC+%D0%BD%D0%BE%D1%83-%D0%BB%D0%B0%D0%B9%D1%84&d=17%E2%80%9325+%D0%BC%D0%B0%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-05.mp4",
+  "lines": [
+   "05-01"
+  ],
+  "q": "n=05&t=%D0%A0%D1%8B%D0%B1+%D0%BF%D1%80%D0%B8%D0%BA%D0%BE%D1%80%D0%BC%D0%B8%D0%BB%D0%B8&d=19%E2%80%9320+%D0%B8%D1%8E%D0%BD%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-06.mp4",
+  "lines": [
+   "06-01"
+  ],
+  "q": "n=06&t=%D0%92%D0%BE%D1%81%D0%B5%D0%BC%D0%BD%D0%B0%D0%B4%D1%86%D0%B0%D1%82%D1%8C+%D1%81%D1%82%D0%BE%D0%BB%D0%BE%D0%B2&d=21+%D0%B8%D1%8E%D0%BD%D1%8F+%E2%80%93+14+%D0%B8%D1%8E%D0%BB%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-07.mp4",
+  "lines": [
+   "07-01"
+  ],
+  "q": "n=07&t=%D0%A8%D0%B5%D1%81%D1%82%D1%8C+%D0%BD%D0%B5%D0%B4%D0%B5%D0%BB%D1%8C&d=18%E2%80%9320+%D0%B8%D1%8E%D0%BB%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-08.mp4",
+  "lines": [
+   "08-01"
+  ],
+  "q": "n=08&t=%D0%A5%D0%B5%D0%B9%D1%82%D0%B5%D1%80%D1%8B+%D0%BC%D0%BE%D0%B3%D1%83%D1%82+%D0%BB%D0%B8%D0%BA%D0%BE%D0%B2%D0%B0%D1%82%D1%8C&d=24%E2%80%9327+%D0%B8%D1%8E%D0%BB%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-09.mp4",
+  "lines": [
+   "09-01"
+  ],
+  "q": "n=09&t=%D0%A1%D0%BB%D0%B0%D0%B1%D0%BE%D1%83%D0%BC%D0%B8%D0%B5+%D0%B8+%D0%BE%D1%82%D0%B2%D0%B0%D0%B3%D0%B0&d=10%E2%80%9312+%D1%81%D0%B5%D0%BD%D1%82%D1%8F%D0%B1%D1%80%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-10.mp4",
+  "lines": [
+   "10-01"
+  ],
+  "q": "n=10&t=%D0%91%D0%BB%D0%B0%D0%B3%D0%BE+%D1%85%D0%BE%D1%82%D1%8C+%D1%81%D1%82%D0%BE%D0%BF%D0%BD%D1%83%D0%BB&d=17+%D1%81%D0%B5%D0%BD%D1%82%D1%8F%D0%B1%D1%80%D1%8F+%E2%80%93+1+%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8F"
+ },
+ {
+  "scene": "G04-chapter",
+  "out": "render/G04-chapter-11.mp4",
+  "lines": [
+   "11-01"
+  ],
+  "q": "n=11&t=%D0%91%D1%80%D0%BE%D0%B2%D0%B8+%D0%BE%D1%82%D1%80%D0%B0%D1%81%D1%82%D0%B0%D1%8E%D1%82&d=%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8C"
+ },
+ {
+  "scene": "G05-timeline-full",
+  "out": "render/G05-timeline-full.mp4"
+ },
+ {
+  "scene": "G06-dota",
+  "out": "render/G06-dota.mp4"
+ },
+ {
+  "scene": "G07-sleep",
+  "out": "render/G07-sleep.mp4"
+ },
+ {
+  "scene": "G08-pages",
+  "out": "render/G08-pages.mp4",
+  "lines": [
+   "01-13"
+  ]
+ },
+ {
+  "scene": "G08-pages",
+  "out": "render/G08-pages-dip.mp4",
+  "lines": [
+   "01-14"
+  ],
+  "q": "dip=1",
+  "dur": 4
+ },
+ {
+  "scene": "G09-limits",
+  "out": "render/G09-limits.mp4",
+  "lines": [
+   "02-08"
+  ]
+ },
+ {
+  "scene": "G09-limits",
+  "out": "render/G09-limits-nl100.mp4",
+  "lines": [
+   "05-01"
+  ],
+  "q": "hi=NL100"
+ },
+ {
+  "scene": "G09-limits",
+  "out": "render/G09-limits-arrow.mp4",
+  "lines": [
+   "07-10"
+  ],
+  "q": "hi=NL100&arrow=1"
+ },
+ {
+  "scene": "G10-ladder",
+  "out": "render/G10-ladder-10.mp4",
+  "lines": [
+   "03-03"
+  ],
+  "q": "hi=10"
+ },
+ {
+  "scene": "G10-ladder",
+  "out": "render/G10-ladder-40.mp4",
+  "lines": [
+   "03-06"
+  ],
+  "q": "hi=40"
+ },
+ {
+  "scene": "G10-ladder",
+  "out": "render/G10-ladder-100.mp4",
+  "lines": [
+   "09-10"
+  ],
+  "q": "hi=100"
+ },
+ {
+  "scene": "G11-variance",
+  "out": "render/G11-variance.mp4"
+ },
+ {
+  "scene": "G12-x10",
+  "out": "render/G12-x10.mp4"
+ },
+ {
+  "scene": "G13-rakeback",
+  "out": "render/G13-rakeback.mp4"
+ },
+ {
+  "scene": "G14b-18tables",
+  "out": "render/G14b-18tables.mp4"
+ },
+ {
+  "scene": "G15-live",
+  "out": "render/G15-live.mp4"
+ },
+ {
+  "scene": "G16-marathon",
+  "out": "render/G16-marathon.mp4"
+ },
+ {
+  "scene": "G18-hour",
+  "out": "render/G18-hour.mp4"
+ },
+ {
+  "scene": "G19-pace",
+  "out": "render/G19-pace.mp4"
+ },
+ {
+  "scene": "G21-split",
+  "out": "render/G21-split.mp4"
+ },
+ {
+  "scene": "G22-map",
+  "out": "render/G22-map.mp4"
+ },
+ {
+  "scene": "G23-thesis",
+  "out": "render/G23-thesis.mp4"
+ },
+ {
+  "scene": "G32-cta",
+  "out": "render/G32-cta.mp4"
+ },
+ {
+  "scene": "G35-race",
+  "out": "render/G35-race.mp4"
+ },
+ {
+  "scene": "G38-ludka",
+  "out": "render/G38-ludka.mp4"
+ },
+ {
+  "scene": "G24-end",
+  "out": "render/G24-end.mp4",
+  "lines": [
+   "11-07"
+  ]
+ },
+ {
+  "scene": "G34-strike",
+  "out": "render/G34-strike.mp4",
+  "lines": [
+   "07-08"
+  ]
+ },
+ {
+  "scene": "G36-timer",
+  "out": "render/G36-timer.mp4",
+  "lines": [
+   "09-18"
+  ]
+ },
+ {
+  "scene": "G39-earned",
+  "out": "render/G39-earned.mp4",
+  "lines": [
+   "07-05"
+  ]
+ },
+ {
+  "scene": "G14a-4tables",
+  "out": "render/G14a-4tables.mp4",
+  "lines": [
+   "06-04"
+  ],
+  "dur": 16
+ },
+ {
+  "scene": "G17-profit",
+  "out": "render/G17-profit.mp4",
+  "lines": [
+   "06-12"
+  ]
+ },
+ {
+  "scene": "G17-profit",
+  "out": "render/G17-profit-ev.mp4",
+  "lines": [
+   "06-14"
+  ],
+  "q": "stage=2"
+ },
+ {
+  "scene": "G20-bi",
+  "out": "render/G20-bi-100.mp4",
+  "lines": [
+   "09-11"
+  ]
+ },
+ {
+  "scene": "G20-bi",
+  "out": "render/G20-bi-40.mp4",
+  "lines": [
+   "09-15"
+  ],
+  "q": "v=40"
+ },
+ {
+  "scene": "G33-calendar",
+  "out": "render/G33-calendar-6w.mp4",
+  "lines": [
+   "07-05"
+  ],
+  "q": "v=6w"
+ },
+ {
+  "scene": "G33-calendar",
+  "out": "render/G33-calendar-flip.mp4",
+  "lines": [
+   "07-17"
+  ],
+  "q": "v=flip"
+ },
+ {
+  "scene": "G29-hand",
+  "out": "render/G29-hand-placeholder-a.mp4",
+  "lines": [
+   "05-10"
+  ],
+  "q": "reveal=0&bettor=hero"
+ },
+ {
+  "scene": "G29-hand",
+  "out": "render/G29-hand-placeholder-b.mp4",
+  "lines": [
+   "05-11"
+  ],
+  "q": "reveal=1&bettor=hero"
+ },
+ {
+  "scene": "G26-lower",
+  "out": "render/G26-lower.mov"
+ },
+ {
+  "scene": "G28-no",
+  "out": "render/no-counter/G28-no-01-center.mov",
+  "lines": [
+   "01-06"
+  ],
+  "q": "n=1&center=1"
+ },
+ {
+  "scene": "G28-no",
+  "out": "render/no-counter/G28-no-10-final.mov",
+  "lines": [
+   "10-11"
+  ],
+  "q": "n=10&final=1"
+ },
+ {
+  "scene": "G30-chip",
+  "out": "render/chips/G30-шот.png",
+  "lines": [
+   "03-02"
+  ],
+  "q": "term=%D1%88%D0%BE%D1%82&def=%D0%BF%D0%BE%D0%BF%D1%8B%D1%82%D0%BA%D0%B0+%D1%81%D1%8B%D0%B3%D1%80%D0%B0%D1%82%D1%8C+%D0%BB%D0%B8%D0%BC%D0%B8%D1%82%D0%BE%D0%BC+%D0%B2%D1%8B%D1%88%D0%B5"
+ },
+ {
+  "scene": "G30-chip",
+  "out": "render/chips/G30-ГСЧ.png",
+  "lines": [
+   "05-06"
+  ],
+  "q": "term=%D0%93%D0%A1%D0%A7&def=%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80+%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85+%D1%87%D0%B8%D1%81%D0%B5%D0%BB"
+ },
+ {
+  "scene": "G30-chip",
+  "out": "render/chips/G30-рыба.png",
+  "lines": [
+   "05-06"
+  ],
+  "q": "term=%D1%80%D1%8B%D0%B1%D0%B0&def=%D1%81%D0%BB%D0%B0%D0%B1%D1%8B%D0%B9+%D0%B8%D0%B3%D1%80%D0%BE%D0%BA"
+ },
+ {
+  "scene": "G30-chip",
+  "out": "render/chips/G30-сотка.png",
+  "lines": [
+   "08-02"
+  ],
+  "q": "term=%D1%81%D0%BE%D1%82%D0%BA%D0%B0&def=NL100"
+ },
+ {
+  "scene": "G30-chip",
+  "out": "render/chips/G30-колл.png",
+  "lines": [
+   "09-05"
+  ],
+  "q": "term=%D0%BA%D0%BE%D0%BB%D0%BB&def=%D1%83%D1%80%D0%B0%D0%B2%D0%BD%D1%8F%D1%82%D1%8C+%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D1%83"
+ },
+ {
+  "scene": "G30-chip",
+  "out": "render/chips/G30-тильт.png",
+  "lines": [
+   "10-07"
+  ],
+  "q": "term=%D1%82%D0%B8%D0%BB%D1%8C%D1%82&def=%D0%BA%D0%BE%D0%B3%D0%B4%D0%B0+%D1%8D%D0%BC%D0%BE%D1%86%D0%B8%D0%B8+%D0%B8%D0%B3%D1%80%D0%B0%D1%8E%D1%82+%D0%B2%D0%BC%D0%B5%D1%81%D1%82%D0%BE+%D1%82%D0%B5%D0%B1%D1%8F"
+ },
+ {
+  "scene": "T01-thumb",
+  "out": "render/../../06-YOUTUBE/thumbnails/T01-1920.png"
+ },
+ {
+  "scene": "T02-thumb",
+  "out": "render/../../06-YOUTUBE/thumbnails/T02-1920.png"
+ },
+ {
+  "scene": "T03-thumb",
+  "out": "render/../../06-YOUTUBE/thumbnails/T03-1920.png"
+ }
+]

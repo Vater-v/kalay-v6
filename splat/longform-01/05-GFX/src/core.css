@@ -1,0 +1,77 @@
+/* СПЛАТ · дизайн-токены лонга. 1920×1080. Все шрифты — OFL, лежат в assets/fonts. */
+@font-face { font-family: Unb; src: url(assets/fonts/Unbounded-Medium.ttf); font-weight: 500; }
+@font-face { font-family: Unb; src: url(assets/fonts/Unbounded-Bold.ttf); font-weight: 700; }
+@font-face { font-family: Unb; src: url(assets/fonts/Unbounded-Black.ttf); font-weight: 900; }
+@font-face { font-family: Onest; src: url(assets/fonts/Onest-Regular.ttf); font-weight: 400; }
+@font-face { font-family: Onest; src: url(assets/fonts/Onest-Medium.ttf); font-weight: 500; }
+@font-face { font-family: Onest; src: url(assets/fonts/Onest-Bold.ttf); font-weight: 700; }
+@font-face { font-family: Onest; src: url(assets/fonts/Onest-ExtraBold.ttf); font-weight: 800; }
+@font-face { font-family: Mono; src: url(assets/fonts/JetBrainsMono-Bold.ttf); font-weight: 700; }
+
+:root {
+  --bg: #07100d;
+  --felt: #0f3a2d;
+  --felt-2: #0b2a21;
+  --paper: #f4f1e8;
+  --paper-2: #e7e2d4;
+  --ink: #0f1412;
+  --muted: #8ea398;
+  --line: rgba(244, 241, 232, .14);
+  --gold: #f2c14e;
+  --red: #ff5a4e;
+  --mint: #3ddc97;
+  --blue: #7cc4ff;
+  --shadow: 0 30px 80px rgba(0, 0, 0, .55), 0 8px 24px rgba(0, 0, 0, .35);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: transparent; }
+body { font-family: Onest, sans-serif; color: var(--paper); -webkit-font-smoothing: antialiased; }
+#stage { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; }
+#root { position: absolute; inset: 0; }
+
+/* Фон «ночной стол»: сукно, виньетка, мягкий свет и зерно. */
+.bg { position: absolute; inset: 0; background: radial-gradient(1200px 800px at 50% 45%, #134535 0%, var(--felt-2) 45%, var(--bg) 100%); }
+.bg .sweep { position: absolute; inset: -20%; background: radial-gradient(700px 500px at 30% 40%, rgba(255, 236, 190, .10), transparent 70%); }
+.bg .weave { position: absolute; inset: 0; opacity: .22; background-image:
+  repeating-linear-gradient(45deg, rgba(0,0,0,.25) 0 1px, transparent 1px 4px),
+  repeating-linear-gradient(-45deg, rgba(255,255,255,.04) 0 1px, transparent 1px 4px); }
+.bg .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65) 100%); }
+.grain { position: absolute; inset: -64px; pointer-events: none; opacity: .09; mix-blend-mode: overlay; }
+
+.abs { position: absolute; }
+.center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.row { display: flex; align-items: center; }
+.col { display: flex; flex-direction: column; }
+
+/* Типографика */
+.display { font-family: Unb; font-weight: 900; letter-spacing: -0.02em; line-height: .95; }
+.title { font-family: Unb; font-weight: 700; letter-spacing: -0.01em; line-height: 1.05; }
+.num { font-family: Unb; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; line-height: 1; }
+.mono { font-family: Mono; font-weight: 700; }
+.body { font-family: Onest; font-weight: 600; line-height: 1.25; }
+.cap { font-family: Onest; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; font-size: 28px; color: var(--muted); }
+.note { font-family: Onest; font-weight: 600; font-size: 26px; color: var(--muted); letter-spacing: .02em; }
+
+.gold { color: var(--gold); } .red { color: var(--red); } .mint { color: var(--mint); } .muted { color: var(--muted); } .ink { color: var(--ink); }
+
+/* Компоненты */
+.card { background: var(--paper); color: var(--ink); border-radius: 28px; box-shadow: var(--shadow); }
+.glass { background: rgba(10, 22, 18, .72); border: 1.5px solid var(--line); border-radius: 28px; box-shadow: var(--shadow); backdrop-filter: blur(6px); }
+.chip { display: inline-flex; align-items: center; gap: 14px; padding: 14px 26px; border-radius: 999px; background: rgba(244, 241, 232, .08); border: 1.5px solid var(--line); font-family: Onest; font-weight: 700; font-size: 30px; color: var(--paper); }
+.pill-gold { background: var(--gold); color: var(--ink); border: 0; }
+.bar { position: relative; height: 56px; border-radius: 16px; background: rgba(244, 241, 232, .08); overflow: hidden; border: 1.5px solid var(--line); }
+.bar .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 14px; background: linear-gradient(90deg, #f7d77e, var(--gold)); }
+.stamp { font-family: Unb; font-weight: 900; color: var(--red); border: 8px solid var(--red); border-radius: 18px; padding: 10px 26px; transform: rotate(-8deg); letter-spacing: .04em; }
+.strike { position: absolute; left: -4%; top: 52%; height: 10px; width: 108%; background: var(--red); border-radius: 6px; transform-origin: left center; transform: scaleX(0); }
+.underline { position: absolute; left: 0; bottom: -10px; height: 8px; width: 100%; background: var(--gold); border-radius: 4px; transform-origin: left center; transform: scaleX(0); }
+.src { position: absolute; right: 64px; bottom: 44px; font-family: Onest; font-weight: 600; font-size: 24px; color: rgba(244,241,232,.55); letter-spacing: .02em; }
+
+/* Игральные карты и фишки (условные, без брендов) */
+.pcard { width: 150px; height: 210px; border-radius: 16px; background: #fbfaf6; box-shadow: 0 12px 30px rgba(0,0,0,.45); position: relative; color: #111; font-family: Unb; font-weight: 900; }
+.pcard .rk { position: absolute; left: 16px; top: 10px; font-size: 64px; }
+.pcard .st { position: absolute; right: 14px; bottom: 6px; font-size: 84px; }
+.pcard.r { color: #d6263a; }
+.pcard.back { background: repeating-linear-gradient(45deg, #8e1d2c 0 10px, #a52637 10px 20px); border: 8px solid #fbfaf6; }
+.chipstack { position: relative; width: 120px; }
+.pchip { width: 120px; height: 26px; border-radius: 50%; background: radial-gradient(ellipse at center, #f6f1e3 0 28%, var(--red) 30% 100%); border: 3px dashed rgba(255,255,255,.65); box-shadow: 0 4px 0 rgba(0,0,0,.35); position: absolute; left: 0; }
